@@ -2,7 +2,7 @@
 Angular-Material based color picker with no jQuery or other DOM/utility libray dependencies.
 
 ### Demo
-Try out the demo here: [Demo Plnkr](http://embed.plnkr.co/9hjzlM2rrlqHA9I5iX7J/preview)
+Try out the demo here: [Demo Plnkr](http://embed.plnkr.co/MJC42K/preview)
 
 ### Requiremnts
 The only requirement is [tinycolor.js](https://github.com/bgrins/TinyColor) which is an exceptional color manipulation library.
