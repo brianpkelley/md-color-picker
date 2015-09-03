@@ -1,3 +1,10 @@
+/*
+md-color-picker 0.1.0
+https://github.com/brianpkelley/md-color-picker
+Brian Kelley
+GNU GENERAL PUBLIC LICENSE
+*/
+
 [md-color-picker] .md-color-picker-input-container {
   position: relative;
 }
@@ -11,6 +18,10 @@
   margin: auto;
   bottom: 26px;
   overflow: hidden;
+  background-color: #fff;
+  background-image: linear-gradient(45deg,#ddd 25%,transparent 25%,transparent 75%,#ddd 75%,#ddd), linear-gradient(45deg,#ddd 25%,transparent 25%,transparent 75%,#ddd 75%,#ddd);
+  background-size: 8px 8px;
+  background-position: 0 0, 4px 4px;
 }
 [md-color-picker] .md-color-picker-input-container .md-color-picker-preview .md-color-picker-result {
   width: 100%;
@@ -46,7 +57,7 @@
   position: absolute;
   left: 0;
   top: 0px;
-  transition: border-bottom-width , top ;
+  transition: border-bottom-width cubic-bezier(.25,.8,.25,1) .25s, top cubic-bezier(.25,.8,.25,1) .25s;
 }
 .md-color-picker-container .md-color-picker-preview {
   flex: 1;
@@ -67,23 +78,27 @@
   top: -15px;
   opacity: 0;
 }
-.md-color-picker-container .md-color-picker-preview .md-color-picker-result > div {
+.md-color-picker-container .md-color-picker-preview .md-color-picker-result > div:first-child {
   position: relative;
+  top: -25px;
   width: 100%;
+  opacity: 0;
 }
-.md-color-picker-container .md-color-picker-preview .md-color-picker-result > div > input {
+.md-color-picker-container .md-color-picker-preview .md-color-picker-result > div:first-child > input {
   border-width: 0;
   background: transparent;
   text-align: center;
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: -25px;
+  bottom: -25px;
   left: 0;
   right: 0;
   outline: none;
+  color: #eee;
 }
-.md-color-picker-container .md-color-picker-preview .md-color-picker-result.switch > span {
-  transition: top , .25s opacity ease-out;
+.md-color-picker-container .md-color-picker-preview .md-color-picker-result.switch > span,
+.md-color-picker-container .md-color-picker-preview .md-color-picker-result.switch > div:first-child {
+  transition: top cubic-bezier(.25,.8,.25,1) .25s, .25s opacity ease-out;
   top: 0px;
   opacity: 1;
 }
@@ -107,6 +122,9 @@
   background: transparent;
 }
 .md-color-picker-container .md-color-picker-preview.dark {
+  color: #333;
+}
+.md-color-picker-container .md-color-picker-preview.dark div:first-child > input {
   color: #333;
 }
 .md-color-picker-container .md-color-picker-preview.dark .md-tab {
@@ -226,6 +244,10 @@
 .md-color-picker-container .md-color-picker-history > div > div {
   height: 20px;
   margin: 4px;
+  background-color: #fff;
+  background-image: linear-gradient(45deg,#ddd 25%,transparent 25%,transparent 75%,#ddd 75%,#ddd), linear-gradient(45deg,#ddd 25%,transparent 25%,transparent 75%,#ddd 75%,#ddd);
+  background-size: 8px 8px;
+  background-position: 0 0, 4px 4px;
 }
 .md-color-picker-container .md-color-picker-history > div > div > div {
   width: 100%;
