@@ -1,5 +1,5 @@
 # md-color-picker
-Angular-Material based color picker
+Angular-Material based color picker with no jQuery or other DOM/utility libray dependencies.
 
 ### Demo
 Try out the demo here: [Demo Plnkr](http://embed.plnkr.co/9HSsBhOro5V7TQOHf1fH/preview)
