@@ -1,8 +1,8 @@
 # md-color-picker
-Angular-Material based color picker with no jQuery or other DOM/utility libray dependencies.
+Angular-Material based color picker with no jQuery or other DOM/utility library dependencies.
 
 ### Demo
-Try out the demo here: [Demo Plnkr](http://embed.plnkr.co/9HSsBhOro5V7TQOHf1fH/preview)
+Try out the demo here: [Demo Plnkr](http://embed.plnkr.co/MJC42K/preview)
 
 ### Requiremnts
 The only requirement is [tinycolor.js](https://github.com/bgrins/TinyColor) which is an exceptional color manipulation library.
