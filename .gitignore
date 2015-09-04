@@ -10,3 +10,5 @@ src/lib/
 .DS_STORE
 
 /node_modules
+
+.DS_Store
