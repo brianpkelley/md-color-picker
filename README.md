@@ -14,5 +14,8 @@ This is still in a very early beta, and is rappidly changing (3 versions before 
 
 
 ##### Known issues / TODO
-- Prevent focus from opening color picker on window/tab activation.
-- Focus on preview input when user starts typing
+- [ ] Prevent focus from opening color picker on window/tab activation.
+- [ ] Focus on preview input when user starts typing.
+- [ ] Clean up code.
+	- [ ] CSS / LESS
+	- [ ] Javascript

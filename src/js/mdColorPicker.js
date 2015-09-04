@@ -1,9 +1,5 @@
 'use strict';
 
-var tinycolor = tinycolor;
-var mdColorPickerTemplate, mdColorPickerDialogTemplate;
-
-
 angular.module('mdColorPicker', [])
 	.factory('mdColorPickerHistory', ['$injector', function( $injector ) {
 
@@ -18,8 +14,7 @@ angular.module('mdColorPicker', [])
 		}
 
 		if ( $cookies ) {
-			var tmpHistory = $cookies.getObject( 'mdColorPickerHistory' );
-			console.log( tmpHistory );
+			var tmpHistory = $cookies.getObject( 'mdColorPickerHistory' ) || [];
 			for ( var i = 0; i < tmpHistory.length; i++ ) {
 				history.push( tinycolor( tmpHistory[i] ) );
 				strHistory.push( tmpHistory[i] );
@@ -70,8 +65,7 @@ angular.module('mdColorPicker', [])
 	.directive('mdColorPicker', [ '$timeout', 'mdColorPickerHistory', function( $timeout, colorHistory ) {
 
 		return {
-			templateUrl: "/templates/mdColorPicker/mdColorPicker.tpl.html",
-			//template: mdColorPickerTemplate,
+			templateUrl: "mdColorPicker.tpl.html",
 			scope: {
 				value: '=?',
 				type: '@',
@@ -147,8 +141,7 @@ angular.module('mdColorPicker', [])
 	}])
 	.directive( 'mdColorPickerDialog', ['$timeout','mdColorPickerHistory', function( $timeout, colorHistory ) {
 		return {
-			templateUrl: '/templates/mdColorPicker/mdColorPickerDialog.tpl.html',
-			//template: mdColorPickerDialogTemplate,
+			templateUrl: 'mdColorPickerDialog.tpl.html',
 			scope: {
 				value: '=?',
 				default: '@',
