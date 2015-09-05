@@ -8,20 +8,35 @@ Try out the demo here: **[Demo Plnkr](http://embed.plnkr.co/MJC42K/preview)**
 
 
 ## Install
-1. Download [tinycolor.js](https://github.com/bgrins/TinyColor)
-2. Add the package from NPM or Bower
-	- npm:
-```
+#### NPM
+1. Download [tinycolor.js](https://github.com/bgrins/TinyColor) 1.2.1 or higher. Other versions may work, though 1.2.1 was used to develop this.
+2. Install `md-color-picker`.
+```bash
 npm install md-color-picker
 ```
 
-	- Bower:
-```
+#### Bower (includes tinycolor.js):
+```bash
 bower instal md-color-picker
 ```
 
-## Requiremnts
-The only requirement is [tinycolor.js](https://github.com/bgrins/TinyColor) which is an exceptional color manipulation library.
+## Usage
+1. Include the css.
+````html
+<link href="path/to/md-color-picker/dist/md-color-picker.min.css" rel="stylesheet" />
+````
+2. Include the javascript.
+````html
+<script src="path/to/tinycolor/dist/tinycolor.min.js"></script>
+<script src="path/to/md-color-picker/dist/md-color-picker.min.js"></script>
+````
+3. Place the directive where ever is needed.
+````html
+<div md-color-picker value="valueObj"></div>s
+````
+
+## Dependencies
+The only dependency is [tinycolor.js](https://github.com/bgrins/TinyColor) which is an exceptional color manipulation library.
 
 ## Disclaimer
 This is still in a very early beta, and is rappidly changing (3 versions before initial commit).  I am open to any and all help anyone is willing to put in.  Will update as we go.
