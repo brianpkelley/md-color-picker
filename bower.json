@@ -9,6 +9,9 @@
         "dist/md-color-picker.min.js",
         "dist/md-color-picker.min.css"
     ],
+    "dependencies": {
+        "tinycolor": "1.0.0"
+    },
     "keywords": [
         "color-picker",
         "angular",
