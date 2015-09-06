@@ -23,12 +23,12 @@ bower instal md-color-picker
 ## Usage
 - Include the css.
 ````html
-<link href="path/to/md-color-picker/dist/md-color-picker.min.css" rel="stylesheet" />
+<link href="path/to/md-color-picker/dist/mdColorPicker.min.css" rel="stylesheet" />
 ````
 - Include the javascript.
 ````html
 <script src="path/to/tinycolor/dist/tinycolor.min.js"></script>
-<script src="path/to/md-color-picker/dist/md-color-picker.min.js"></script>
+<script src="path/to/md-color-picker/dist/mdColorPicker.min.js"></script>
 ````
 - Place the directive where ever it is needed.
 ````html
