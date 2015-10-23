@@ -17,7 +17,7 @@ npm install md-color-picker
 
 #### Bower (includes tinycolor.js):
 ```bash
-bower instal md-color-picker
+bower install md-color-picker
 ```
 
 ## Usage
