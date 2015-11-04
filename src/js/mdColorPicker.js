@@ -751,7 +751,7 @@ angular.module('mdColorPicker', [])
 		};
 	}])
 
-    .factory('$mdColorPicker', ['$q', 'mdColorPickerHistory', function ($q, colorHistory)
+    .factory('$mdColorPicker', ['$q', '$mdDialog', 'mdColorPickerHistory', function ($q, $mdDialog, colorHistory)
     {
         return {
             show: function (options)
