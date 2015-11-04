@@ -757,7 +757,7 @@ angular.module('mdColorPicker', [])
         return {
             show: function (options)
             {
-                var promise = $q.defer();
+                var result = $q.defer();
 
                 if (options === undefined)
                 {
@@ -812,14 +812,16 @@ angular.module('mdColorPicker', [])
 					focusOnOpen: options.focusOnOpen
                 }).then(function (value)
                 {
-                    var result = {
+                    var selectedResult = {
                         value: value
                     }
                     colorHistory.add(new tinycolor(value));
 
-                    promise.resolve(result);
-                }, function() { });
-			}
+                    result.resolve(selectedResult);
+                }, function () { });
+
+                return result.promise;
+            }
 		};
 	}]);
 
