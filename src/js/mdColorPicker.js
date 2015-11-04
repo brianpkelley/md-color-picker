@@ -749,4 +749,75 @@ angular.module('mdColorPicker', [])
 
 			}
 		};
+	}])
+
+    .factory('$mdColorPicker', ['$q', 'mdColorPickerHistory', function ($q, colorHistory)
+    {
+        return {
+            show: function (options)
+            {
+                var promise = $q.defer();
+
+                if (options === undefined)
+                {
+                    options = {};
+                }
+
+                if (options.hasBackdrop === undefined)
+                    options.hasBackdrop = true;
+
+                if (options.clickOutsideToClose === undefined)
+                    options.clickOutsideToClose = true;
+
+                if (options.defaultValue === undefined)
+                    options.defaultValue = '#FFFFFF';
+
+                if (options.focusOnOpen === undefined)
+                    options.focusOnOpen = false;
+                
+
+                $mdDialog.show({
+					template: ''+
+					'<md-dialog class="md-color-picker-dialog">'+
+					'	<div md-color-picker-dialog value="value" default="{{default}}" random="{{random}}" ok="ok"></div>'+
+					'	<md-actions layout="row">'+
+					'		<md-button class="md-mini" flex ng-click="close()">Cancel</md-button>'+
+					'		<md-button class="md-mini" flex ng-click="ok()">Select</md-button>'+
+					'	</md-actions>'+
+					'</md-dialog>',
+					hasBackdrop: options.hasBackdrop,
+					clickOutsideToClose: options.clickOutsideToClose,
+
+					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
+							$scope.close = function close() {
+									$mdDialog.cancel();
+							};
+							$scope.ok = function ok() {
+								$mdDialog.hide( $scope.value );
+							};
+
+							$scope.value = value;
+							$scope.default = defaultValue;
+							$scope.random = random;
+							$scope.hide = $scope.ok;
+					}],
+
+					locals: {
+						value: options.value,
+						defaultValue: options.default,
+						random: options.random
+					},
+					targetEvent: options.$event,
+					focusOnOpen: options.focusOnOpen
+                }).then(function (value)
+                {
+                    var result = {
+                        value: value
+                    }
+                    colorHistory.add(new tinycolor(value));
+
+                    promise.resolve(result);
+                }, function() { });
+			}
+		};
 	}]);
