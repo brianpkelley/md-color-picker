@@ -27,7 +27,7 @@ bower install md-color-picker
 ````
 - Include the javascript.
 ````html
-<script src="path/to/tinycolor/dist/tinycolor.min.js"></script>
+<script src="path/to/tinycolor/dist/tinycolor-min.js"></script>
 <script src="path/to/md-color-picker/dist/mdColorPicker.min.js"></script>
 ````
 - Add dependencies to your application (ngCookies is optional)
