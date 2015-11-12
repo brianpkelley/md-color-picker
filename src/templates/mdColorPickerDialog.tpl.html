@@ -1,7 +1,7 @@
 <div class="md-color-picker-container in" layout="column">
 	<div class="md-color-picker-arrow" ng-style="{'border-bottom-color': color.toRgbString() }"></div>
 
-	<div class="md-color-picker-preview"  ng-class="{'dark': !color.isDark() || color.getAlpha() < .45}" flex="1" layout="column">
+	<div class="md-color-picker-preview md-color-picker-checkered-bg"  ng-class="{'dark': !color.isDark() || color.getAlpha() < .45}" flex="1" layout="column">
 
 		<div class="md-color-picker-result" ng-style="{'background': color.toRgbString()}" flex="100" layout="column" layout-fill layout-align="center center" ng-click="focusPreviewInput( $event )">
 			<!--<span flex  layout="column" layout-align="center center">{{value}}</span>-->
@@ -30,7 +30,7 @@
 					<div layout="row" layout-align="space-between" style="height: 255px">
 						<div md-color-picker-spectrum></div>
 						<div md-color-picker-hue></div>
-						<div md-color-picker-alpha></div>
+						<div md-color-picker-alpha class="md-color-picker-checkered-bg"></div>
 					</div>
 				</md-tab-body>
 			</md-tab>
