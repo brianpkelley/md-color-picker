@@ -789,11 +789,24 @@ angular.module('mdColorPicker', [])
 					clickOutsideToClose: options.clickOutsideToClose,
 
 					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
-							$scope.close = function close() {
-									$mdDialog.cancel();
+							$scope.close = function close() 
+                            {
+								$mdDialog.cancel();
 							};
-							$scope.ok = function ok() {
-								$mdDialog.hide( $scope.value );
+							$scope.ok = function ok()
+							{
+							    var resultTinycolor = new tinycolor($scope.value);
+
+							    var result = {
+                                    value: $scope.value,
+							        hsv: resultTinycolor.toHslString(),
+							        hex: resultTinycolor.toHexString(),
+							        hex8: resultTinycolor.toHex8String(),
+							        rgb: resultTinycolor.toRgbString(),
+                                    percentageRgb: resultTinycolor.toPercentageRgbString()
+							    };
+
+								$mdDialog.hide( result );
 							};
 
 							$scope.value = value;
