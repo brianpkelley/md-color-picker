@@ -799,11 +799,11 @@ angular.module('mdColorPicker', [])
 
 							    var response = {
                                     selectedValue: $scope.value,
-							        hsv: resultTinycolor.toHslString(),
-							        hex: resultTinycolor.toHexString(),
-							        hex8: resultTinycolor.toHex8String(),
-							        rgb: resultTinycolor.toRgbString(),
-                                    percentageRgb: resultTinycolor.toPercentageRgbString()
+							        hsv: responseTinycolor.toHslString(),
+							        hex: responseTinycolor.toHexString(),
+							        hex8: responseTinycolor.toHex8String(),
+							        rgb: responseTinycolor.toRgbString(),
+                                    percentageRgb: responseTinycolor.toPercentageRgbString()
 							    };
 
 								$mdDialog.hide( response );
