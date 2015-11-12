@@ -795,10 +795,10 @@ angular.module('mdColorPicker', [])
 							};
 							$scope.ok = function ok()
 							{
-							    var resultTinycolor = new tinycolor($scope.value);
+							    var responseTinycolor = new tinycolor($scope.value);
 
-							    var result = {
-                                    value: $scope.value,
+							    var response = {
+                                    selectedValue: $scope.value,
 							        hsv: resultTinycolor.toHslString(),
 							        hex: resultTinycolor.toHexString(),
 							        hex8: resultTinycolor.toHex8String(),
@@ -806,7 +806,7 @@ angular.module('mdColorPicker', [])
                                     percentageRgb: resultTinycolor.toPercentageRgbString()
 							    };
 
-								$mdDialog.hide( result );
+								$mdDialog.hide( response );
 							};
 
 							$scope.value = value;
