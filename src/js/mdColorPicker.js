@@ -241,7 +241,7 @@ angular.module('mdColorPicker', [])
 					$scope.setValue();
 				};
 				$scope.previewKeyDown = function( $event ) {
-					console.log( $event, $scope.ok );
+
 					if ( $event.keyCode == 13 ) {
 						$scope.ok && $scope.ok();
 					}
@@ -311,7 +311,7 @@ angular.module('mdColorPicker', [])
 
 			}],
 			link: function( $scope, $element, $attrs ) {
-				console.log("hue");
+
 				////////////////////////////
 				// Variables
 				////////////////////////////
