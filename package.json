@@ -23,6 +23,7 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.4.0",
     "run-sequence": "^1.1.2",
+    "st": "^1.0.0",
     "streamqueue": "^1.1.1"
   },
   "scripts": {
