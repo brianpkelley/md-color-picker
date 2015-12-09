@@ -14,3 +14,5 @@ src/lib/
 .DS_Store
 
 .idea/workspace.xml
+
+dist/demo

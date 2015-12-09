@@ -1,5 +1,7 @@
 var gulp = require('gulp'),
-	debug = require('gulp-debug'),
+	gutil = require('gulp-util'),
+	path = require('path'),
+	gdebug = require('gulp-debug'),
 	seq = require('run-sequence'),
 	streamqueue = require('streamqueue'),
 	closure = require('gulp-jsclosure'),
@@ -13,19 +15,28 @@ var gulp = require('gulp'),
 	ngAnnotate = require('gulp-ng-annotate'),
 	autoprefix = require('gulp-autoprefixer'),
 	livereload = require('gulp-livereload'),
+	injectReload = require('gulp-inject-reload'),
 	http = require('http'),
 	st = require('st'),
-	del = require('del');
+	del = require('del'),
+	merge = require('merge-stream');
 
+var debug = false;
+
+var ports = {
+	web: 3333,
+	livereload: 3334
+};
 
 var moduleName = 'mdColorPicker';
 var paths = {
 	demo: 'demo',
 	dist: 'dist/',
 	src: {
+		demo: ['demo/**/*.*'],
 		less: ['src/less/*.less'],
 		templates: ['src/templates/*.tpl.html'],
-		js: ['src/js/*.js', 'dist/templates.js']
+		js: ['src/js/*.js']
 	}
 };
 
@@ -36,43 +47,32 @@ var paths = {
 
 gulp.task('less', function () {
 	gulp.src(paths.src.less)
-		.pipe(debug({title: 'LESS: '}))
 		.pipe(less({strictMath: true}))
 		.pipe(concat(moduleName + '.css'))
 		.pipe(autoprefix({browsers: ['> 1%'], cascade: true}))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(rename({extname: '.min.css'}))
 		.pipe(minifyCss())
-		.pipe(gulp.dest(paths.dist));
+		.pipe(gulp.dest(paths.dist))
+		.pipe(livereload());
 });
 
-
-/*====================================================================
- =            Create angular templates            =
- ====================================================================*/
-// - Precompile templates to ng templateCache
-gulp.task('templates', function () {
-	gulp.src(paths.src.templates)
-
-		.pipe(templateCache({module: moduleName}))
-
-
-		.pipe(gulp.dest(paths.dist));
-
-});
 
 /*====================================================================
  =            Compile and minify js generating source maps            =
  ====================================================================*/
 // - Orders ng deps automatically
 // - Depends on templates task
-gulp.task('js', ['templates'], function () {
+gulp.task('js', function () {
 
+	var jsStream = gulp.src(paths.src.js);
+	var templateStream = gulp.src(paths.src.templates)
+		.pipe(templateCache({module: moduleName}));
+	merge(jsStream, templateStream)
 
-	gulp.src(paths.src.js)
+		.pipe(gdebug())
 
-
-		.pipe(debug({title: 'JS: '}))
+		//.pipe(debug({title: 'JS: '}))
 		//.pipe(sourcemaps.init())
 		.pipe(concat(moduleName + '.js'))
 		//.pipe(sourcemaps.write('.'))
@@ -81,30 +81,62 @@ gulp.task('js', ['templates'], function () {
 		.pipe(gulp.dest(paths.dist))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(uglify())
-		.pipe(gulp.dest(paths.dist));
+		.pipe(gulp.dest(paths.dist))
+		.pipe(livereload());
+
+});
+
+/*====================================================================
+ =            Build the demo and demo resources                     =
+ ====================================================================*/
+
+gulp.task('demo-resources', function () {
+	gulp.src(['demo/*.{js,css}', 'demo/redirect.html'])
+		.pipe(gulp.dest('dist/demo'))
+		.pipe(livereload());
+
+
+});
+
+
+gulp.task('demo', ['demo-resources'], function () {
+	gulp.src('demo/index.html')
+		.pipe(injectReload({port: ports.livereload}))
+		.pipe(gulp.dest('dist/demo'))
+		.pipe(livereload());
+
+
+});
+
+/*===================================================================
+ =            Start local demo/dev server                           =
+ ===================================================================*/
+gulp.task('server', ['build', 'demo'], function () {
+	livereload.listen({port: ports.livereload, basePath: "."});
+	http.createServer(
+		st({path: path.resolve(__dirname, 'dist'), index: 'demo/redirect.html', cache: false})
+	).listen(ports.web);
+
+
 });
 
 
 /*===================================================================
  =            Watch for source changes and rebuild/reload            =
  ===================================================================*/
-gulp.task('server', ['build'], function () {
-	http.createServer(
-		st({path: __dirname, index: 'demo/index.html', cache: false})
-	).listen(3334);
-});
-gulp.task('watch', ['server'], function () {
-	livereload.listen({port: 3333, basePath: "."});
+gulp.task('watch', ['clean'], function () {
+
+	gutil.log("Started dev server @ http://localhost:" + ports.web + "/demo/index.html");
 	//gulp.watch(paths.src.html, ['html']);
-	gulp.watch(paths.src.less, ['less']);
-	gulp.watch(paths.src.js, ['js']);
+	gulp.watch(paths.src.less.concat(paths.src.js.concat(paths.src.templates)), ['build']);
+	gulp.watch(paths.src.demo, ['demo']);
+
+
+	gulp.start('server');
 
 
 });
 
-gulp.task('livereload', function () {
-	gulp.src(paths.demo, '*.html');
-});
 
 /*=========================================
  =            Clean dest folder            =
@@ -127,6 +159,7 @@ gulp.task('build', function (done) {
 /*====================================
  =            Default Task            =
  ====================================*/
-gulp.task('default', ['watch'], function () {
-
+gulp.task('default', function () {
+	debug = true;
+	gulp.start('watch');
 });

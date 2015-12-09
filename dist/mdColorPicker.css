@@ -1,6 +1,8 @@
+md-color-picker .md-color-picker-input-container,
 [md-color-picker] .md-color-picker-input-container {
   position: relative;
 }
+md-color-picker .md-color-picker-input-container .md-color-picker-preview,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-preview {
   content: '';
   width: 24px;
@@ -17,10 +19,12 @@
   background-size: 8px 8px;
   background-position: 0 0, 4px 4px;
 }
+md-color-picker .md-color-picker-input-container .md-color-picker-preview .md-color-picker-result,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-preview .md-color-picker-result {
   width: 100%;
   height: 100%;
 }
+md-color-picker .md-color-picker-input-container .md-color-picker-clear,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-clear {
   position: absolute;
   width: 24px;
@@ -30,6 +34,7 @@
   color: rgba(0, 0, 0, 0.26);
   line-height: 38px;
 }
+md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-clear md-icon {
   font-size: 18px;
   margin: auto;
