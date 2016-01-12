@@ -152,7 +152,7 @@ gulp.task('clean', function (cb) {
  ======================================*/
 
 gulp.task('build', function (done) {
-	var tasks = ['less', 'js'];
+	var tasks = ['less', 'js', 'demo'];
 	seq('clean', tasks, done);
 });
 

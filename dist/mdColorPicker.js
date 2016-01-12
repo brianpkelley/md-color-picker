@@ -1,4 +1,11 @@
 ;(function(angular, window, tinycolor) {
+/*
+md-color-picker 0.1.0
+https://github.com/brianpkelley/md-color-picker
+Brian Kelley
+GNU GENERAL PUBLIC LICENSE
+*/
+
 'use strict';
 
 angular.module('mdColorPicker', [])
@@ -67,8 +74,10 @@ angular.module('mdColorPicker', [])
 
 		return {
 			templateUrl: "mdColorPicker.tpl.html",
+
+			// Added required controller ngModel
+			require: '^ngModel',
 			scope: {
-				value: '=?',
 				type: '@',
 				label: '@',
 				icon: '@',
@@ -80,6 +89,35 @@ angular.module('mdColorPicker', [])
 			},
 			controller: ['$scope', '$element', '$mdDialog', function( $scope, $element, $mdDialog ) {
 				var didJustClose = false;
+
+				// Get ngModelController from the current element
+				var ngModel = $element.controller('ngModel');
+
+				// Quick function for updating the local 'value' on scope
+				var updateValue = function(val) {
+					console.log( val );
+					$scope.value = val || ngModel.$viewValue || '';
+				};
+
+				// Set the starting value
+				updateValue();
+
+				// Keep an eye on changes
+				$scope.$watch(function() {
+					return ngModel.$modelValue;
+				},function(newVal) {
+					updateValue(newVal);
+				});
+
+				// Watch for updates to value and set them on the model
+				$scope.$watch('value',function(newVal,oldVal) {
+					if (newVal !== '' && typeof newVal !== 'undefined' && newVal && newVal !== oldVal) {
+						ngModel.$setViewValue(newVal);
+					}
+				});
+
+				// The only other ngModel changes
+
 				$scope.clearValue = function clearValue() {
 					$scope.value = '';
 				};
@@ -129,6 +167,8 @@ angular.module('mdColorPicker', [])
 					}).then(function(value) {
 						$scope.value = value;
 						colorHistory.add( new tinycolor( value ) );
+
+
 					}, function() { });
 				};
 
@@ -239,12 +279,16 @@ angular.module('mdColorPicker', [])
 						previewInput[0].setSelectionRange(0, previewInput[0].value.length);
 					});
 				};
+				$scope.previewUnfocus = function() {
+					$scope.inputFocus = false;
+					previewInput[0].blur();
+				};
 				$scope.previewBlur = function() {
 					$scope.inputFocus = false;
 					$scope.setValue();
 				};
 				$scope.previewKeyDown = function( $event ) {
-					console.log( $event, $scope.ok );
+
 					if ( $event.keyCode == 13 ) {
 						$scope.ok && $scope.ok();
 					}
@@ -314,7 +358,7 @@ angular.module('mdColorPicker', [])
 
 			}],
 			link: function( $scope, $element, $attrs ) {
-				console.log("hue");
+
 				////////////////////////////
 				// Variables
 				////////////////////////////
@@ -401,6 +445,8 @@ angular.module('mdColorPicker', [])
 					// Prevent highlighting
 					e.preventDefault();
 					e.stopImmediatePropagation();
+
+					$scope.previewUnfocus();
 
 					$element.css({ 'cursor': 'none' });
 
@@ -539,6 +585,8 @@ angular.module('mdColorPicker', [])
 					// Prevent highlighting
 					e.preventDefault();
 					e.stopImmediatePropagation();
+
+					$scope.previewUnfocus();
 
 					$element.css({ 'cursor': 'none' });
 
@@ -704,6 +752,8 @@ angular.module('mdColorPicker', [])
 					e.preventDefault();
 					e.stopImmediatePropagation();
 
+					$scope.previewUnfocus();
+
 					$element.css({ 'cursor': 'none' });
 
 					offset.x = canvas.getBoundingClientRect().left+1;
@@ -752,8 +802,94 @@ angular.module('mdColorPicker', [])
 
 			}
 		};
+	}])
+
+    .factory('$mdColorPicker', ['$q', '$mdDialog', 'mdColorPickerHistory', function ($q, $mdDialog, colorHistory)
+    {
+        return {
+            show: function (options)
+            {
+                var result = $q.defer();
+
+                if (options === undefined)
+                {
+                    options = {};
+                }
+
+                if (options.hasBackdrop === undefined)
+                    options.hasBackdrop = true;
+
+                if (options.clickOutsideToClose === undefined)
+                    options.clickOutsideToClose = true;
+
+                if (options.defaultValue === undefined)
+                    options.defaultValue = '#FFFFFF';
+
+                if (options.focusOnOpen === undefined)
+                    options.focusOnOpen = false;
+
+
+                $mdDialog.show({
+					template: ''+
+					'<md-dialog class="md-color-picker-dialog">'+
+					'	<div md-color-picker-dialog value="value" default="{{default}}" random="{{random}}" ok="ok"></div>'+
+					'	<md-actions layout="row">'+
+					'		<md-button class="md-mini" flex ng-click="close()">Cancel</md-button>'+
+					'		<md-button class="md-mini" flex ng-click="ok()">Select</md-button>'+
+					'	</md-actions>'+
+					'</md-dialog>',
+					hasBackdrop: options.hasBackdrop,
+					clickOutsideToClose: options.clickOutsideToClose,
+
+					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
+							$scope.close = function close()
+                            {
+								$mdDialog.cancel();
+							};
+							$scope.ok = function ok()
+							{
+							    var responseTinycolor = new tinycolor($scope.value);
+
+							    var response = {
+                                    selectedValue: $scope.value,
+							        hsv: responseTinycolor.toHslString(),
+							        hex: responseTinycolor.toHexString(),
+							        hex8: responseTinycolor.toHex8String(),
+							        rgb: responseTinycolor.toRgbString(),
+                                    percentageRgb: responseTinycolor.toPercentageRgbString()
+							    };
+
+								$mdDialog.hide( response );
+							};
+
+							$scope.value = value;
+							$scope.default = defaultValue;
+							$scope.random = random;
+							$scope.hide = $scope.ok;
+					}],
+
+					locals: {
+						value: options.value,
+						defaultValue: options.default,
+						random: options.random
+					},
+					targetEvent: options.$event,
+					focusOnOpen: options.focusOnOpen
+                }).then(function (value)
+                {
+                    var selectedResult = {
+                        value: value
+                    }
+                    colorHistory.add(new tinycolor(value));
+
+                    result.resolve(selectedResult);
+                }, function () { });
+
+                return result.promise;
+            }
+		};
 	}]);
 
-angular.module("mdColorPicker").run(["$templateCache", function($templateCache) {$templateCache.put("mdColorPicker.tpl.html","<div class=\"md-color-picker-input-container\" layout=\"row\">\r\n	<div class=\"md-color-picker-preview\" ng-click=\"showColorPicker()\">\r\n		<div class=\"md-color-picker-result\" ng-style=\"{background: value}\"></div>\r\n	</div>\r\n	<md-input-container flex>\r\n		<label><md-icon ng-if=\"icon\">{{icon}}</md-icon>{{label}}</label>\r\n		<input type=\"input\" ng-model=\"value\" class=\'md-color-picker-input\'  ng-mousedown=\"openOnInput && showColorPicker($mdOpenMenu, $event)\"/>\r\n	</md-input-container>\r\n	<md-button class=\"md-icon-button md-color-picker-clear\" ng-if=\"value\" ng-click=\"clearValue();\" aria-label=\"Clear Color\">\r\n		<md-icon>clear</md-icon>\r\n	</md-button>\r\n</div>\r\n");
-$templateCache.put("mdColorPickerDialog.tpl.html","<div class=\"md-color-picker-container in\" layout=\"column\">\r\n	<div class=\"md-color-picker-arrow\" ng-style=\"{\'border-bottom-color\': color.toRgbString() }\"></div>\r\n\r\n	<div class=\"md-color-picker-preview\"  ng-class=\"{\'dark\': !color.isDark() || color.getAlpha() < .45}\" flex=\"1\" layout=\"column\">\r\n\r\n		<div class=\"md-color-picker-result\" ng-style=\"{\'background\': color.toRgbString()}\" flex=\"100\" layout=\"column\" layout-fill layout-align=\"center center\" ng-click=\"focusPreviewInput( $event )\">\r\n			<!--<span flex  layout=\"column\" layout-align=\"center center\">{{value}}</span>-->\r\n			<div flex  layout=\"row\" layout-align=\"center center\">\r\n				<input class=\"md-color-picker-preview-input\" type=\"text\" ng-model=\"value\" ng-focus=\"previewFocus($event);\" ng-blur=\"previewBlur()\" ng-change=\"changeValue()\" ng-keypress=\"previewKeyDown($event)\" layout-fill />\r\n			</div>\r\n			<div class=\"md-color-picker-tabs\" style=\"width: 100%\">\r\n				<md-tabs md-selected=\"type\" md-stretch-tabs=\"always\" md-no-bar md-no-ink md-no-pagination=\"true\" >\r\n					<md-tab label=\"Hex\" ng-disabled=\"color.getAlpha() !== 1\" md-ink-ripple=\"#ffffff\"></md-tab>\r\n					<md-tab label=\"RGB\"></md-tab>\r\n					<md-tab label=\"HSL\"></md-tab>\r\n					<!--<md-tab label=\"HSV\"></md-tab>\r\n					<md-tab label=\"VEC\"></md-tab>-->\r\n				</md-tabs>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"md-color-picker-tabs md-color-picker-colors\">\r\n		<md-tabs md-stretch-tabs=\"always\" md-align-tabs=\"bottom\"  md-selected=\"whichPane\">\r\n			<md-tab>\r\n				<md-tab-label>\r\n					<md-icon>gradient</md-icon>\r\n				</md-tab-label>\r\n				<md-tab-body>\r\n					<div layout=\"row\" layout-align=\"space-between\" style=\"height: 255px\">\r\n						<div md-color-picker-spectrum></div>\r\n						<div md-color-picker-hue></div>\r\n						<div md-color-picker-alpha></div>\r\n					</div>\r\n				</md-tab-body>\r\n			</md-tab>\r\n			<md-tab>\r\n				<md-tab-label>\r\n					<md-icon>tune</md-icon>\r\n				</md-tab-label>\r\n				<md-tab-body>\r\n					<div layout=\"column\" flex=\"100\" layout-fill layout-align=\"space-between start center\" class=\"md-color-picker-sliders\">\r\n						<div layout=\"row\" layout-align=\"start center\" layout-wrap flex>\r\n							<div flex=\"10\" layout layout-align=\"center center\">\r\n								<span class=\"md-body-1\">R</span>\r\n							</div>\r\n							<md-slider flex=\"65\" min=\"0\" max=\"255\" ng-model=\"color._r\" aria-label=\"red\" class=\"red-slider\"></md-slider>\r\n							<span flex></span>\r\n							<div flex=\"20\" layout layout-align=\"center center\">\r\n								<input style=\"width: 100%;\" type=\"number\" ng-model=\"color._r\" aria-label=\"red\" aria-controls=\"red-slider\">\r\n							</div>\r\n						</div>\r\n						<div layout=\"row\" layout-align=\"start center\" layout-wrap flex>\r\n							<div flex=\"10\" layout layout-align=\"center center\">\r\n								<span class=\"md-body-1\">G</span>\r\n							</div>\r\n							<md-slider flex=\"65\" min=\"0\" max=\"255\" ng-model=\"color._g\" aria-label=\"green\" class=\"green-slider\"></md-slider>\r\n							<span flex></span>\r\n							<div flex=\"20\" layout layout-align=\"center center\">\r\n								<input style=\"width: 100%;\" type=\"number\" ng-model=\"color._g\" aria-label=\"green\" aria-controls=\"green-slider\">\r\n							</div>\r\n						</div>\r\n						<div layout=\"row\" layout-align=\"start center\" layout-wrap  flex>\r\n							<div flex=\"10\" layout layout-align=\"center center\">\r\n								<span class=\"md-body-1\">B</span>\r\n							</div>\r\n							<md-slider flex=\"65\" min=\"0\" max=\"255\" ng-model=\"color._b\" aria-label=\"blue\" class=\"blue-slider\"></md-slider>\r\n							<span flex></span>\r\n							<div flex=\"20\" layout layout-align=\"center center\" >\r\n								<input style=\"width: 100%;\" type=\"number\" ng-model=\"color._b\" aria-label=\"blue\" aria-controls=\"blue-slider\">\r\n							</div>\r\n						</div>\r\n						<div layout=\"row\" layout-align=\"start center\" layout-wrap  flex>\r\n							<div flex=\"10\" layout layout-align=\"center center\">\r\n								<span class=\"md-body-1\">A</span>\r\n							</div>\r\n							<md-slider flex=\"65\" min=\"0\" max=\"1\" step=\".01\" ng-model=\"alpha\" aria-label=\"alpha\" class=\"md-primary\"></md-slider>\r\n							<span flex></span>\r\n							<div flex=\"20\" layout layout-align=\"center center\" >\r\n								<input style=\"width: 100%;\" type=\"number\" ng-model=\"alpha\" aria-label=\"alpha\" aria-controls=\"blue-slider\">\r\n							</div>\r\n						</div>\r\n					</div>\r\n				</md-tab-body>\r\n			</md-tab>\r\n			<md-tab>\r\n				<md-tab-label>\r\n					<md-icon>view_comfy</md-icon>\r\n				</md-tab-label>\r\n				<md-tab-body>\r\n					<div layout=\"column\" layout-align=\"space-between start center\" flex>\r\n						<div ng-repeat=\"row in palette track by $index\" flex=\"15\"  layout-align=\"space-between\" layout=\"row\">\r\n							<div ng-repeat=\"col in row track by $index\" flex=\"10\" style=\"height: 25.5px;\" ng-style=\"{\'background\': col};\" ng-click=\"setPaletteColor($event)\"></div>\r\n						</div>\r\n					</div>\r\n				</md-tab-body>\r\n			</md-tab>\r\n			<md-tab>\r\n				<md-tab-label>\r\n					<md-icon>history</md-icon>\r\n				</md-tab-label>\r\n				<md-tab-body layout=\"row\" layout-fill>\r\n					<div layout=\"column\" flex layout-align=\"space-between start\" layout-wrap layout-fill class=\"md-color-picker-history\">\r\n						<div layout=\"row\" flex=\"80\" layout-align=\"space-between start start\" layout-wrap  layout-fill>\r\n							<div flex=\"10\" ng-repeat=\"historyColor in history.get() track by $index\">\r\n								<div  ng-style=\"{\'background\': historyColor.toRgbString()}\" ng-click=\"setPaletteColor($event)\"></div>\r\n							</div>\r\n						</div>\r\n\r\n\r\n						<md-button flex-end ng-click=\"history.reset()\" class=\"md-mini\">\r\n							<md-icon>delete</md-icon>\r\n							Clear history\r\n						</md-button>\r\n					</div>\r\n				</md-tab-body>\r\n			</md-tab>\r\n		</md-tabs>\r\n	</div>\r\n</div>\r\n");}]);
+angular.module("mdColorPicker").run(["$templateCache", function($templateCache) {$templateCache.put("mdColorPicker.tpl.html","<div class=\"md-color-picker-input-container\" layout=\"row\">\n	<div class=\"md-color-picker-preview md-color-picker-checkered-bg\" ng-click=\"showColorPicker()\">\n		<div class=\"md-color-picker-result\" ng-style=\"{background: value}\"></div>\n	</div>\n	<md-input-container flex>\n		<label><md-icon ng-if=\"icon\">{{icon}}</md-icon>{{label}}</label>\n		<input type=\"input\" ng-model=\"value\" class=\'md-color-picker-input\'  ng-mousedown=\"openOnInput && showColorPicker($mdOpenMenu, $event)\"/>\n	</md-input-container>\n	<md-button class=\"md-icon-button md-color-picker-clear\" ng-if=\"value\" ng-click=\"clearValue();\" aria-label=\"Clear Color\">\n		<md-icon>clear</md-icon>\n	</md-button>\n</div>\n");
+$templateCache.put("mdColorPickerDialog.tpl.html","<div class=\"md-color-picker-container in\" layout=\"column\">\n	<div class=\"md-color-picker-arrow\" ng-style=\"{\'border-bottom-color\': color.toRgbString() }\"></div>\n\n	<div class=\"md-color-picker-preview md-color-picker-checkered-bg\"  ng-class=\"{\'dark\': !color.isDark() || color.getAlpha() < .45}\" flex=\"1\" layout=\"column\">\n\n		<div class=\"md-color-picker-result\" ng-style=\"{\'background\': color.toRgbString()}\" flex=\"100\" layout=\"column\" layout-fill layout-align=\"center center\" ng-click=\"focusPreviewInput( $event )\">\n			<!--<span flex  layout=\"column\" layout-align=\"center center\">{{value}}</span>-->\n			<div flex  layout=\"row\" layout-align=\"center center\">\n				<input class=\"md-color-picker-preview-input\" type=\"text\" ng-model=\"value\" ng-focus=\"previewFocus($event);\" ng-blur=\"previewBlur()\" ng-change=\"changeValue()\" ng-keypress=\"previewKeyDown($event)\" layout-fill />\n			</div>\n			<div class=\"md-color-picker-tabs\" style=\"width: 100%\">\n				<md-tabs md-selected=\"type\" md-stretch-tabs=\"always\" md-no-bar md-no-ink md-no-pagination=\"true\" >\n					<md-tab label=\"Hex\" ng-disabled=\"color.getAlpha() !== 1\" md-ink-ripple=\"#ffffff\"></md-tab>\n					<md-tab label=\"RGB\"></md-tab>\n					<md-tab label=\"HSL\"></md-tab>\n					<!--<md-tab label=\"HSV\"></md-tab>\n					<md-tab label=\"VEC\"></md-tab>-->\n				</md-tabs>\n			</div>\n		</div>\n	</div>\n\n	<div class=\"md-color-picker-tabs md-color-picker-colors\">\n		<md-tabs md-stretch-tabs=\"always\" md-align-tabs=\"bottom\"  md-selected=\"whichPane\">\n			<md-tab>\n				<md-tab-label>\n					<md-icon>gradient</md-icon>\n				</md-tab-label>\n				<md-tab-body>\n					<div layout=\"row\" layout-align=\"space-between\" style=\"height: 255px\">\n						<div md-color-picker-spectrum></div>\n						<div md-color-picker-hue></div>\n						<div md-color-picker-alpha class=\"md-color-picker-checkered-bg\"></div>\n					</div>\n				</md-tab-body>\n			</md-tab>\n			<md-tab>\n				<md-tab-label>\n					<md-icon>tune</md-icon>\n				</md-tab-label>\n				<md-tab-body>\n					<div layout=\"column\" flex=\"100\" layout-fill layout-align=\"space-between start center\" class=\"md-color-picker-sliders\">\n						<div layout=\"row\" layout-align=\"start center\" layout-wrap flex layout-fill>\n							<div flex=\"10\" layout layout-align=\"center center\">\n								<span class=\"md-body-1\">R</span>\n							</div>\n							<md-slider flex=\"65\" min=\"0\" max=\"255\" ng-model=\"color._r\" aria-label=\"red\" class=\"red-slider\"></md-slider>\n							<span flex></span>\n							<div flex=\"20\" layout layout-align=\"center center\">\n								<input style=\"width: 100%;\" min=\"0\" max=\"255\" type=\"number\" ng-model=\"color._r\" aria-label=\"red\" aria-controls=\"red-slider\">\n							</div>\n						</div>\n						<div layout=\"row\" layout-align=\"start center\" layout-wrap flex layout-fill>\n							<div flex=\"10\" layout layout-align=\"center center\">\n								<span class=\"md-body-1\">G</span>\n							</div>\n							<md-slider flex=\"65\" min=\"0\" max=\"255\" ng-model=\"color._g\" aria-label=\"green\" class=\"green-slider\"></md-slider>\n							<span flex></span>\n							<div flex=\"20\" layout layout-align=\"center center\">\n								<input style=\"width: 100%;\" min=\"0\" max=\"255\" type=\"number\" ng-model=\"color._g\" aria-label=\"green\" aria-controls=\"green-slider\">\n							</div>\n						</div>\n						<div layout=\"row\" layout-align=\"start center\" layout-wrap flex layout-fill>\n							<div flex=\"10\" layout layout-align=\"center center\">\n								<span class=\"md-body-1\">B</span>\n							</div>\n							<md-slider flex=\"65\" min=\"0\" max=\"255\" ng-model=\"color._b\" aria-label=\"blue\" class=\"blue-slider\"></md-slider>\n							<span flex></span>\n							<div flex=\"20\" layout layout-align=\"center center\" >\n								<input style=\"width: 100%;\" min=\"0\" max=\"255\" type=\"number\" ng-model=\"color._b\" aria-label=\"blue\" aria-controls=\"blue-slider\">\n							</div>\n						</div>\n						<div layout=\"row\" layout-align=\"start center\" layout-wrap flex layout-fill>\n							<div flex=\"10\" layout layout-align=\"center center\">\n								<span class=\"md-body-1\">A</span>\n							</div>\n							<md-slider flex=\"65\" min=\"0\" max=\"1\" step=\".01\" ng-model=\"alpha\" aria-label=\"alpha\" class=\"md-primary\"></md-slider>\n							<span flex></span>\n							<div flex=\"20\" layout layout-align=\"center center\" >\n								<input style=\"width: 100%;\" min=\"0\" max=\"1\" step=\".01\" type=\"number\" ng-model=\"alpha\" aria-label=\"alpha\" aria-controls=\"blue-slider\">\n							</div>\n						</div>\n					</div>\n				</md-tab-body>\n			</md-tab>\n			<md-tab>\n				<md-tab-label>\n					<md-icon>view_comfy</md-icon>\n				</md-tab-label>\n				<md-tab-body>\n					<div layout=\"column\" layout-align=\"space-between start center\" flex>\n						<div ng-repeat=\"row in palette track by $index\" flex=\"15\"  layout-align=\"space-between\" layout=\"row\"  layout-fill>\n							<div ng-repeat=\"col in row track by $index\" flex=\"10\" style=\"height: 25.5px;\" ng-style=\"{\'background\': col};\" ng-click=\"setPaletteColor($event)\"></div>\n						</div>\n					</div>\n				</md-tab-body>\n			</md-tab>\n			<md-tab>\n				<md-tab-label>\n					<md-icon>history</md-icon>\n				</md-tab-label>\n				<md-tab-body layout=\"row\" layout-fill>\n					<div layout=\"column\" flex layout-align=\"space-between start\" layout-wrap layout-fill class=\"md-color-picker-history\">\n						<div layout=\"row\" flex=\"80\" layout-align=\"space-between start start\" layout-wrap  layout-fill>\n							<div flex=\"10\" ng-repeat=\"historyColor in history.get() track by $index\">\n								<div  ng-style=\"{\'background\': historyColor.toRgbString()}\" ng-click=\"setPaletteColor($event)\"></div>\n							</div>\n						</div>\n\n\n						<md-button flex-end ng-click=\"history.reset()\" class=\"md-mini\">\n							<md-icon>delete</md-icon>\n							Clear history\n						</md-button>\n					</div>\n				</md-tab-body>\n			</md-tab>\n		</md-tabs>\n	</div>\n</div>\n");}]);
 })(angular, window, tinycolor);

@@ -94,6 +94,7 @@ angular.module('mdColorPicker', [])
 
 				// Quick function for updating the local 'value' on scope
 				var updateValue = function(val) {
+					console.log( val );
 					$scope.value = val || ngModel.$viewValue || '';
 				};
 
@@ -277,6 +278,10 @@ angular.module('mdColorPicker', [])
 						previewInput[0].setSelectionRange(0, previewInput[0].value.length);
 					});
 				};
+				$scope.previewUnfocus = function() {
+					$scope.inputFocus = false;
+					previewInput[0].blur();
+				};
 				$scope.previewBlur = function() {
 					$scope.inputFocus = false;
 					$scope.setValue();
@@ -440,6 +445,8 @@ angular.module('mdColorPicker', [])
 					e.preventDefault();
 					e.stopImmediatePropagation();
 
+					$scope.previewUnfocus();
+
 					$element.css({ 'cursor': 'none' });
 
 					offset.x = canvas.getBoundingClientRect().left+1;
@@ -577,6 +584,8 @@ angular.module('mdColorPicker', [])
 					// Prevent highlighting
 					e.preventDefault();
 					e.stopImmediatePropagation();
+
+					$scope.previewUnfocus();
 
 					$element.css({ 'cursor': 'none' });
 
@@ -742,6 +751,8 @@ angular.module('mdColorPicker', [])
 					e.preventDefault();
 					e.stopImmediatePropagation();
 
+					$scope.previewUnfocus();
+
 					$element.css({ 'cursor': 'none' });
 
 					offset.x = canvas.getBoundingClientRect().left+1;
@@ -815,7 +826,7 @@ angular.module('mdColorPicker', [])
 
                 if (options.focusOnOpen === undefined)
                     options.focusOnOpen = false;
-                
+
 
                 $mdDialog.show({
 					template: ''+
@@ -830,7 +841,7 @@ angular.module('mdColorPicker', [])
 					clickOutsideToClose: options.clickOutsideToClose,
 
 					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
-							$scope.close = function close() 
+							$scope.close = function close()
                             {
 								$mdDialog.cancel();
 							};
