@@ -5,7 +5,7 @@ node_modules/
 platforms/
 plugins/
 src/lib/
-
+.idea/
 # Mac.
 .DS_STORE
 
