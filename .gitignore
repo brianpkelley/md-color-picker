@@ -5,7 +5,7 @@ node_modules/
 platforms/
 plugins/
 src/lib/
-
+.idea/
 # Mac.
 .DS_STORE
 
@@ -13,4 +13,6 @@ src/lib/
 
 .DS_Store
 
-npm-debug.log
+.idea/workspace.xml
+
+dist/demo

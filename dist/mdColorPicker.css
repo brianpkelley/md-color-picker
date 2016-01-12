@@ -4,9 +4,11 @@ https://github.com/brianpkelley/md-color-picker
 Brian Kelley
 GNU GENERAL PUBLIC LICENSE
 */
+md-color-picker .md-color-picker-input-container,
 [md-color-picker] .md-color-picker-input-container {
   position: relative;
 }
+md-color-picker .md-color-picker-input-container .md-color-picker-preview,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-preview {
   content: '';
   width: 24px;
@@ -18,11 +20,12 @@ GNU GENERAL PUBLIC LICENSE
   bottom: 26px;
   overflow: hidden;
   background-color: #fff;
-  background-image: -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
-  background-image: linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
+  background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
+  background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
   background-size: 8px 8px;
   background-position: 0 0, 4px 4px;
 }
+md-color-picker .md-color-picker-input-container .md-color-picker-preview .md-color-picker-result,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-preview .md-color-picker-result {
   width: 100%;
   height: 100%;
@@ -36,6 +39,7 @@ GNU GENERAL PUBLIC LICENSE
   color: rgba(0, 0, 0, 0.26);
   line-height: 38px;
 }
+md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-clear md-icon {
   font-size: 18px;
   margin: auto;
@@ -63,7 +67,6 @@ GNU GENERAL PUBLIC LICENSE
 .md-color-picker-container .md-color-picker-preview {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
-      -ms-flex: 1;
           flex: 1;
   font-weight: bold;
   font-size: 18px;
@@ -244,8 +247,8 @@ GNU GENERAL PUBLIC LICENSE
   height: 20px;
   margin: 4px;
   background-color: #fff;
-  background-image: -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
-  background-image: linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
+  background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
+  background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
   background-size: 8px 8px;
   background-position: 0 0, 4px 4px;
 }
@@ -259,8 +262,8 @@ GNU GENERAL PUBLIC LICENSE
 }
 .md-color-picker-checkered-bg {
   background-color: #fff;
-  background-image: -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
-  background-image: linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
+  background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
+  background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
   background-size: 8px 8px;
   background-position: 0 0, 4px 4px;
 }

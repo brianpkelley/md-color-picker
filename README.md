@@ -34,9 +34,12 @@ bower install md-color-picker
 ````javascript
 var app = angular.module('myApp', ['ngMaterial','ngCookies', 'mdColorPicker']);
 ````
+
 - Place the directive where ever it is needed.
+_note:_ this breaks the old version 0.1 as it now uses _ng-model_ instead of _value_
+
 ````html
-<div md-color-picker value="valueObj"></div>
+<div md-color-picker ng-model="valueObj"></div>
 ````
 
 ## Angular dependencies
@@ -46,6 +49,8 @@ var app = angular.module('myApp', ['ngMaterial','ngCookies', 'mdColorPicker']);
 ## Other dependencies
 The only other dependency is [tinycolor.js](https://github.com/bgrins/TinyColor) which is an exceptional color manipulation library.
 
+
+
 ## Disclaimer
 This is still in a very early beta, and is rappidly changing (3 versions before initial commit).  I am open to any and all help anyone is willing to put in.  Will update as we go.
 
@@ -54,5 +59,6 @@ This is still in a very early beta, and is rappidly changing (3 versions before 
 - [ ] Prevent focus from opening color picker on window/tab activation.
 - [ ] Focus on preview input when user starts typing.
 - [ ] Clean up code.
-	- [ ] CSS / LESS
-	- [ ] Javascript
+  - [ ] Javascript
+  - [ ] CSS / LESS
+  - [X] Build script cleaned up and static server integrated for development

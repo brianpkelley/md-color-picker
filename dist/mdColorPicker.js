@@ -74,8 +74,10 @@ angular.module('mdColorPicker', [])
 
 		return {
 			templateUrl: "mdColorPicker.tpl.html",
+
+			// Added required controller ngModel
+			require: '^ngModel',
 			scope: {
-				value: '=?',
 				type: '@',
 				label: '@',
 				icon: '@',
@@ -85,6 +87,34 @@ angular.module('mdColorPicker', [])
 			},
 			controller: ['$scope', '$element', '$mdDialog', function( $scope, $element, $mdDialog ) {
 				var didJustClose = false;
+
+				// Get ngModelController from the current element
+				var ngModel = $element.controller('ngModel');
+
+				// Quick function for updating the local 'value' on scope
+				var updateValue = function(val) {
+					$scope.value = val || ngModel.$viewValue || '';
+				};
+
+				// Set the starting value
+				updateValue();
+
+				// Keep an eye on changes
+				$scope.$watch(function() {
+					return ngModel.$modelValue;
+				},function(newVal) {
+					updateValue(newVal);
+				});
+
+				// Watch for updates to value and set them on the model
+				$scope.$watch('value',function(newVal,oldVal) {
+					if (newVal !== '' && typeof newVal !== 'undefined' && newVal && newVal !== oldVal) {
+						ngModel.$setViewValue(newVal);
+					}
+				});
+
+				// The only other ngModel changes
+
 				$scope.clearValue = function clearValue() {
 					$scope.value = '';
 				};
@@ -134,6 +164,8 @@ angular.module('mdColorPicker', [])
 					}).then(function(value) {
 						$scope.value = value;
 						colorHistory.add( new tinycolor( value ) );
+
+
 					}, function() { });
 				};
 
@@ -249,7 +281,7 @@ angular.module('mdColorPicker', [])
 					$scope.setValue();
 				};
 				$scope.previewKeyDown = function( $event ) {
-					console.log( $event, $scope.ok );
+
 					if ( $event.keyCode == 13 ) {
 						$scope.ok && $scope.ok();
 					}
@@ -319,7 +351,7 @@ angular.module('mdColorPicker', [])
 
 			}],
 			link: function( $scope, $element, $attrs ) {
-				console.log("hue");
+
 				////////////////////////////
 				// Variables
 				////////////////////////////
