@@ -788,4 +788,90 @@ angular.module('mdColorPicker', [])
 
 			}
 		};
+	}])
+
+    .factory('$mdColorPicker', ['$q', '$mdDialog', 'mdColorPickerHistory', function ($q, $mdDialog, colorHistory)
+    {
+        return {
+            show: function (options)
+            {
+                var result = $q.defer();
+
+                if (options === undefined)
+                {
+                    options = {};
+                }
+
+                if (options.hasBackdrop === undefined)
+                    options.hasBackdrop = true;
+
+                if (options.clickOutsideToClose === undefined)
+                    options.clickOutsideToClose = true;
+
+                if (options.defaultValue === undefined)
+                    options.defaultValue = '#FFFFFF';
+
+                if (options.focusOnOpen === undefined)
+                    options.focusOnOpen = false;
+                
+
+                $mdDialog.show({
+					template: ''+
+					'<md-dialog class="md-color-picker-dialog">'+
+					'	<div md-color-picker-dialog value="value" default="{{default}}" random="{{random}}" ok="ok"></div>'+
+					'	<md-actions layout="row">'+
+					'		<md-button class="md-mini" flex ng-click="close()">Cancel</md-button>'+
+					'		<md-button class="md-mini" flex ng-click="ok()">Select</md-button>'+
+					'	</md-actions>'+
+					'</md-dialog>',
+					hasBackdrop: options.hasBackdrop,
+					clickOutsideToClose: options.clickOutsideToClose,
+
+					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
+							$scope.close = function close() 
+                            {
+								$mdDialog.cancel();
+							};
+							$scope.ok = function ok()
+							{
+							    var responseTinycolor = new tinycolor($scope.value);
+
+							    var response = {
+                                    selectedValue: $scope.value,
+							        hsv: responseTinycolor.toHslString(),
+							        hex: responseTinycolor.toHexString(),
+							        hex8: responseTinycolor.toHex8String(),
+							        rgb: responseTinycolor.toRgbString(),
+                                    percentageRgb: responseTinycolor.toPercentageRgbString()
+							    };
+
+								$mdDialog.hide( response );
+							};
+
+							$scope.value = value;
+							$scope.default = defaultValue;
+							$scope.random = random;
+							$scope.hide = $scope.ok;
+					}],
+
+					locals: {
+						value: options.value,
+						defaultValue: options.default,
+						random: options.random
+					},
+					targetEvent: options.$event,
+					focusOnOpen: options.focusOnOpen
+                }).then(function (value)
+                {
+                    var selectedResult = {
+                        value: value
+                    }
+                    colorHistory.add(new tinycolor(value));
+
+                    result.resolve(selectedResult);
+                }, function () { });
+
+                return result.promise;
+            }
+		};
 	}]);
