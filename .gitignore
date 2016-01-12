@@ -16,3 +16,4 @@ src/lib/
 .idea/workspace.xml
 
 dist/demo
+npm-debug.log
