@@ -82,7 +82,9 @@ angular.module('mdColorPicker', [])
 				icon: '@',
 				default: '@',
 				random: '@',
-				openOnInput: '@'
+				openOnInput: '@',
+				hasBackdrop: '@',
+				clickOutsideToClose: '@'
 			},
 			controller: ['$scope', '$element', '$mdDialog', function( $scope, $element, $mdDialog ) {
 				var didJustClose = false;
@@ -130,8 +132,8 @@ angular.module('mdColorPicker', [])
 						'		<md-button class="md-mini" flex ng-click="ok()">Select</md-button>'+
 						'	</md-actions>'+
 						'</md-dialog>',
-						hasBackdrop: false,
-						clickOutsideToClose: false,
+						hasBackdrop: !!$scope.hasBackdrop,
+						clickOutsideToClose: !!$scope.clickOutsideToClose,
 
 						controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
 								$scope.close = function close() {
