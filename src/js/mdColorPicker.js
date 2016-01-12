@@ -1,3 +1,10 @@
+/*
+md-color-picker 0.1.0
+https://github.com/brianpkelley/md-color-picker
+Brian Kelley
+GNU GENERAL PUBLIC LICENSE
+*/
+
 'use strict';
 
 angular.module('mdColorPicker', [])
