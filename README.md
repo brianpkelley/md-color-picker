@@ -17,7 +17,7 @@ npm install md-color-picker
 
 #### Bower (includes tinycolor.js):
 ```bash
-bower instal md-color-picker
+bower install md-color-picker
 ```
 
 ## Usage
@@ -27,16 +27,24 @@ bower instal md-color-picker
 ````
 - Include the javascript.
 ````html
-<script src="path/to/tinycolor/dist/tinycolor.min.js"></script>
+<script src="path/to/tinycolor/dist/tinycolor-min.js"></script>
 <script src="path/to/md-color-picker/dist/mdColorPicker.min.js"></script>
+````
+- Add dependencies to your application (ngCookies is optional)
+````javascript
+var app = angular.module('myApp', ['ngMaterial','ngCookies', 'mdColorPicker']);
 ````
 - Place the directive where ever it is needed.
 ````html
 <div md-color-picker value="valueObj"></div>
 ````
 
-## Dependencies
-The only dependency is [tinycolor.js](https://github.com/bgrins/TinyColor) which is an exceptional color manipulation library.
+## Angular dependencies
+- [Angular Material](https://material.angularjs.org)
+- [ngCookies](https://docs.angularjs.org/api/ngCookies) (optional)
+
+## Other dependencies
+The only other dependency is [tinycolor.js](https://github.com/bgrins/TinyColor) which is an exceptional color manipulation library.
 
 ## Disclaimer
 This is still in a very early beta, and is rappidly changing (3 versions before initial commit).  I am open to any and all help anyone is willing to put in.  Will update as we go.
