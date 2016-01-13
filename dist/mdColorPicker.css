@@ -100,6 +100,7 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
   bottom: 0;
   left: 0;
   right: 0;
+  color: #eee;
   outline: none;
 }
 .md-color-picker-container .md-color-picker-preview .md-color-picker-result.switch > span {
@@ -129,6 +130,9 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
   background: transparent;
 }
 .md-color-picker-container .md-color-picker-preview.dark {
+  color: #333;
+}
+.md-color-picker-container .md-color-picker-preview.dark .md-color-picker-preview-input {
   color: #333;
 }
 .md-color-picker-container .md-color-picker-preview.dark .md-tab {
@@ -244,6 +248,32 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 .md-color-picker-container .md-color-picker-sliders md-slider.blue-slider .md-thumb:after {
   background-color: #1560d0;
   border-color: #1560d0;
+}
+.md-color-picker-container .md-color-picker-material > div:not(:first-child) {
+  margin-top: 16px;
+}
+.md-color-picker-container .md-color-picker-material .md-color-picker-material-title {
+  font-size: 22px;
+  line-height: 75px;
+  padding: 0 15px;
+  color: rgba(0, 0, 0, 0.85);
+}
+.md-color-picker-container .md-color-picker-material .md-color-picker-material-title.dark {
+  color: rgba(255, 255, 255, 0.85);
+}
+.md-color-picker-container .md-color-picker-material .md-color-picker-with-label {
+  font-size: 12px;
+  line-height: 33px;
+  padding: 0 5px;
+  color: rgba(0, 0, 0, 0.7);
+}
+.md-color-picker-container .md-color-picker-material .md-color-picker-with-label.dark {
+  color: rgba(255, 255, 255, 0.7);
+}
+.md-color-picker-container .md-color-picker-material .md-color-picker-material-colors {
+  position: absolute;
+  -webkit-transition: left cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, right cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, bottom cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
+          transition: left cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, right cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, bottom cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
 }
 .md-color-picker-container .md-color-picker-history > div > div {
   height: 20px;

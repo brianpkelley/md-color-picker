@@ -21,7 +21,7 @@
 	</div>
 
 	<div class="md-color-picker-tabs md-color-picker-colors">
-		<md-tabs md-stretch-tabs="always" md-align-tabs="bottom"  md-selected="whichPane">
+		<md-tabs md-stretch-tabs="always" md-align-tabs="bottom"  md-selected="whichPane" md-no-pagination>
 			<md-tab>
 				<md-tab-label>
 					<md-icon>gradient</md-icon>
@@ -93,6 +93,35 @@
 							<div ng-repeat="col in row track by $index" flex="10" style="height: 25.5px;" ng-style="{'background': col};" ng-click="setPaletteColor($event)"></div>
 						</div>
 					</div>
+				</md-tab-body>
+			</md-tab>
+			<md-tab>
+				<md-tab-label>
+					<md-icon>line_weight</md-icon>
+				</md-tab-label>
+				<md-tab-body>
+					<div layout="column" layout-fill flex class="md-color-picker-material">
+						<div ng-repeat="(key, value) in material.colors2">
+							<div ng-repeat="row in value track by $index" ng-style="{'background': row, height: $index ? '33px':'75px'}" ng-class="{'md-color-picker-with-label': $index !== 0, 'md-color-picker-material-title': $index === 0, 'dark': isDark( row )}" ng-click="setPaletteColor($event)">
+								<span ng-if="$index === 0">{{key}}</span>
+								<span ng-if="$index !== 0">{{material.labels[$index]}}</span>
+							</div>
+						</div>
+					</div>
+					<script>
+					/*
+					<div layout="row" layout-align="space-between start center"  layout-fill layout-wrap flex class="md-color-picker-material">
+						<!--<div flex="25"  layout-align="space-between" layout="row"  layout-fill>
+							<div ng-repeat="col in row track by $index" flex="10" style="height: 25.5px;" ng-style="{'background': col};" ng-click="setPaletteColor($event)"></div>-->
+							<div ng-repeat="col in material.colors track by $index" layout-column flex="33">
+								<div ng-repeat="(name, row) in col track by $index" layout-row style="height: 31px;" ng-style="{'background': row[0]};" ng-click="setMaterialColor($event, row)" class="md-color-picker-with-label">{{name}}</div>
+							</div>
+							<div layout-column flex="33">
+								<div ng-repeat="(name, row) in material.greys track by $index" layout-row style="height: 31px;" ng-style="{'background': row[0]};" ng-click="setMaterialColor($event, row)" class="md-color-picker-with-label">{{name}}</div>
+							</div>
+						<!--</div>-->
+					</div>
+					*/</script>
 				</md-tab-body>
 			</md-tab>
 			<md-tab>

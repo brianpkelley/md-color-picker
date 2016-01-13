@@ -132,6 +132,7 @@ md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-pi
 					bottom: 0;
 					left: 0;
 					right: 0;
+					color: #eee;
 
 					outline: none;
 				}
@@ -173,7 +174,9 @@ md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-pi
 
 		&.dark {
 			color: #333;
-
+			.md-color-picker-preview-input {
+				color: #333;
+			}
 			.md-tab {
 				background: rgba( 0,0,0,.25);
 				color: #333;
@@ -332,6 +335,35 @@ md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-pi
 		}
 	}
 
+	.md-color-picker-material {
+		> div:not(:first-child) {
+			margin-top: 16px;
+		}
+		.md-color-picker-material-title {
+			font-size: 22px;
+			line-height: 75px;
+			padding: 0 15px;
+			color: rgba(0,0,0,0.85);
+
+			&.dark {
+				color: rgba(255,255,255,0.85);
+			}
+		}
+		.md-color-picker-with-label {
+			font-size: 12px;
+			line-height: 33px;
+			padding: 0 5px;
+			color: rgba(0,0,0,0.7);
+			&.dark {
+				color: rgba(255,255,255,0.7);
+			}
+		}
+		.md-color-picker-material-colors {
+			position: absolute;
+			transition: left @cubic-trans, right @cubic-trans, top @cubic-trans, bottom @cubic-trans;
+
+		}
+	}
 
 	.md-color-picker-history {
 		& > div > div {
