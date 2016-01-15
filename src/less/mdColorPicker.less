@@ -114,7 +114,7 @@ md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-pi
 			height: 100%;
 			opacity: 1;
 			background: rgba(255,0,0,1);
-			& > span {
+			& > input {
 				position: relative;
 
 				top: -15px;
@@ -128,24 +128,21 @@ md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-pi
 					background: transparent;
 					text-align: center;
 					position: absolute;
-					top: 0;
+					top: -15px;
 					bottom: 0;
 					left: 0;
 					right: 0;
 					color: #eee;
 
 					outline: none;
+					opacity: 0;
+					&.switch {
+						transition: top @cubic-trans, .25s opacity ease-out;
+						top: 0px;
+						opacity: 1;
+					}
 				}
 			}
-			&.switch {
-				& > span {
-					transition: top @cubic-trans, .25s opacity ease-out;
-					top: 0px;
-					opacity: 1;
-				}
-			}
-
-
 		}
 		.md-color-picker-tabs {
 			.md-tab, md-tabs-wrapper, md-tabs-canvas, md-pagination-wrapper {
