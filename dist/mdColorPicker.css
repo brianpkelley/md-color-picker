@@ -73,7 +73,7 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
   font-weight: bold;
   font-size: 18px;
   color: #fff;
-  margin: 8px 0px 0px 0px;
+  margin: -8px -8px 0px;
   position: relative;
 }
 .md-color-picker-container .md-color-picker-preview .md-color-picker-result {
@@ -149,6 +149,9 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 .md-color-picker-container .md-color-picker-tabs {
   margin: 0px -8px 0;
 }
+.md-color-picker-container .md-color-picker-tabs md-tabs[md-align-tabs=bottom] {
+  padding-bottom: 0;
+}
 .md-color-picker-container .md-color-picker-tabs .md-tab,
 .md-color-picker-container .md-color-picker-tabs md-tabs-wrapper,
 .md-color-picker-container .md-color-picker-tabs md-tabs-canvas,
@@ -178,7 +181,7 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
   height: 100%;
 }
 .md-color-picker-container .md-color-picker-tabs.md-color-picker-colors {
-  margin: -8px -8px 0px -8px;
+  margin: 8px -8px -8px;
 }
 .md-color-picker-container .md-color-picker-tabs.md-color-picker-colors md-ink-bar {
   top: auto;

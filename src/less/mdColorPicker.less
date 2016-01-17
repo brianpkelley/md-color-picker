@@ -107,7 +107,7 @@ md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-pi
 		font-weight: bold;
 		font-size: 18px;
 		color: #fff;
-		margin: 8px 0px 0px 0px;
+		margin: -8px -8px 0px;
 		//margin-bottom: 8px;
 		position: relative;
 
@@ -191,11 +191,13 @@ md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-pi
 
 	}
 	.md-color-picker-tabs {
-		margin: -8px -8px 0px -8px;
+		margin: 0px -8px 0;
 		md-ink-bar {
 			//top: 0;
 		}
-
+		md-tabs[md-align-tabs=bottom] {
+			padding-bottom: 0;
+		}
 
 		.md-tab, md-tabs-wrapper, md-tabs-canvas, md-pagination-wrapper {
 			max-height: 36px;
@@ -227,8 +229,8 @@ md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-pi
 		}
 
 
-		&.md-color-picker-colors {   
-			margin: -8px -8px 0px -8px;
+		&.md-color-picker-colors {
+			margin: 8px -8px -8px;
 			md-ink-bar {
 				top: auto;
 			}
