@@ -248,7 +248,7 @@ alphaLinkFn.extra = function() {
 var spectrumLinkFn = new GradientCanvas( 'spectrum', false );
 spectrumLinkFn.getColorByPoint = function( x, y ) {
 	var imageData = this.getImageData( x, y );
- 	this.setMarkerCenter(x,y);
+	this.setMarkerCenter(x,y);
 
 	return {
 		r: imageData[0],
@@ -298,6 +298,24 @@ spectrumLinkFn.extra = function() {
 
 
 angular.module('mdColorPicker', [])
+	.run(['$templateCache', function ($templateCache) {
+		//icon resource should not be dependent  
+		//credit to materialdesignicons.com
+		var shapes = {
+			'clear': '<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>',
+			'gradient': '<path d="M11 9h2v2h-2zm-2 2h2v2H9zm4 0h2v2h-2zm2-2h2v2h-2zM7 9h2v2H7zm12-6H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 18H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm2-7h-2v2h2v2h-2v-2h-2v2h-2v-2h-2v2H9v-2H7v2H5v-2h2v-2H5V5h14v6z"/>',
+			'tune': '<path d="M13 21v-2h8v-2h-8v-2h-2v6h2zM3 17v2h6v-2H3z"/><path d="M21 13v-2H11v2h10zM7 9v2H3v2h4v2h2V9H7z"/><path d="M15 9h2V7h4V5h-4V3h-2v6zM3 5v2h10V5H3z"/>',
+			'view_module': '<path d="M4 11h5V5H4v6z"/><path d="M4 18h5v-6H4v6z"/><path d="M10 18h5v-6h-5v6z"/><path d="M16 18h5v-6h-5v6z"/><path d="M10 11h5V5h-5v6z"/><path d="M16 5v6h5V5h-5z"/>',
+			'view_headline': '<path d="M4 15h17v-2H4v2z"/><path d="M4 19h17v-2H4v2z"/><path d="M4 11h17V9H4v2z"/><path d="M4 5v2h17V5H4z"/>',
+			'history': '<path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/><path d="M12 8v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>',
+		};
+		for (var i in shapes) {
+			if (shapes.hasOwnProperty(i)) {
+				$templateCache.put([i, 'svg'].join('.'),
+					['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">', shapes[i], '</svg>'].join(''));
+			}
+		}
+	}])
 	.factory('mdColorPickerHistory', ['$injector', function( $injector ) {
 
 		var history = [];
@@ -615,7 +633,7 @@ angular.module('mdColorPicker', [])
 					console.log( family, family.length - 1);
 					var currentEl = angular.element( event.currentTarget );
 					materialPreview = $compile([	'<div class="md-color-picker-material-colors" layout="column" >',
-										  		'<div ng-repeat="shade in materialFamily track by $index" ng-style="{\'background\': shade };" style="height: '+(100 / (family.length-1) )+'%; width: 100%"  ng-click="setPaletteColor($event)" class="md-color-picker-with-label">{{material.labels[$index]}}</div>',
+												'<div ng-repeat="shade in materialFamily track by $index" ng-style="{\'background\': shade };" style="height: '+(100 / (family.length-1) )+'%; width: 100%"  ng-click="setPaletteColor($event)" class="md-color-picker-with-label">{{material.labels[$index]}}</div>',
 											'</div>'].join('\n'))($scope);
 					var parent = currentEl.parent().parent();
 
@@ -733,32 +751,32 @@ angular.module('mdColorPicker', [])
 		};
 	}])
 
-    .factory('$mdColorPicker', ['$q', '$mdDialog', 'mdColorPickerHistory', function ($q, $mdDialog, colorHistory)
-    {
-        return {
-            show: function (options)
-            {
-                //var result = $q.defer();
+	.factory('$mdColorPicker', ['$q', '$mdDialog', 'mdColorPickerHistory', function ($q, $mdDialog, colorHistory)
+	{
+		return {
+			show: function (options)
+			{
+				//var result = $q.defer();
 
-                if (options === undefined)
-                {
-                    options = {};
-                }
+				if (options === undefined)
+				{
+					options = {};
+				}
 
-                if (options.hasBackdrop === undefined)
-                    options.hasBackdrop = true;
+				if (options.hasBackdrop === undefined)
+					options.hasBackdrop = true;
 
-                if (options.clickOutsideToClose === undefined)
-                    options.clickOutsideToClose = true;
+				if (options.clickOutsideToClose === undefined)
+					options.clickOutsideToClose = true;
 
-                if (options.defaultValue === undefined)
-                    options.defaultValue = '#FFFFFF';
+				if (options.defaultValue === undefined)
+					options.defaultValue = '#FFFFFF';
 
-                if (options.focusOnOpen === undefined)
-                    options.focusOnOpen = false;
+				if (options.focusOnOpen === undefined)
+					options.focusOnOpen = false;
 
 
-                var dialog = $mdDialog.show({
+				var dialog = $mdDialog.show({
 					template: ''+
 					'<md-dialog class="md-color-picker-dialog">'+
 					'	<div md-color-picker-dialog value="value" default="{{defaultValue}}" random="{{random}}" ok="ok"></div>'+
@@ -773,7 +791,7 @@ angular.module('mdColorPicker', [])
 					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
 							console.log( value );
 							$scope.close = function close()
-                            {
+							{
 								$mdDialog.cancel();
 							};
 							$scope.ok = function ok()
@@ -794,14 +812,14 @@ angular.module('mdColorPicker', [])
 					},
 					targetEvent: options.$event,
 					focusOnOpen: options.focusOnOpen
-                });
+				});
 
 				dialog.then(function (value) {
-                    colorHistory.add(new tinycolor(value));
-                }, function () { });
+					colorHistory.add(new tinycolor(value));
+				}, function () { });
 
-                return dialog;
-            }
+				return dialog;
+			}
 		};
 	}]);
 })( window, window.angular );

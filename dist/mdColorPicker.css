@@ -20,8 +20,8 @@ md-color-picker .md-color-picker-input-container .md-color-picker-preview,
   bottom: 26px;
   overflow: hidden;
   background-color: #fff;
-  background-image: -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
-  background-image: linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
+  background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
+  background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
   background-size: 8px 8px;
   background-position: 0 0, 4px 4px;
 }
@@ -42,8 +42,9 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
 }
 md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-clear md-icon {
-  font-size: 18px;
   margin: auto;
+  width: 16px;
+  height: 16px;
 }
 .md-color-picker-container {
   padding: 8px;
@@ -68,12 +69,11 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 .md-color-picker-container .md-color-picker-preview {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
-      -ms-flex: 1;
           flex: 1;
   font-weight: bold;
   font-size: 18px;
   color: #fff;
-  margin: -8px -8px 0px;
+  margin: 8px 0px 0px 0px;
   position: relative;
 }
 .md-color-picker-container .md-color-picker-preview .md-color-picker-result {
@@ -178,7 +178,7 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
   height: 100%;
 }
 .md-color-picker-container .md-color-picker-tabs.md-color-picker-colors {
-  margin: 8px -8px -8px;
+  margin: -8px -8px 0px -8px;
 }
 .md-color-picker-container .md-color-picker-tabs.md-color-picker-colors md-ink-bar {
   top: auto;
@@ -280,8 +280,8 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
   height: 20px;
   margin: 4px;
   background-color: #fff;
-  background-image: -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
-  background-image: linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
+  background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
+  background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
   background-size: 8px 8px;
   background-position: 0 0, 4px 4px;
 }
@@ -295,8 +295,8 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 }
 .md-color-picker-checkered-bg {
   background-color: #fff;
-  background-image: -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), -webkit-linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
-  background-image: linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd), linear-gradient(45deg, #dddddd 25%, transparent 25%, transparent 75%, #dddddd 75%, #dddddd);
+  background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
+  background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
   background-size: 8px 8px;
   background-position: 0 0, 4px 4px;
 }
