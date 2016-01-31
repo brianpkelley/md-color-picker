@@ -49,7 +49,7 @@ gulp.task('less', function () {
 	gulp.src(paths.src.less)
 		.pipe(less({strictMath: true}))
 		.pipe(concat(moduleName + '.css'))
-		.pipe(autoprefix({browsers: ['> 1%'], cascade: true}))
+		.pipe(autoprefix({browsers: ['last 2 versions', 'last 4 Android versions']}))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(rename({extname: '.min.css'}))
 		.pipe(minifyCss())
