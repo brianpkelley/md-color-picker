@@ -35,7 +35,7 @@ bower install md-color-picker
 var app = angular.module('myApp', ['ngMaterial','ngCookies', 'mdColorPicker']);
 ````
 
-- Place the directive where ever it is needed.
+- Place the directive wherever it is needed.
 _note:_ this breaks the old version 0.1 as it now uses _ng-model_ instead of _value_
 
 ````html
@@ -52,7 +52,7 @@ The only other dependency is [tinycolor.js](https://github.com/bgrins/TinyColor)
 
 
 ## Disclaimer
-This is still in a very early beta, and is rappidly changing (3 versions before initial commit).  I am open to any and all help anyone is willing to put in.  Will update as we go.
+This is still in a very early beta, and is rapidly changing (3 versions before initial commit).  I am open to any and all help anyone is willing to put in.  Will update as we go.
 
 
 ## Known issues / TODO
