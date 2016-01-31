@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 	less = require('gulp-less'),
 	uglify = require('gulp-uglify'),
 	sourcemaps = require('gulp-sourcemaps'),
-	minifyCss = require('gulp-minify-css'),
+	cssnano = require('gulp-cssnano'),
 	concat = require('gulp-concat'),
 	rename = require('gulp-rename'),
 	templateCache = require('gulp-angular-templatecache'),
@@ -52,7 +52,7 @@ gulp.task('less', function () {
 		.pipe(autoprefix({browsers: ['> 1%'], cascade: true}))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(rename({extname: '.min.css'}))
-		.pipe(minifyCss())
+		.pipe(cssnano({ safe: true }))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(livereload());
 });
