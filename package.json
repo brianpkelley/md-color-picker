@@ -41,7 +41,7 @@
     "color-dialog"
   ],
   "author": "Brian Kelley <kelley.brianp@gmail.com> (http://www.tastybytes.net)",
-  "license": "GPLv2",
+  "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/brianpkelley/md-color-picker/issues"
   },
