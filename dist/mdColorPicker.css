@@ -68,7 +68,6 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 }
 .md-color-picker-container .md-color-picker-preview {
   -webkit-box-flex: 1;
-  -webkit-flex: 1;
           flex: 1;
   font-weight: bold;
   font-size: 18px;
