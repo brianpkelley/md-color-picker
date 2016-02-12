@@ -80,7 +80,9 @@ gulp.task('js', function () {
 		.pipe(ngAnnotate())
 		.pipe(gulp.dest(paths.dist))
 		.pipe(rename({suffix: '.min'}))
-		.pipe(uglify())
+		.pipe(uglify({
+			compress: { drop_console: true }
+		}))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(livereload());
 
