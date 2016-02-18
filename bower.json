@@ -19,7 +19,7 @@
         "color-chooser",
         "color-dialog"
     ],
-    "license": "GPLv2",
+    "license": "MIT",
     "homepage": "https://github.com/brianpkelley/md-color-picker",
     "ignore": [
         "**/.*",
