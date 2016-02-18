@@ -42,8 +42,9 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
 }
 md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-clear md-icon {
-  font-size: 18px;
   margin: auto;
+  width: 16px;
+  height: 16px;
 }
 .md-color-picker-container {
   padding: 8px;
@@ -147,6 +148,9 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 }
 .md-color-picker-container .md-color-picker-tabs {
   margin: 0px -8px 0;
+}
+.md-color-picker-container .md-color-picker-tabs md-tabs[md-align-tabs=bottom] {
+  padding-bottom: 0;
 }
 .md-color-picker-container .md-color-picker-tabs .md-tab,
 .md-color-picker-container .md-color-picker-tabs md-tabs-wrapper,
