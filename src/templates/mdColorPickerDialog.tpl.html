@@ -1,7 +1,7 @@
 <div class="md-color-picker-container in" layout="column">
 	<div class="md-color-picker-arrow" ng-style="{'border-bottom-color': color.toRgbString() }"></div>
 
-	<div class="md-color-picker-preview md-color-picker-checkered-bg"  ng-class="{'dark': !color.isDark() || color.getAlpha() < .45}" flex="1" layout="column">
+	<div class="md-color-picker-preview md-color-picker-checkered-bg" ng-class="{'dark': !color.isDark() || color.getAlpha() < .45}" flex="1" layout="column">
 
 		<div class="md-color-picker-result" ng-style="{'background': color.toRgbString()}" flex="100" layout="column" layout-fill layout-align="center center" ng-click="focusPreviewInput( $event )">
 			<!--<span flex  layout="column" layout-align="center center">{{value}}</span>-->
@@ -24,7 +24,7 @@
 		<md-tabs md-stretch-tabs="always" md-align-tabs="bottom"  md-selected="whichPane" md-no-pagination>
 			<md-tab>
 				<md-tab-label>
-					<md-icon>gradient</md-icon>
+					<md-icon md-svg-icon="gradient.svg"></md-icon>
 				</md-tab-label>
 				<md-tab-body>
 					<div layout="row" layout-align="space-between" style="height: 255px">
@@ -36,7 +36,7 @@
 			</md-tab>
 			<md-tab>
 				<md-tab-label>
-					<md-icon>tune</md-icon>
+					<md-icon md-svg-icon="tune.svg"></md-icon>
 				</md-tab-label>
 				<md-tab-body>
 					<div layout="column" flex="100" layout-fill layout-align="space-between start center" class="md-color-picker-sliders">
@@ -85,7 +85,7 @@
 			</md-tab>
 			<md-tab>
 				<md-tab-label>
-					<md-icon>view_comfy</md-icon>
+					<md-icon md-svg-icon="view_module.svg"></md-icon>
 				</md-tab-label>
 				<md-tab-body>
 					<div layout="column" layout-align="space-between start center" flex>
@@ -97,7 +97,7 @@
 			</md-tab>
 			<md-tab>
 				<md-tab-label>
-					<md-icon>line_weight</md-icon>
+					<md-icon md-svg-icon="view_headline.svg"></md-icon>
 				</md-tab-label>
 				<md-tab-body>
 					<div layout="column" layout-fill flex class="md-color-picker-material">
@@ -126,7 +126,7 @@
 			</md-tab>
 			<md-tab>
 				<md-tab-label>
-					<md-icon>history</md-icon>
+					<md-icon md-svg-icon="history.svg"></md-icon>
 				</md-tab-label>
 				<md-tab-body layout="row" layout-fill>
 					<div layout="column" flex layout-align="space-between start" layout-wrap layout-fill class="md-color-picker-history">
@@ -137,13 +137,13 @@
 						</div>
 
 
-						<md-button flex-end ng-click="history.reset()" class="md-mini">
-							<md-icon>delete</md-icon>
-							Clear history
+						<md-button flex-end ng-click="history.reset()" class="md-mini" aria-label="Clear History">
+							<md-icon md-svg-icon="clear_all.svg"></md-icon>
 						</md-button>
 					</div>
 				</md-tab-body>
 			</md-tab>
 		</md-tabs>
 	</div>
+
 </div>
