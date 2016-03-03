@@ -1,5 +1,5 @@
 /*
-md-color-picker 0.1.0
+md-color-picker 0.2.0
 https://github.com/brianpkelley/md-color-picker
 Brian Kelley
 GNU GENERAL PUBLIC LICENSE
