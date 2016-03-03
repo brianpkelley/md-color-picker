@@ -1,10 +1,10 @@
+/**
+ * md-color-picker - Angular-Material inspired color picker.
+ * @version v0.2.0
+ * @link https://github.com/brianpkelley/md-color-picker
+ * @license MIT
+ */
 ;(function(angular, window, tinycolor) {
-/*
-md-color-picker 0.2.0
-https://github.com/brianpkelley/md-color-picker
-Brian Kelley
-GNU GENERAL PUBLIC LICENSE
-*/
 
 (function( window, angular, undefined ) {
 'use strict';

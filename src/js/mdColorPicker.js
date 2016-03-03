@@ -1,9 +1,3 @@
-/*
-md-color-picker 0.2.0
-https://github.com/brianpkelley/md-color-picker
-Brian Kelley
-GNU GENERAL PUBLIC LICENSE
-*/
 
 (function( window, angular, undefined ) {
 'use strict';
