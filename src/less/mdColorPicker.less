@@ -14,7 +14,8 @@ GNU GENERAL PUBLIC LICENSE
 	background-position:0 0, 4px 4px;
 }
 
-md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-picker-input-container {
+md-color-picker .md-color-picker-input-container,
+[md-color-picker] .md-color-picker-input-container {
 	position: relative;
 	.md-placeholder, label:not(.md-no-float) {
 		//padding-left: 30px;
@@ -35,8 +36,8 @@ md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-pi
 		border: 2px solid #fff;
 		border-radius: 50%;
 		box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
-		margin: auto;
-		bottom: 26px;
+		position: relative;
+		top: 22px;
 	//	left: 0;
 		overflow: hidden;
 		//z-index: 10;
@@ -47,25 +48,18 @@ md-color-picker .md-color-picker-input-container, [md-color-picker] .md-color-pi
 			height: 100%;
 		}
 	}
+	.md-color-picker-input {
+
+	}
 	.md-color-picker-clear {
 		position: absolute;
-		width: 24px;
-		height: 24px;
 
-		bottom: 22px;
-		right: 0px;
+		bottom: 42px;
+		right: -16px;
 
 		color: rgba(0,0,0,0.26);
 
-		line-height: 38px;
 
-		md-icon {
-			//font-size: 18px;
-			//line-height: 18px;
-			margin: auto;
-			width: 16px;
-			height: 16px;
-		}
 	}
 }
 

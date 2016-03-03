@@ -69,13 +69,22 @@ GradientCanvas.prototype.getColorByMouse = function( e ) {
 };
 
 GradientCanvas.prototype.setMarkerCenter = function( x, y ) {
+	var xOffset = -1 * this.marker.offsetWidth / 2;
+	var yOffset = -1 * this.marker.offsetHeight / 2;
 	if ( y === undefined ) {
-		y = x - ( this.marker.offsetHeight / 2 );
+		y = x + yOffset;
+		y = Math.max( Math.min( this.height + yOffset, y ), Math.ceil( yOffset ) );
+
 		x = 0;
 	} else {
-		x = x - ( this.marker.offsetWidth / 2 );
-		y = y - ( this.marker.offsetHeight / 2 );
+		x = x + xOffset;
+		y = y + yOffset;
+
+		x = Math.max( Math.min( this.height + xOffset, x ), Math.ceil( xOffset ) );
+		y = Math.max( Math.min( this.height + yOffset, y ), Math.ceil( yOffset ) );
 	}
+
+
 
 	angular.element(this.marker).css({'left': x + 'px' });
 	angular.element(this.marker).css({'top': y + 'px'});
@@ -127,7 +136,7 @@ GradientCanvas.prototype.onMouseDown = function( e ) {
 				break;
 		}
 	});
-	console.log( this );
+
 	this.$window.on( 'mousemove', fn );
 	this.$window.one( 'mouseup', angular.bind(this, function( e ) {
 		this.$window.off( 'mousemove', fn );
@@ -299,7 +308,7 @@ spectrumLinkFn.extra = function() {
 
 angular.module('mdColorPicker', [])
 	.run(['$templateCache', function ($templateCache) {
-		//icon resource should not be dependent  
+		//icon resource should not be dependent
 		//credit to materialdesignicons.com
 		var shapes = {
 			'clear': '<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>',
@@ -308,6 +317,7 @@ angular.module('mdColorPicker', [])
 			'view_module': '<path d="M4 11h5V5H4v6z"/><path d="M4 18h5v-6H4v6z"/><path d="M10 18h5v-6h-5v6z"/><path d="M16 18h5v-6h-5v6z"/><path d="M10 11h5V5h-5v6z"/><path d="M16 5v6h5V5h-5z"/>',
 			'view_headline': '<path d="M4 15h17v-2H4v2z"/><path d="M4 19h17v-2H4v2z"/><path d="M4 11h17V9H4v2z"/><path d="M4 5v2h17V5H4z"/>',
 			'history': '<path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/><path d="M12 8v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>',
+			'clear_all': '<path d="M5 13h14v-2H5v2zm-2 4h14v-2H3v2zM7 7v2h14V7H7z"/>'
 		};
 		for (var i in shapes) {
 			if (shapes.hasOwnProperty(i)) {
@@ -630,7 +640,7 @@ angular.module('mdColorPicker', [])
 					}
 					$scope.materialFamily = [];
 
-					console.log( family, family.length - 1);
+
 					var currentEl = angular.element( event.currentTarget );
 					materialPreview = $compile([	'<div class="md-color-picker-material-colors" layout="column" >',
 										  		'<div ng-repeat="shade in materialFamily track by $index" ng-style="{\'background\': shade };" style="height: '+(100 / (family.length-1) )+'%; width: 100%"  ng-click="setPaletteColor($event)" class="md-color-picker-with-label">{{material.labels[$index]}}</div>',
@@ -789,7 +799,7 @@ angular.module('mdColorPicker', [])
 					clickOutsideToClose: options.clickOutsideToClose,
 
 					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
-							console.log( value );
+
 							$scope.close = function close()
                             {
 								$mdDialog.cancel();

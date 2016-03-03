@@ -16,8 +16,8 @@ md-color-picker .md-color-picker-input-container .md-color-picker-preview,
   border: 2px solid #fff;
   border-radius: 50%;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
-  margin: auto;
-  bottom: 26px;
+  position: relative;
+  top: 22px;
   overflow: hidden;
   background-color: #fff;
   background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
@@ -33,18 +33,9 @@ md-color-picker .md-color-picker-input-container .md-color-picker-preview .md-co
 md-color-picker .md-color-picker-input-container .md-color-picker-clear,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-clear {
   position: absolute;
-  width: 24px;
-  height: 24px;
-  bottom: 22px;
-  right: 0px;
+  bottom: 42px;
+  right: -16px;
   color: rgba(0, 0, 0, 0.26);
-  line-height: 38px;
-}
-md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
-[md-color-picker] .md-color-picker-input-container .md-color-picker-clear md-icon {
-  margin: auto;
-  width: 16px;
-  height: 16px;
 }
 .md-color-picker-container {
   padding: 8px;
@@ -64,11 +55,12 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
   left: 0;
   top: 0px;
   -webkit-transition: border-bottom-width cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
-          transition: border-bottom-width cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
+  transition: border-bottom-width cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
 }
 .md-color-picker-container .md-color-picker-preview {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
+      -ms-flex: 1;
           flex: 1;
   font-weight: bold;
   font-size: 18px;
@@ -106,7 +98,7 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 }
 .md-color-picker-container .md-color-picker-preview .md-color-picker-result > div > input.switch {
   -webkit-transition: top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, 0.25s opacity ease-out;
-          transition: top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, 0.25s opacity ease-out;
+  transition: top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, 0.25s opacity ease-out;
   top: 0px;
   opacity: 1;
 }
@@ -277,7 +269,7 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear md-icon,
 .md-color-picker-container .md-color-picker-material .md-color-picker-material-colors {
   position: absolute;
   -webkit-transition: left cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, right cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, bottom cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
-          transition: left cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, right cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, bottom cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
+  transition: left cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, right cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, bottom cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
 }
 .md-color-picker-container .md-color-picker-history > div > div {
   height: 20px;

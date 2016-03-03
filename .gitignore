@@ -17,3 +17,5 @@ src/lib/
 
 dist/demo
 npm-debug.log
+
+/bower_components/
