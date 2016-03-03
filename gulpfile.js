@@ -19,7 +19,8 @@ var gulp = require('gulp'),
 	http = require('http'),
 	st = require('st'),
 	del = require('del'),
-	merge = require('merge-stream');
+	merge = require('merge-stream'),
+	header = require('gulp-header');
 
 var debug = false;
 
@@ -41,6 +42,18 @@ var paths = {
 };
 
 
+var pkg = require('./package.json');
+var banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  ''].join('\n');
+
+
+
+
 /*====================================================================
  =                  Compile and minify less and css                  =
  ====================================================================*/
@@ -50,9 +63,11 @@ gulp.task('less', function () {
 		.pipe(less({strictMath: true}))
 		.pipe(concat(moduleName + '.css'))
 		.pipe(autoprefix({browsers: ['last 2 versions', 'last 4 Android versions']}))
+		.pipe(header(banner, { pkg : pkg } ))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(rename({extname: '.min.css'}))
 		.pipe(cssnano({ safe: true }))
+		.pipe(header(banner, { pkg : pkg } ))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(livereload());
 });
@@ -72,15 +87,18 @@ gulp.task('js', function () {
 
 		.pipe(gdebug())
 
+
 		//.pipe(debug({title: 'JS: '}))
 		//.pipe(sourcemaps.init())
 		.pipe(concat(moduleName + '.js'))
 		//.pipe(sourcemaps.write('.'))
 		.pipe(closure(['angular', 'window', 'tinycolor']))
 		.pipe(ngAnnotate())
+		.pipe(header(banner, { pkg : pkg } ))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(uglify())
+		.pipe(header(banner, { pkg : pkg } ))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(livereload());
 
