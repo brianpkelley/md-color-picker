@@ -4,7 +4,7 @@ Angular-Material based color picker with no jQuery or other DOM/utility library 
 ![preview](https://raw.githubusercontent.com/brianpkelley/md-color-picker/master/md-color-picker.png)
 
 ## Demo
-Try out the demo here: **[Demo Plnkr](http://embed.plnkr.co/MJC42K/preview)**
+Try out the demo here: **[GitHub Page](http://brianpkelley.github.io/md-color-picker/)**
 
 
 ## Install
