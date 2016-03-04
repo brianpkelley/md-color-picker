@@ -101,10 +101,12 @@
 				</md-tab-label>
 				<md-tab-body>
 					<div layout="column" layout-fill flex class="md-color-picker-material">
-						<div ng-repeat="(key, value) in material.colors2">
-							<div ng-repeat="row in value track by $index" ng-style="{'background': row, height: $index ? '33px':'75px'}" ng-class="{'md-color-picker-with-label': $index !== 0, 'md-color-picker-material-title': $index === 0, 'dark': isDark( row )}" ng-click="setPaletteColor($event)">
-								<span ng-if="$index === 0">{{key}}</span>
-								<span ng-if="$index !== 0">{{material.labels[$index]}}</span>
+						<div ng-repeat="(key, value) in materialColors">
+							<div ng-style="{'background': 'rgb('+value['500'].value[0]+','+value['500'].value[1]+','+value['500'].value[2]+')', height: '75px'}" class="md-color-picker-material-title" ng-class="{'dark': isDark( value['500'].value )}" ng-click="setPaletteColor($event)">
+								<span>{{key}}</span>
+							</div>
+							<div ng-repeat="(label, color) in value track by $index" ng-style="{'background': 'rgb('+color.value[0]+','+color.value[1]+','+color.value[2]+')', height: '33px'}" class="md-color-picker-with-label" ng-class="{'dark': isDark( color.value )}" ng-click="setPaletteColor($event)">
+								<span>{{label}}</span>
 							</div>
 						</div>
 					</div>
