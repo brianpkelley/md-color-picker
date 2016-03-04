@@ -169,7 +169,7 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   height: 255px;
   padding: 0px 8px 0;
 }
-.md-color-picker-container .md-color-picker-tabs md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) md-tabs-content-wrapper md-tab-content [md-template] {
+.md-color-picker-container .md-color-picker-tabs md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) md-tabs-content-wrapper md-tab-content [md-tabs-template] {
   height: 100%;
 }
 .md-color-picker-container .md-color-picker-tabs.md-color-picker-colors {
@@ -245,28 +245,27 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   background-color: #1560d0;
   border-color: #1560d0;
 }
-.md-color-picker-container .md-color-picker-material > div:not(:first-child) {
-  margin-top: 16px;
-}
-.md-color-picker-container .md-color-picker-material .md-color-picker-material-title {
+.md-color-picker-container .md-color-picker-material-palette .md-color-picker-material-title {
   font-size: 22px;
   line-height: 75px;
   padding: 0 15px;
   color: rgba(0, 0, 0, 0.85);
+  margin-top: 16px;
+  text-transform: capitalize;
 }
-.md-color-picker-container .md-color-picker-material .md-color-picker-material-title.dark {
+.md-color-picker-container .md-color-picker-material-palette .md-color-picker-material-title.dark {
   color: rgba(255, 255, 255, 0.85);
 }
-.md-color-picker-container .md-color-picker-material .md-color-picker-with-label {
+.md-color-picker-container .md-color-picker-material-palette .md-color-picker-with-label {
   font-size: 12px;
   line-height: 33px;
   padding: 0 5px;
   color: rgba(0, 0, 0, 0.7);
 }
-.md-color-picker-container .md-color-picker-material .md-color-picker-with-label.dark {
+.md-color-picker-container .md-color-picker-material-palette .md-color-picker-with-label.dark {
   color: rgba(255, 255, 255, 0.7);
 }
-.md-color-picker-container .md-color-picker-material .md-color-picker-material-colors {
+.md-color-picker-container .md-color-picker-material-palette .md-color-picker-material-colors {
   position: absolute;
   -webkit-transition: left cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, right cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, bottom cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
   transition: left cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, right cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, bottom cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;

@@ -209,7 +209,7 @@ md-color-picker .md-color-picker-input-container,
 					height: 255px;
 					padding: 0px 8px 0;
 
-					[md-template] {
+					[md-tabs-template] {
 						height: 100%;
 					}
 				}
@@ -324,16 +324,17 @@ md-color-picker .md-color-picker-input-container,
 		}
 	}
 
-	.md-color-picker-material {
+	.md-color-picker-material-palette {
 		> div:not(:first-child) {
-			margin-top: 16px;
+
 		}
 		.md-color-picker-material-title {
 			font-size: 22px;
 			line-height: 75px;
 			padding: 0 15px;
 			color: rgba(0,0,0,0.85);
-
+			margin-top: 16px;
+			text-transform: capitalize;
 			&.dark {
 				color: rgba(255,255,255,0.85);
 			}

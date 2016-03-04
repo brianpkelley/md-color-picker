@@ -21,7 +21,7 @@
   </head>
 
   <body  ng-app="plunker" ng-controller="MainCtrl">
-    <md-content md-theme="docs-dark" layout-padding layout="row">
+    <md-content layout-padding layout="row">
         <div flex>
           <h3>Angular md-color-picker</h3>
           <h5>*** BETA ***</h5>
@@ -71,10 +71,27 @@
               </md-select>
           	</md-input-container>
         		<div layout="row">
-        			<div flex label="Text Color" md-color-picker ng-model="textColor" icon="format_color_text" hide-clear-button="true"></div>
+        			<div flex
+                        md-color-picker
+                        ng-model="textColor"
+                        label="Text Color"
+                        icon="format_color_text"
+
+                        hide-clear-button="true"
+                    ></div>
         		</div>
         		<div layout="row">
-        			<div flex label="Text Background" md-color-picker icon="font_download" has-backdrop="true" click-outside-to-close="true" random="true" ng-model="textBackground" open-on-input="true"></div>
+        			<div flex
+                        md-color-picker
+                        ng-model="textBackground"
+                        label="Text Background"
+                        icon="font_download"
+
+                        has-backdrop="true"
+                        click-outside-to-close="true"
+                        random="true"
+                        open-on-input="true"
+                    ></div>
         		</div>
 
         		<div>

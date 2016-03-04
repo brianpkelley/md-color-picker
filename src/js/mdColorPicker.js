@@ -1,7 +1,7 @@
 
 (function( window, angular, undefined ) {
 'use strict';
-
+var dateClick;
 
 var GradientCanvas = function( type, restrictX ) {
 
@@ -442,6 +442,8 @@ angular.module('mdColorPicker', [])
 					if ( didJustClose ) {
 						return;
 					}
+				//	dateClick = Date.now();
+				//	console.log( "CLICK OPEN", dateClick );
 
 					$mdColorPicker.show({
 						value: $scope.value,
@@ -461,9 +463,9 @@ angular.module('mdColorPicker', [])
 			}
 		};
 	}])
-	.directive( 'mdColorPickerDialog', ['$compile','$timeout','$mdColorPalette','mdColorPickerHistory', function( $compile, $timeout, $mdColorPalette, colorHistory ) {
+	.directive( 'mdColorPickerContainer', ['$compile','$timeout','$mdColorPalette','mdColorPickerHistory', function( $compile, $timeout, $mdColorPalette, colorHistory ) {
 		return {
-			templateUrl: 'mdColorPickerDialog.tpl.html',
+			templateUrl: 'mdColorPickerContainer.tpl.html',
 			scope: {
 				value: '=?',
 				default: '@',
@@ -471,7 +473,7 @@ angular.module('mdColorPicker', [])
 				ok: '=?'
 			},
 			controller: function( $scope, $element, $attrs ) {
-
+			//	console.log( "mdColorPickerContainer Controller", Date.now() - dateClick );
 				///////////////////////////////////
 				// Variables
 				///////////////////////////////////
@@ -508,55 +510,21 @@ angular.module('mdColorPicker', [])
 				///////////////////////////////////
 				var steps = 9;
 				var freq = 2*Math.PI/steps;
-				var basePalette = [
-					tinycolor('rgb(255, 0, 0)'),		// Red
-					tinycolor('rgb(255, 128, 0)'),		// Orange
-					tinycolor('rgb(255, 255, 0)'),		// Yellow
-					tinycolor('rgb(0, 255, 0)'),		// Green
-					tinycolor('rgb(0, 255, 128)'),		//
-					tinycolor('rgb(0, 255, 255)'),		// Teal
-					tinycolor('rgb(0, 128, 255)'),		//
-					tinycolor('rgb(0, 0, 255)'),		// Blue
-					tinycolor('rgb(128, 0, 255)'),		// Purple
-					tinycolor('rgb(255, 0, 255)')		// Fusia
-				];
-				var grays = [
-					'rgb(255, 255, 255)',				//	White
-					'rgb(205, 205, 205)',				//	  |
-					'rgb(178, 178, 178)',				//	  |
-					'rgb(153, 153, 153)',				//	  |
-					'rgb(127, 127, 127)',				//	  |
-					'rgb(102, 102, 102)',				//	  |
-					'rgb(76, 76, 76)',					//	  |
-					'rgb(51, 51, 51)',					//	\ | /
-					'rgb(25, 25, 25)',					//	 \|/
-					'rgb(0, 0, 0)'						//	Black
-				];
+
 				$scope.palette = [
-
+					["rgb(255, 204, 204)","rgb(255, 230, 204)","rgb(255, 255, 204)","rgb(204, 255, 204)","rgb(204, 255, 230)","rgb(204, 255, 255)","rgb(204, 230, 255)","rgb(204, 204, 255)","rgb(230, 204, 255)","rgb(255, 204, 255)"],
+					["rgb(255, 153, 153)","rgb(255, 204, 153)","rgb(255, 255, 153)","rgb(153, 255, 153)","rgb(153, 255, 204)","rgb(153, 255, 255)","rgb(153, 204, 255)","rgb(153, 153, 255)","rgb(204, 153, 255)","rgb(255, 153, 255)"],
+					["rgb(255, 102, 102)","rgb(255, 179, 102)","rgb(255, 255, 102)","rgb(102, 255, 102)","rgb(102, 255, 179)","rgb(102, 255, 255)","rgb(102, 179, 255)","rgb(102, 102, 255)","rgb(179, 102, 255)","rgb(255, 102, 255)"],
+					["rgb(255, 51, 51)","rgb(255, 153, 51)","rgb(255, 255, 51)","rgb(51, 255, 51)","rgb(51, 255, 153)","rgb(51, 255, 255)","rgb(51, 153, 255)","rgb(51, 51, 255)","rgb(153, 51, 255)","rgb(255, 51, 255)"],
+					["rgb(255, 0, 0)","rgb(255, 128, 0)","rgb(255, 255, 0)","rgb(0, 255, 0)","rgb(0, 255, 128)","rgb(0, 255, 255)","rgb(0, 128, 255)","rgb(0, 0, 255)","rgb(128, 0, 255)","rgb(255, 0, 255)"],
+					["rgb(245, 0, 0)","rgb(245, 123, 0)","rgb(245, 245, 0)","rgb(0, 245, 0)","rgb(0, 245, 123)","rgb(0, 245, 245)","rgb(0, 123, 245)","rgb(0, 0, 245)","rgb(123, 0, 245)","rgb(245, 0, 245)"],
+					["rgb(214, 0, 0)","rgb(214, 108, 0)","rgb(214, 214, 0)","rgb(0, 214, 0)","rgb(0, 214, 108)","rgb(0, 214, 214)","rgb(0, 108, 214)","rgb(0, 0, 214)","rgb(108, 0, 214)","rgb(214, 0, 214)"],
+					["rgb(163, 0, 0)","rgb(163, 82, 0)","rgb(163, 163, 0)","rgb(0, 163, 0)","rgb(0, 163, 82)","rgb(0, 163, 163)","rgb(0, 82, 163)","rgb(0, 0, 163)","rgb(82, 0, 163)","rgb(163, 0, 163)"],
+					["rgb(92, 0, 0)","rgb(92, 46, 0)","rgb(92, 92, 0)","rgb(0, 92, 0)","rgb(0, 92, 46)","rgb(0, 92, 92)","rgb(0, 46, 92)","rgb(0, 0, 92)","rgb(46, 0, 92)","rgb(92, 0, 92)"],
+					["rgb(255, 255, 255)","rgb(205, 205, 205)","rgb(178, 178, 178)","rgb(153, 153, 153)","rgb(127, 127, 127)","rgb(102, 102, 102)","rgb(76, 76, 76)","rgb(51, 51, 51)","rgb(25, 25, 25)","rgb(0, 0, 0)"]
 				];
 
-				var colors = [];
-				var x, y;
-				for ( x = -4; x <= 4; x++ ) {
-					colors = [];
-					for ( y = 0; y < basePalette.length; y++ ) {
-						var newColor = new tinycolor( basePalette[y].toRgb() );
-						if ( x < 0 ) {
-							colors.push( newColor.lighten( Math.abs( x * 10 ) ).toRgbString() );
-						}
-						if ( x === 0 ) {
-							colors.push( basePalette[y].toRgbString() );
-						}
-						if ( x > 0 ) {
-							colors.push( newColor.darken( (x * ( x / 5 )) * 10 ).toRgbString() );
-						}
-					}
-					$scope.palette.push( colors );
-				}
-				$scope.palette.push( grays );
-
-				$scope.materialColors = $mdColorPalette;
+				$scope.materialPalette = $mdColorPalette;
 
 				///////////////////////////////////
 				// Functions
@@ -590,57 +558,12 @@ angular.module('mdColorPicker', [])
 					}
 				};
 				$scope.setPaletteColor = function( event ) {
-					$scope.color = tinycolor( event.currentTarget.style.background );
-				};
-				$scope.setMaterialColor = function( event, family ) {
-					if ( materialPreview ) {
-						materialPreview.remove();
-					}
-					$scope.materialFamily = [];
-
-
-					var currentEl = angular.element( event.currentTarget );
-					materialPreview = $compile([	'<div class="md-color-picker-material-colors" layout="column" >',
-										  		'<div ng-repeat="shade in materialFamily track by $index" ng-style="{\'background\': shade };" style="height: '+(100 / (family.length-1) )+'%; width: 100%"  ng-click="setPaletteColor($event)" class="md-color-picker-with-label">{{material.labels[$index]}}</div>',
-											'</div>'].join('\n'))($scope);
-					var parent = currentEl.parent().parent();
-
-					materialPreview.css({
-						'background': currentEl[0].style.background,
-						'top': currentEl[0].offsetTop + 'px',
-						'left': currentEl[0].offsetLeft + 'px',
-						'right': Math.max( 0, parent[0].offsetWidth - ( currentEl[0].offsetLeft + currentEl[0].offsetWidth ) ) + 'px',
-						'bottom': Math.max( 0, parent[0].offsetHeight - ( currentEl[0].offsetTop + currentEl[0].offsetHeight ) ) + 'px'
+					console.log(  event.target.style.backgroundColor );
+					$timeout( function() {
+						$scope.color = tinycolor( event.target.style.backgroundColor );
 					});
-
-					$scope.color = tinycolor( event.currentTarget.style.background );
-					var materialFamily = angular.copy(family);
-					materialFamily.splice(0,1);
-
-					parent.append( materialPreview );
-					$scope.materialFamily = materialFamily;
-					$timeout(function() {
-						materialPreview.css({
-							top: 0,
-							bottom: '7px',
-							right: '8px',
-							left: '8px'
-						});
-					});
-
-				/*	var x = 0;
-					var showShades = function showShades() {
-						$scope.materialFamily.push( materialFamily[x] );
-						x++;
-						if ( x < materialFamily.length ) {
-							$timeout( showShades, 50 );
-						}
-					};
-					showShades();
-				*/
-
-
 				};
+
 				$scope.setValue = function setValue() {
 					// Set the value if available
 					if ( $scope.color && $scope.color && outputFn[$scope.type] && $scope.color.toRgbString() !== 'rgba(0, 0, 0, 0)' ) {
@@ -689,33 +612,128 @@ angular.module('mdColorPicker', [])
 				// INIT
 				// Let all the other directives initialize
 				///////////////////////////////////
+			//	console.log( "mdColorPickerContainer Controller PRE Timeout", Date.now() - dateClick );
 				$timeout( function() {
+			//		console.log( "mdColorPickerContainer Controller Timeout", Date.now() - dateClick );
 					$scope.$broadcast('mdColorPicker:colorSet', { color: $scope.color });
 					previewInput.focus();
 					$scope.previewFocus();
 				});
+			},
+			link: function( scope, element, attrs ) {
+
+
+				/*
+				Replicating these structure without ng-repeats
+
+				<div ng-repeat="row in palette track by $index" flex="15"  layout-align="space-between" layout="row"  layout-fill>
+					<div ng-repeat="col in row track by $index" flex="10" style="height: 25.5px;" ng-style="{'background': col};" ng-click="setPaletteColor($event)"></div>
+				</div>
+
+				<div ng-repeat="(key, value) in materialColors">
+					<div ng-style="{'background': 'rgb('+value['500'].value[0]+','+value['500'].value[1]+','+value['500'].value[2]+')', height: '75px'}" class="md-color-picker-material-title" ng-class="{'dark': isDark( value['500'].value )}" ng-click="setPaletteColor($event)">
+						<span>{{key}}</span>
+					</div>
+					<div ng-repeat="(label, color) in value track by $index" ng-style="{'background': 'rgb('+color.value[0]+','+color.value[1]+','+color.value[2]+')', height: '33px'}" class="md-color-picker-with-label" ng-class="{'dark': isDark( color.value )}" ng-click="setPaletteColor($event)">
+						<span>{{label}}</span>
+					</div>
+				</div>
+				*/
+
+
+				$timeout(function() {
+					createDOM();
+				});
+
+				function createDOM() {
+					var paletteContainer = angular.element( element[0].querySelector('.md-color-picker-palette') );
+					var materialContainer = angular.element( element[0].querySelector('.md-color-picker-material-palette') );
+					var paletteRow = angular.element('<div class="flex-15 layout-fill layout-row layout-align-space-between" layout-align="space-between" layout="row" layout-fill"></div>');
+					var paletteCell = angular.element('<div class="flex-10"></div>');
+
+					var materialTitle = angular.element('<div class="md-color-picker-material-title"></div>');
+					var materialRow = angular.element('<div class="md-color-picker-with-label"></div>');
+
+
+
+					angular.forEach(scope.palette, function( value, key ) {
+						var row = paletteRow.clone();
+						angular.forEach( value, function( color ) {
+							var cell = paletteCell.clone();
+							cell.css({
+								height: '25.5px',
+								backgroundColor: color
+							});
+							cell.bind('click', scope.setPaletteColor );
+							row.append( cell );
+						});
+
+						paletteContainer.append( row );
+					});
+
+					angular.forEach(scope.materialPalette, function( value, key ) {
+						var title = materialTitle.clone();
+						title.html('<span>'+key.replace('-',' ')+'</span>');
+						title.css({
+							height: '75px',
+							backgroundColor: 'rgb('+value['500'].value[0]+','+value['500'].value[1]+','+value['500'].value[2]+')'
+						});
+						if ( scope.isDark(value['500'].value) ) {
+							title.addClass('dark');
+						}
+
+						materialContainer.append( title );
+
+						angular.forEach( value, function( color, label ) {
+
+							var row = materialRow.clone();
+							row.css({
+								height: '33px',
+								backgroundColor: 'rgb('+color.value[0]+','+color.value[1]+','+color.value[2]+')'
+							});
+							if ( scope.isDark(color.value) ) {
+								row.addClass('dark');
+							}
+
+							row.html('<span>'+label+'</span>');
+							row.bind('click', scope.setPaletteColor );
+							materialContainer.append( row );
+						});
+
+
+					});
+				}
 			}
-		}
+		};
 	}])
 
 	.directive( 'mdColorPickerHue', [function() {
 		return {
 			template: '<canvas width="100%" height="100%"></canvas><div class="md-color-picker-marker"></div>',
-			link: hueLinkFn.get
+			link: hueLinkFn.get,
+			controller: function() {
+			//	console.log( "mdColorPickerHue Controller", Date.now() - dateClick );
+			}
 		};
 	}])
 
 	.directive( 'mdColorPickerAlpha', [function() {
 		return {
 			template: '<canvas width="100%" height="100%"></canvas><div class="md-color-picker-marker"></div>',
-			link: alphaLinkFn.get
+			link: alphaLinkFn.get,
+			controller: function() {
+			//	console.log( "mdColorPickerAlpha Controller", Date.now() - dateClick );
+			}
 		};
 	}])
 
 	.directive( 'mdColorPickerSpectrum', [function() {
 		return {
 			template: '<canvas width="100%" height="100%"></canvas><div class="md-color-picker-marker"></div>{{hue}}',
-			link: spectrumLinkFn.get
+			link: spectrumLinkFn.get,
+			controller: function() {
+			//	console.log( "mdColorPickerSpectrum Controller", Date.now() - dateClick );
+			}
 		};
 	}])
 
@@ -746,19 +764,12 @@ angular.module('mdColorPicker', [])
                     options.focusOnOpen = false;
 
                 dialog = $mdDialog.show({
-					template: ''+
-					'<md-dialog class="md-color-picker-dialog">'+
-					'	<div md-color-picker-dialog value="value" default="{{defaultValue}}" random="{{random}}" ok="ok"></div>'+
-					'	<md-actions layout="row">'+
-					'		<md-button class="md-mini" flex ng-click="close()">Cancel</md-button>'+
-					'		<md-button class="md-mini" flex ng-click="ok()">Select</md-button>'+
-					'	</md-actions>'+
-					'</md-dialog>',
+					templateUrl: 'mdColorPickerDialog.tpl.html',
 					hasBackdrop: options.hasBackdrop,
 					clickOutsideToClose: options.clickOutsideToClose,
 
 					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
-
+						//	console.log( "DIALOG CONTROLLER OPEN", Date.now() - dateClick );
 							$scope.close = function close()
                             {
 								$mdDialog.cancel();
@@ -780,7 +791,14 @@ angular.module('mdColorPicker', [])
 						random: options.random
 					},
 					targetEvent: options.$event,
-					focusOnOpen: options.focusOnOpen
+					focusOnOpen: options.focusOnOpen,
+					autoWrap: false,
+					onShowing: function() {
+				//		console.log( "DIALOG OPEN START", Date.now() - dateClick );
+					},
+					onComplete: function() {
+				//		console.log( "DIALOG OPEN COMPLETE", Date.now() - dateClick );
+					}
                 });
 
 				dialog.then(function (value) {
