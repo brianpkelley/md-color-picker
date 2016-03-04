@@ -67,7 +67,7 @@ GradientCanvas.prototype.setMarkerCenter = function( x, y ) {
 	var yOffset = -1 * this.marker.offsetHeight / 2;
 	if ( y === undefined ) {
 		y = x + yOffset;
-		y = Math.max( Math.min( this.height + yOffset, y ), Math.ceil( yOffset ) );
+		y = Math.max( Math.min( this.height-1 + yOffset, y ), Math.ceil( yOffset ) );
 
 		x = 0;
 	} else {
@@ -194,7 +194,7 @@ hueLinkFn.draw = function()  {
 	this.$element.css({'height': this.height + 'px'});
 
 	this.canvas.height = this.height;
-	this.canvas.width = 50;
+	this.canvas.width = this.height;
 
 
 
@@ -398,7 +398,8 @@ angular.module('mdColorPicker', [])
 				hasBackdrop: '@',
 				clickOutsideToClose: '@',
 				hideClearButton: '@',
-				hidePreview: '@'
+				hidePreview: '@',
+				hideAlphaChannel: '='
 			},
 			controller: ['$scope', '$element', '$mdDialog', '$mdColorPicker', function( $scope, $element, $mdDialog, $mdColorPicker ) {
 				var didJustClose = false;
@@ -414,6 +415,7 @@ angular.module('mdColorPicker', [])
 				// Defaults
 				$scope.hideClearButton = !!$scope.hideClearButton;
 				$scope.hidePreview = !!$scope.hidePreview;
+				$scope.hideAlphaChannel = !!$scope.hideAlphaChannel;
 
 
 				// Set the starting value
@@ -443,7 +445,7 @@ angular.module('mdColorPicker', [])
 						return;
 					}
 				//	dateClick = Date.now();
-				//	console.log( "CLICK OPEN", dateClick );
+					console.log( "CLICK OPEN", dateClick, $scope.hideAlphaChannel );
 
 					$mdColorPicker.show({
 						value: $scope.value,
@@ -451,6 +453,7 @@ angular.module('mdColorPicker', [])
 						random: $scope.random,
 						clickOutsideToClose: $scope.clickOutsideToClose,
 						hasBackdrop: $scope.hasBackdrop,
+						hideAlphaChannel: $scope.hideAlphaChannel,
 						$event: $event
 					}).then(function( color ) {
 						$scope.value = color;
@@ -470,10 +473,11 @@ angular.module('mdColorPicker', [])
 				value: '=?',
 				default: '@',
 				random: '@',
-				ok: '=?'
+				ok: '=?',
+				hideAlphaChannel: '='
 			},
 			controller: function( $scope, $element, $attrs ) {
-			//	console.log( "mdColorPickerContainer Controller", Date.now() - dateClick );
+				console.log( "mdColorPickerContainer Controller", Date.now() - dateClick, $scope.hideAlphaChannel );
 				///////////////////////////////////
 				// Variables
 				///////////////////////////////////
@@ -746,30 +750,37 @@ angular.module('mdColorPicker', [])
             {
                 //var result = $q.defer();
 
-                if (options === undefined)
-                {
+                if ( options === undefined ) {
                     options = {};
                 }
 
-                if (options.hasBackdrop === undefined)
+                if ( options.hasBackdrop === undefined ) {
                     options.hasBackdrop = true;
+				}
 
-                if (options.clickOutsideToClose === undefined)
+                if ( options.clickOutsideToClose === undefined ) {
                     options.clickOutsideToClose = true;
+				}
 
-                if (options.defaultValue === undefined)
+                if ( options.defaultValue === undefined ) {
                     options.defaultValue = '#FFFFFF';
+				}
 
-                if (options.focusOnOpen === undefined)
+                if ( options.focusOnOpen === undefined ) {
                     options.focusOnOpen = false;
+				}
+
+				if ( options.hideAlphaChannel === undefined ) {
+					options.hideAlphaChannel = false;
+				}
 
                 dialog = $mdDialog.show({
 					templateUrl: 'mdColorPickerDialog.tpl.html',
 					hasBackdrop: options.hasBackdrop,
 					clickOutsideToClose: options.clickOutsideToClose,
 
-					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
-						//	console.log( "DIALOG CONTROLLER OPEN", Date.now() - dateClick );
+					controller: ['$scope', 'value', 'defaultValue', 'random', 'hideAlphaChannel', function( $scope, value, defaultValue, random, hideAlphaChannel ) {
+							console.log( "DIALOG CONTROLLER OPEN", Date.now() - dateClick, hideAlphaChannel );
 							$scope.close = function close()
                             {
 								$mdDialog.cancel();
@@ -783,12 +794,14 @@ angular.module('mdColorPicker', [])
 							$scope.default = defaultValue;
 							$scope.random = random;
 							$scope.hide = $scope.ok;
+							$scope.hideAlphaChannel = hideAlphaChannel;
 					}],
 
 					locals: {
 						value: options.value,
 						defaultValue: options.default,
-						random: options.random
+						random: options.random,
+						hideAlphaChannel: options.hideAlphaChannel
 					},
 					targetEvent: options.$event,
 					focusOnOpen: options.focusOnOpen,

@@ -29,8 +29,8 @@
 				<md-tab-body>
 					<div layout="row" layout-align="space-between" style="height: 255px">
 						<div md-color-picker-spectrum></div>
-						<div md-color-picker-hue></div>
-						<div md-color-picker-alpha class="md-color-picker-checkered-bg"></div>
+						<div md-color-picker-hue ng-class="{'md-color-picker-wide': hideAlphaChannel}"></div>
+						<div md-color-picker-alpha class="md-color-picker-checkered-bg" ng-if="!hideAlphaChannel"></div>
 					</div>
 				</md-tab-body>
 			</md-tab>

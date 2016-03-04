@@ -215,6 +215,10 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   overflow: hidden;
   width: 30px;
 }
+.md-color-picker-container .md-color-picker-colors [md-color-picker-hue].md-color-picker-wide,
+.md-color-picker-container .md-color-picker-colors [md-color-picker-alpha].md-color-picker-wide {
+  width: 67px;
+}
 .md-color-picker-container .md-color-picker-colors [md-color-picker-hue] .md-color-picker-marker,
 .md-color-picker-container .md-color-picker-colors [md-color-picker-alpha] .md-color-picker-marker {
   height: 5px;
@@ -250,11 +254,13 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   line-height: 75px;
   padding: 0 15px;
   color: rgba(0, 0, 0, 0.85);
-  margin-top: 16px;
   text-transform: capitalize;
 }
 .md-color-picker-container .md-color-picker-material-palette .md-color-picker-material-title.dark {
   color: rgba(255, 255, 255, 0.85);
+}
+.md-color-picker-container .md-color-picker-material-palette .md-color-picker-material-title:not(:first-child) {
+  margin-top: 16px;
 }
 .md-color-picker-container .md-color-picker-material-palette .md-color-picker-with-label {
   font-size: 12px;
