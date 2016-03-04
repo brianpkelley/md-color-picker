@@ -22,7 +22,7 @@
 
 	<div class="md-color-picker-tabs md-color-picker-colors">
 		<md-tabs md-stretch-tabs="always" md-align-tabs="bottom"  md-selected="whichPane" md-no-pagination>
-			<md-tab>
+			<md-tab ng-if="mdColorSpectrum">
 				<md-tab-label>
 					<md-icon md-svg-icon="gradient.svg"></md-icon>
 				</md-tab-label>
@@ -34,7 +34,7 @@
 					</div>
 				</md-tab-body>
 			</md-tab>
-			<md-tab>
+			<md-tab ng-if="mdColorSliders">
 				<md-tab-label>
 					<md-icon md-svg-icon="tune.svg"></md-icon>
 				</md-tab-label>
@@ -70,20 +70,20 @@
 								<input style="width: 100%;" min="0" max="255" type="number" ng-model="color._b" aria-label="blue" aria-controls="blue-slider">
 							</div>
 						</div>
-						<div layout="row" layout-align="start center" layout-wrap flex layout-fill>
+						<div layout="row" layout-align="start center" layout-wrap flex layout-fill ng-if="!hideAlphaChannel">
 							<div flex="10" layout layout-align="center center">
 								<span class="md-body-1">A</span>
 							</div>
-							<md-slider flex="65" min="0" max="1" step=".01" ng-model="alpha" aria-label="alpha" class="md-primary"></md-slider>
+							<md-slider flex="65" min="0" max="1" step=".01" ng-model="color._a" aria-label="alpha" class="md-primary"></md-slider>
 							<span flex></span>
 							<div flex="20" layout layout-align="center center" >
-								<input style="width: 100%;" min="0" max="1" step=".01" type="number" ng-model="alpha" aria-label="alpha" aria-controls="blue-slider">
+								<input style="width: 100%;" min="0" max="1" step=".01" type="number" ng-model="color._a" aria-label="alpha" aria-controls="alpha-slider">
 							</div>
 						</div>
 					</div>
 				</md-tab-body>
 			</md-tab>
-			<md-tab>
+			<md-tab ng-if="mdColorGenericPalette">
 				<md-tab-label>
 					<md-icon md-svg-icon="view_module.svg"></md-icon>
 				</md-tab-label>
@@ -93,7 +93,7 @@
 					</div>
 				</md-tab-body>
 			</md-tab>
-			<md-tab>
+			<md-tab  ng-if="mdColorMaterialPalette">
 				<md-tab-label>
 					<md-icon md-svg-icon="view_headline.svg"></md-icon>
 				</md-tab-label>
@@ -103,7 +103,7 @@
 					</div>
 				</md-tab-body>
 			</md-tab>
-			<md-tab>
+			<md-tab ng-if="mdColorHistory">
 				<md-tab-label>
 					<md-icon md-svg-icon="history.svg"></md-icon>
 				</md-tab-label>

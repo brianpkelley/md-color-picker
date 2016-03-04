@@ -1,5 +1,16 @@
 <md-dialog class="md-color-picker-dialog">
-	<div md-color-picker-container value="value" default="{{defaultValue}}" random="{{random}}" ok="ok" hide-alpha-channel="hideAlphaChannel"></div>
+	<div md-color-picker-container
+		value="value"
+		default="{{defaultValue}}"
+		random="{{random}}"
+		ok="ok"
+		hide-alpha-channel="hideAlphaChannel"
+		md-color-spectrum="mdColorSpectrum"
+		md-color-sliders="mdColorSliders"
+		md-color-generic-palette="mdColorGenericPalette"
+		md-color-material-palette="mdColorMaterialPalette"
+		md-color-history="mdColorHistory"
+	></div>
 	<md-actions layout="row">
 		<md-button class="md-mini" ng-click="close()" style="width: 50%;">Cancel</md-button>
 		<md-button class="md-mini" ng-click="ok()" style="width: 50%;">Select</md-button>

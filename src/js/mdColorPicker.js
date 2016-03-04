@@ -399,7 +399,12 @@ angular.module('mdColorPicker', [])
 				clickOutsideToClose: '@',
 				hideClearButton: '@',
 				hidePreview: '@',
-				hideAlphaChannel: '='
+				hideAlphaChannel: '=',
+				mdColorSpectrum: '=',
+				mdColorSliders: '=',
+				mdColorGenericPalette: '=',
+				mdColorMaterialPalette: '=',
+				mdColorHistory: '='
 			},
 			controller: ['$scope', '$element', '$mdDialog', '$mdColorPicker', function( $scope, $element, $mdDialog, $mdColorPicker ) {
 				var didJustClose = false;
@@ -416,6 +421,12 @@ angular.module('mdColorPicker', [])
 				$scope.hideClearButton = !!$scope.hideClearButton;
 				$scope.hidePreview = !!$scope.hidePreview;
 				$scope.hideAlphaChannel = !!$scope.hideAlphaChannel;
+
+				$scope.mdColorSpectrum = $scope.mdColorSpectrum === undefined ? true : $scope.mdColorSpectrum;
+				$scope.mdColorSliders = $scope.mdColorSliders === undefined ? true : $scope.mdColorSliders;
+				$scope.mdColorGenericPalette = $scope.mdColorGenericPalette === undefined ? true : $scope.mdColorGenericPalette;
+				$scope.mdColorMaterialPalette = $scope.mdColorMaterialPalette === undefined ? true : $scope.mdColorMaterialPalette;
+				$scope.mdColorHistory = $scope.mdColorHistory === undefined ? true : $scope.mdColorHistory;
 
 
 				// Set the starting value
@@ -445,7 +456,7 @@ angular.module('mdColorPicker', [])
 						return;
 					}
 				//	dateClick = Date.now();
-					console.log( "CLICK OPEN", dateClick, $scope.hideAlphaChannel );
+					console.log( "CLICK OPEN", dateClick, $scope );
 
 					$mdColorPicker.show({
 						value: $scope.value,
@@ -454,7 +465,15 @@ angular.module('mdColorPicker', [])
 						clickOutsideToClose: $scope.clickOutsideToClose,
 						hasBackdrop: $scope.hasBackdrop,
 						hideAlphaChannel: $scope.hideAlphaChannel,
-						$event: $event
+
+						mdColorSpectrum: $scope.mdColorSpectrum,
+						mdColorSliders: $scope.mdColorSliders,
+						mdColorGenericPalette: $scope.mdColorGenericPalette,
+						mdColorMaterialPalette: $scope.mdColorMaterialPalette,
+						mdColorHistory: $scope.mdColorHistory,
+
+						$event: $event,
+
 					}).then(function( color ) {
 						$scope.value = color;
 					});
@@ -474,10 +493,15 @@ angular.module('mdColorPicker', [])
 				default: '@',
 				random: '@',
 				ok: '=?',
-				hideAlphaChannel: '='
+				hideAlphaChannel: '=',
+				mdColorSpectrum: '=',
+				mdColorSliders: '=',
+				mdColorGenericPalette: '=',
+				mdColorMaterialPalette: '=',
+				mdColorHistory: '='
 			},
 			controller: function( $scope, $element, $attrs ) {
-				console.log( "mdColorPickerContainer Controller", Date.now() - dateClick, $scope.hideAlphaChannel );
+				console.log( "mdColorPickerContainer Controller", Date.now() - dateClick, $scope );
 				///////////////////////////////////
 				// Variables
 				///////////////////////////////////
@@ -584,9 +608,9 @@ angular.module('mdColorPicker', [])
 				///////////////////////////////////
 				// Watches and Events
 				///////////////////////////////////
-				$scope.$watch( 'alpha', function( newValue ) {
+				$scope.$watch( 'color._a', function( newValue ) {
 					$scope.color.setAlpha( newValue );
-				});
+				}, true);
 
 				$scope.$watch( 'whichPane', function( newValue ) {
 					// 0 - spectrum selector
@@ -754,33 +778,27 @@ angular.module('mdColorPicker', [])
                     options = {};
                 }
 
-                if ( options.hasBackdrop === undefined ) {
-                    options.hasBackdrop = true;
-				}
+                options.hasBackdrop = options.hasBackdrop === undefined ? true : options.hasBackdrop;
+				options.clickOutsideToClose = options.clickOutsideToClose === undefined ? true : options.clickOutsideToClose;
+				options.defaultValue = options.defaultValue === undefined ? '#FFFFFF' : options.defaultValue;
+				options.focusOnOpen = options.focusOnOpen === undefined ? false : options.focusOnOpen;
+				options.hideAlphaChannel = options.hideAlphaChannel === undefined ? false : options.hideAlphaChannel;
+				options.mdColorSpectrum = options.mdColorSpectrum === undefined ? true : options.mdColorSpectrum;
+				options.mdColorSliders = options.mdColorSliders === undefined ? true : options.mdColorSliders;
+				options.mdColorGenericPalette = options.mdColorGenericPalette === undefined ? true : options.mdColorGenericPalette;
+				options.mdColorMaterialPalette = options.mdColorMaterialPalette === undefined ? true : options.mdColorMaterialPalette;
+				options.mdColorHistory = options.mdColorHistory === undefined ? true : options.mdColorHistory;
 
-                if ( options.clickOutsideToClose === undefined ) {
-                    options.clickOutsideToClose = true;
-				}
 
-                if ( options.defaultValue === undefined ) {
-                    options.defaultValue = '#FFFFFF';
-				}
 
-                if ( options.focusOnOpen === undefined ) {
-                    options.focusOnOpen = false;
-				}
-
-				if ( options.hideAlphaChannel === undefined ) {
-					options.hideAlphaChannel = false;
-				}
 
                 dialog = $mdDialog.show({
 					templateUrl: 'mdColorPickerDialog.tpl.html',
 					hasBackdrop: options.hasBackdrop,
 					clickOutsideToClose: options.clickOutsideToClose,
 
-					controller: ['$scope', 'value', 'defaultValue', 'random', 'hideAlphaChannel', function( $scope, value, defaultValue, random, hideAlphaChannel ) {
-							console.log( "DIALOG CONTROLLER OPEN", Date.now() - dateClick, hideAlphaChannel );
+					controller: ['$scope', 'options', function( $scope, options ) {
+							//console.log( "DIALOG CONTROLLER OPEN", Date.now() - dateClick );
 							$scope.close = function close()
                             {
 								$mdDialog.cancel();
@@ -790,18 +808,20 @@ angular.module('mdColorPicker', [])
 								$mdDialog.hide( $scope.value );
 							};
 
-							$scope.value = value;
-							$scope.default = defaultValue;
-							$scope.random = random;
+							$scope.value = options.value;
+							$scope.default = options.defaultValue;
+							$scope.random = options.random;
 							$scope.hide = $scope.ok;
-							$scope.hideAlphaChannel = hideAlphaChannel;
+							$scope.hideAlphaChannel = options.hideAlphaChannel;
+							$scope.mdColorSpectrum = options.mdColorSpectrum;
+							$scope.mdColorSliders = options.mdColorSliders;
+							$scope.mdColorGenericPalette = options.mdColorGenericPalette;
+							$scope.mdColorMaterialPalette = options.mdColorMaterialPalette;
+							$scope.mdColorHistory = options.mdColorHistory;
 					}],
 
 					locals: {
-						value: options.value,
-						defaultValue: options.default,
-						random: options.random,
-						hideAlphaChannel: options.hideAlphaChannel
+						options: options,
 					},
 					targetEvent: options.$event,
 					focusOnOpen: options.focusOnOpen,
