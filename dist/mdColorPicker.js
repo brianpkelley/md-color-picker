@@ -404,8 +404,8 @@ angular.module('mdColorPicker', [])
 				openOnInput: '@',
 				hasBackdrop: '@',
 				clickOutsideToClose: '@',
-				hideClearButton: '@',
-				hidePreview: '@',
+				hideClearButton: '=',
+				hidePreview: '=',
 				hideAlphaChannel: '=',
 				mdColorSpectrum: '=',
 				mdColorSliders: '=',
@@ -814,11 +814,14 @@ angular.module('mdColorPicker', [])
 							{
 								$mdDialog.hide( $scope.value );
 							};
+							$scope.hide = $scope.ok;
+
+
 
 							$scope.value = options.value;
 							$scope.default = options.defaultValue;
 							$scope.random = options.random;
-							$scope.hide = $scope.ok;
+							
 							$scope.hideAlphaChannel = options.hideAlphaChannel;
 							$scope.mdColorSpectrum = options.mdColorSpectrum;
 							$scope.mdColorSliders = options.mdColorSliders;
