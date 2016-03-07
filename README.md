@@ -1,5 +1,6 @@
 # md-color-picker
 Angular-Material based color picker with no jQuery or other DOM/utility library dependencies.
+
 [![NPM version](https://badge-me.herokuapp.com/api/npm/md-color-picker.png)](http://badges.enytc.com/for/npm/md-color-picker)
 [![BOWER version](https://badge-me.herokuapp.com/api/bower/brianpkelley/md-color-picker.png)](http://badges.enytc.com/for/bower/brianpkelley/md-color-picker)
 
