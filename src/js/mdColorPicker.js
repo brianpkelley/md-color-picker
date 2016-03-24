@@ -396,7 +396,9 @@ angular.module('mdColorPicker', [])
 				random: '@',
 				openOnInput: '@',
 				hasBackdrop: '@',
-				clickOutsideToClose: '@'
+				clickOutsideToClose: '@',
+				skipHide: '@',
+				preserveScope: '@'
 			},
 			controller: ['$scope', '$element', '$mdDialog', '$mdColorPicker', function( $scope, $element, $mdDialog, $mdColorPicker ) {
 				var didJustClose = false;
@@ -440,7 +442,9 @@ angular.module('mdColorPicker', [])
 						defaultValue: $scope.default,
 						random: $scope.random,
 						clickOutsideToClose: $scope.clickOutsideToClose,
-						hasBackdrop: $scope.hasBackdrop
+						hasBackdrop: $scope.hasBackdrop,
+						preserveScope: $scope.preserveScope,
+						skipHide: $scope.skipHide
 					}).then(function( color ) {
 						$scope.value = color;
 					});
@@ -779,6 +783,12 @@ angular.module('mdColorPicker', [])
                 if (options.focusOnOpen === undefined)
                     options.focusOnOpen = false;
 
+				if (options.preserveScope === undefined)
+					options.preserveScope = false;
+
+				if (options.skipHide === undefined)
+					options.skipHide = false;
+
 
                 var dialog = $mdDialog.show({
 					template: ''+
@@ -791,7 +801,8 @@ angular.module('mdColorPicker', [])
 					'</md-dialog>',
 					hasBackdrop: options.hasBackdrop,
 					clickOutsideToClose: options.clickOutsideToClose,
-
+					preserveScope: options.preserveScope,
+					skipHide: options.preserveScope,
 					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
 
 							$scope.close = function close()
