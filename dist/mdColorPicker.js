@@ -809,7 +809,7 @@ angular.module('mdColorPicker', [])
 					hasBackdrop: options.hasBackdrop,
 					clickOutsideToClose: options.clickOutsideToClose,
 					preserveScope: options.preserveScope,
-					skipHide: options.preserveScope,
+					skipHide: options.skipHide,
 					controller: ['$scope', 'value', 'defaultValue', 'random', function( $scope, value, defaultValue, random ) {
 
 							$scope.close = function close()
