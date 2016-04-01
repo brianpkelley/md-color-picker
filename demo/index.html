@@ -77,23 +77,16 @@
                         label="Text Color"
                         icon="format_color_text"
 
-                        hide-clear-button="true"
+                        md-color-clear-button="false"
                         md-color-spectrum="false"
                         md-color-history="false"
                     ></div>
         		</div>
         		<div layout="row">
         			<div flex
-                        md-color-picker
+                        md-color-picker="backgroundOptions"
                         ng-model="textBackground"
-                        label="Text Background"
-                        icon="font_download"
-
-                        has-backdrop="true"
-                        click-outside-to-close="true"
-                        random="true"
-                        open-on-input="true"
-                        hide-alpha-channel="true"
+                        md-color-history="true"
                     ></div>
         		</div>
 
