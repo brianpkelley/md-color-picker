@@ -458,15 +458,15 @@ angular.module('mdColorPicker', [])
 
 				// Defaults
 				// Everything is enabled by default.
-				$scope.mdColorClearButton = 		$scope.mdColorClearButton 		=== undefined ? true : $scope.mdColorClearButton;
-				$scope.mdColorPreview = 			$scope.mdColorPreview 			=== undefined ? true : $scope.mdColorPreview;
+				$scope.mdColorClearButton = $scope.mdColorClearButton === undefined ? true : $scope.mdColorClearButton;
+				$scope.mdColorPreview = $scope.mdColorPreview === undefined ? true : $scope.mdColorPreview;
 
-				$scope.mdColorAlphaChannel = 		$scope.mdColorAlphaChannel 		=== undefined ? true : $scope.mdColorAlphaChannel;
-				$scope.mdColorSpectrum = 			$scope.mdColorSpectrum 			=== undefined ? true : $scope.mdColorSpectrum;
-				$scope.mdColorSliders = 			$scope.mdColorSliders 			=== undefined ? true : $scope.mdColorSliders;
-				$scope.mdColorGenericPalette = 		$scope.mdColorGenericPalette 	=== undefined ? true : $scope.mdColorGenericPalette;
-				$scope.mdColorMaterialPalette = 	$scope.mdColorMaterialPalette 	=== undefined ? true : $scope.mdColorMaterialPalette;
-				$scope.mdColorHistory = 			$scope.mdColorHistory 			=== undefined ? true : $scope.mdColorHistory;
+				$scope.mdColorAlphaChannel = $scope.mdColorAlphaChannel === undefined ? true : $scope.mdColorAlphaChannel;
+				$scope.mdColorSpectrum = $scope.mdColorSpectrum === undefined ? true : $scope.mdColorSpectrum;
+				$scope.mdColorSliders = $scope.mdColorSliders === undefined ? true : $scope.mdColorSliders;
+				$scope.mdColorGenericPalette = $scope.mdColorGenericPalette === undefined ? true : $scope.mdColorGenericPalette;
+				$scope.mdColorMaterialPalette = $scope.mdColorMaterialPalette === undefined ? true : $scope.mdColorMaterialPalette;
+				$scope.mdColorHistory = $scope.mdColorHistory === undefined ? true : $scope.mdColorHistory;
 
 
 				// Set the starting value
@@ -592,7 +592,7 @@ angular.module('mdColorPicker', [])
 
 
 
-				$scope.default = $scope.default ? $scope.default : $scope.random ? tinycolor.random() : 'rgb(127, 64, 64)';
+				$scope.default = $scope.default ? $scope.default : $scope.random ? tinycolor.random() : 'rgb(255,255,255)';
 				if ( $scope.value.search('#') >= 0 ) {
 					$scope.type = 0;
 				} else if ( $scope.value.search('rgb') >= 0 ) {
