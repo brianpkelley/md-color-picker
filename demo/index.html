@@ -14,14 +14,14 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="md-color-picker/mdColorPicker.min.css">
+    <link rel="stylesheet" href="../mdColorPicker.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
   </head>
 
   <body  ng-app="plunker" ng-controller="MainCtrl">
-    <md-content md-theme="docs-dark" layout-padding layout="row">
+    <md-content layout-padding layout="row">
         <div flex>
           <h3>Angular md-color-picker</h3>
           <h5>*** BETA ***</h5>
@@ -71,12 +71,23 @@
               </md-select>
           	</md-input-container>
         		<div layout="row">
+        			<div flex
+                        md-color-picker
+                        ng-model="textColor"
+                        label="Text Color"
+                        icon="format_color_text"
 
-        			<div flex label="Text Color" md-color-picker ng-model="textColor" icon="format_color_text"></div>
+                        md-color-clear-button="false"
+                        md-color-spectrum="false"
+                        md-color-history="false"
+                    ></div>
         		</div>
         		<div layout="row">
-        			<md-icon style="margin-right: 8px;">font_download</md-icon>
-        			<div flex label="Text Background" md-color-picker has-backdrop="true" click-outside-to-close="true" random="true" ng-model="textBackground" open-on-input="true"></div>
+        			<div flex
+                        md-color-picker="backgroundOptions"
+                        ng-model="textBackground"
+                        md-color-history="true"
+                    ></div>
         		</div>
 
         		<div>
@@ -103,10 +114,10 @@
 
 
     <!-- Angular Material Javascript now available via Google CDN; version 0.10 used here -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.5/angular-material.min.js"></script>
 
     <!-- Custom Scripts -->
-    <script src="md-color-picker/mdColorPicker.min.js"></script>
+    <script src="../mdColorPicker.min.js"></script>
     <script src="js/app.js"></script>
   </body>
 

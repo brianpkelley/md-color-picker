@@ -209,7 +209,7 @@ md-color-picker .md-color-picker-input-container,
 					height: 255px;
 					padding: 0px 8px 0;
 
-					[md-template] {
+					[md-tabs-template] {
 						height: 100%;
 					}
 				}
@@ -269,6 +269,10 @@ md-color-picker .md-color-picker-input-container,
 			overflow: hidden;
 			width: 30px;
 
+			&.md-color-picker-wide {
+				width: 67px;
+			}
+
 			.md-color-picker-marker {
 				height: 5px;
 				width: 100%;
@@ -324,9 +328,9 @@ md-color-picker .md-color-picker-input-container,
 		}
 	}
 
-	.md-color-picker-material {
+	.md-color-picker-material-palette {
 		> div:not(:first-child) {
-			margin-top: 16px;
+
 		}
 		.md-color-picker-material-title {
 			font-size: 22px;
@@ -334,8 +338,12 @@ md-color-picker .md-color-picker-input-container,
 			padding: 0 15px;
 			color: rgba(0,0,0,0.85);
 
+			text-transform: capitalize;
 			&.dark {
 				color: rgba(255,255,255,0.85);
+			}
+			&:not(:first-child){
+				margin-top: 16px;
 			}
 		}
 		.md-color-picker-with-label {

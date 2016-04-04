@@ -17,4 +17,18 @@ app.controller('MainCtrl', function($scope) {
 	$scope.textColor;
 	$scope.textBackground;
 
+    $scope.backgroundOptions = {
+        label: "Text Background",
+        icon: "font_download",
+
+        hasBackdrop: true,
+        clickOutsideToClose: true,
+        random: true,
+        openOnInput: true,
+
+        alphaChannel: false,
+        history: false,
+        defaultTab: 1
+    }
+
 });
