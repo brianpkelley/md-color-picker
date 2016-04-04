@@ -109,7 +109,7 @@ gulp.task('js', function () {
  ====================================================================*/
 
 gulp.task('demo-resources', function () {
-	gulp.src(['demo/*.{js,css}', 'demo/redirect.html'])
+	gulp.src(['demo/**/*.{js,css}', 'demo/redirect.html'])
 		.pipe(gulp.dest('dist/demo'))
 		.pipe(livereload());
 

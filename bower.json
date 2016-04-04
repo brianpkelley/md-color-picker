@@ -1,6 +1,6 @@
 {
     "name": "md-color-picker",
-    "version": "0.2.1",
+    "version": "0.2.5",
     "authors": [
         "Brian Kelley <kelley.brianp@gmail.com>"
     ],
@@ -10,7 +10,9 @@
         "dist/mdColorPicker.min.css"
     ],
     "dependencies": {
-        "tinycolor": ">=1.2.1"
+        "tinycolor": ">=1.2.1",
+        "angular": ">=1.5.0",
+        "angular-material": ">=1.0.5"
     },
     "keywords": [
         "color-picker",
