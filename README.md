@@ -82,28 +82,27 @@ $scope.scopeVariable.options = {
 ></div>
 ```
 
-| Option Object name | Attribute Option name | Type | Default | Description |
-| --- | --- | --- | --- |
-| type | type | Int | 0 | Default output type. 0: hex, 1: rgb, 2: hsl |
-| label | label | String | "" | The lable for the input. |
-| icon | icon | String | "" | Material Icon name. https://design.google.com/icons/ |
-| random | random | Boolean  | false | Select a random color on open |
-| default | default | Color | "rgb(255,255,255)" | Default color |
-| openOnInput | open-on-input | Boolean | true | Open color picker when user clicks on the input field. If disabled, color picker will only open when clicking on the preview. |
-| hasBackdrop | has-backdrop | Boolean | true | Dialog Backdrop. https://material.angularjs.org/latest/api/service/$mdDialog |
-| clickOutsideToClose | click-outside-to-close | Boolean | true | Dialog click outside to close. https://material.angularjs.org/latest/api/service/$mdDialog |
-| skipHide | skip-hide | Boolean  |true | Allows for opening multiple dialogs. https://github.com/angular/material/issues/7262 |
-| preserveScope | preserve-scope | Boolean | true | Dialog preserveScope. https://material.angularjs.org/latest/api/service/$mdDialog |
-| clearButton | md-color-clear-button | Boolean | true | Show the "clear" button inside of the input. |
-| preview | md-color-preview | Boolean | true | Show the color preview circle next to the input. |
-| alphaChannel | md-color-alpha-channel | Boolean | true | Enable alpha channel. |
-| spectrum | md-color-spectrum | Boolean | true | Show the spectrum tab. |
-| sliders | md-color-sliders | Boolean | true | Show the sliders tab. |
-| genericPalette | md-color-generic-palette  | Boolean | true | Show the generic palette tab. |
-| materialPalette | md-color-material-palette  | Boolean | true | Show the material colors palette tab. |
-| history | md-color-history | Boolean | true | Show the history tab. |
-| defaultTab | md-color-default-tab | String, Int | "spectrum" | Which tab should be selected when opening.  Can either be a string or index.  If the value is an index, do not count hidden/disabled tabs. <ul><li>spectrum</li><li>sliders</li><li>genericPalette</li><li>materialPalette</li><li>history</li></ul> |
-
+| Option Object name  	| Attribute Option name     	| Type        	| Default            	| Description                                                                                                                                                                                                                                          	|
+|---------------------	|---------------------------	|-------------	|--------------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| type                	| type                      	| Int         	| 0                  	| Default output type. 0: hex, 1: rgb, 2: hsl                                                                                                                                                                                                          	|
+| label               	| label                     	| String      	| ""                 	| The lable for the input.                                                                                                                                                                                                                             	|
+| icon                	| icon                      	| String      	| ""                 	| Material Icon name. https://design.google.com/icons/                                                                                                                                                                                                 	|
+| random              	| random                    	| Boolean     	| false              	| Select a random color on open                                                                                                                                                                                                                        	|
+| default             	| default                   	| Color       	| "rgb(255,255,255)" 	| Default color                                                                                                                                                                                                                                        	|
+| openOnInput         	| open-on-input             	| Boolean     	| true               	| Open color picker when user clicks on the input field. If disabled, color picker will only open when clicking on the preview.                                                                                                                        	|
+| hasBackdrop         	| has-backdrop              	| Boolean     	| true               	| Dialog Backdrop. https://material.angularjs.org/latest/api/service/$mdDialog                                                                                                                                                                         	|
+| clickOutsideToClose 	| click-outside-to-close    	| Boolean     	| true               	| Dialog click outside to close. https://material.angularjs.org/latest/api/service/$mdDialog                                                                                                                                                           	|
+| skipHide            	| skip-hide                 	| Boolean     	| true               	| Allows for opening multiple dialogs. https://github.com/angular/material/issues/7262                                                                                                                                                                 	|
+| preserveScope       	| preserve-scope            	| Boolean     	| true               	| Dialog preserveScope. https://material.angularjs.org/latest/api/service/$mdDialog                                                                                                                                                                    	|
+| clearButton         	| md-color-clear-button     	| Boolean     	| true               	| Show the "clear" button inside of the input.                                                                                                                                                                                                         	|
+| preview             	| md-color-preview          	| Boolean     	| true               	| Show the color preview circle next to the input.                                                                                                                                                                                                     	|
+| alphaChannel        	| md-color-alpha-channel    	| Boolean     	| true               	| Enable alpha channel.                                                                                                                                                                                                                                	|
+| spectrum            	| md-color-spectrum         	| Boolean     	| true               	| Show the spectrum tab.                                                                                                                                                                                                                               	|
+| sliders             	| md-color-sliders          	| Boolean     	| true               	| Show the sliders tab.                                                                                                                                                                                                                                	|
+| genericPalette      	| md-color-generic-palette  	| Boolean     	| true               	| Show the generic palette tab.                                                                                                                                                                                                                        	|
+| materialPalette     	| md-color-material-palette 	| Boolean     	| true               	| Show the material colors palette tab.                                                                                                                                                                                                                	|
+| history             	| md-color-history          	| Boolean     	| true               	| Show the history tab.                                                                                                                                                                                                                                	|
+| defaultTab          	| md-color-default-tab      	| String, Int 	| "spectrum"         	| Which tab should be selected when opening.  Can either be a string or index.  If the value is an index, do not count hidden/disabled tabs. <ul><li>spectrum</li><li>sliders</li><li>genericPalette</li><li>materialPalette</li><li>history</li></ul> 	|
 
 
 ## Disclaimer
