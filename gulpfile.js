@@ -97,7 +97,12 @@ gulp.task('js', function () {
 		.pipe(header(banner, { pkg : pkg } ))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(rename({suffix: '.min'}))
-		.pipe(uglify())
+		.pipe(uglify({
+			"compress": {
+            	"drop_console": !debug,
+				"drop_debugger": !debug
+        	}
+		}))
 		.pipe(header(banner, { pkg : pkg } ))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(livereload());
