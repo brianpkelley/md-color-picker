@@ -389,7 +389,7 @@ angular.module('mdColorPicker', [])
 		};
 	}])
 	.directive('mdColorPicker', [ '$timeout', 'mdColorPickerHistory', function( $timeout, colorHistory ) {
-
+		console.log("TESTING!!!!");
 		return {
 			templateUrl: "mdColorPicker.tpl.html",
 
@@ -413,16 +413,16 @@ angular.module('mdColorPicker', [])
 				preserveScope: '@',
 
 				// Advanced options
-				mdColorClearButton: '=',
-				mdColorPreview: '=',
+				mdColorClearButton: '=?',
+				mdColorPreview: '=?',
 
-				mdColorAlphaChannel: '=',
-				mdColorSpectrum: '=',
-				mdColorSliders: '=',
-				mdColorGenericPalette: '=',
-				mdColorMaterialPalette: '=',
-				mdColorHistory: '=',
-				mdColorDefaultTab: '@'
+				mdColorAlphaChannel: '=?',
+				mdColorSpectrum: '=?',
+				mdColorSliders: '=?',
+				mdColorGenericPalette: '=?',
+				mdColorMaterialPalette: '=?',
+				mdColorHistory: '=?',
+				mdColorDefaultTab: '=?'
 			},
 			controller: ['$scope', '$element', '$attrs', '$mdDialog', '$mdColorPicker', function( $scope, $element, $attrs, $mdDialog, $mdColorPicker ) {
 				var didJustClose = false;
@@ -445,8 +445,6 @@ angular.module('mdColorPicker', [])
 						}
 					}
 				}
-
-				console.log( $scope );
 
 				// Get ngModelController from the current element
 				var ngModel = $element.controller('ngModel');
@@ -496,7 +494,7 @@ angular.module('mdColorPicker', [])
 						return;
 					}
 				//	dateClick = Date.now();
-					console.log( "CLICK OPEN", dateClick, $scope );
+				//	console.log( "CLICK OPEN", dateClick, $scope );
 
 					$mdColorPicker.show({
 						value: $scope.value,
@@ -547,10 +545,9 @@ angular.module('mdColorPicker', [])
 				mdColorDefaultTab: '='
 			},
 			controller: ["$scope", "$element", "$attrs", function( $scope, $element, $attrs ) {
-				console.log( "mdColorPickerContainer Controller", Date.now() - dateClick, $scope );
+			//	console.log( "mdColorPickerContainer Controller", Date.now() - dateClick, $scope );
 
 				function getTabIndex( tab ) {
-					console.log( tab );
 					var index = 0;
 					if ( tab && typeof( tab ) === 'string' ) {
 /* DOM isn't fast enough for this
@@ -660,7 +657,6 @@ angular.module('mdColorPicker', [])
 					}
 				};
 				$scope.setPaletteColor = function( event ) {
-					console.log(  event.target.style.backgroundColor );
 					$timeout( function() {
 						$scope.color = tinycolor( event.target.style.backgroundColor );
 					});
@@ -723,7 +719,6 @@ angular.module('mdColorPicker', [])
 			link: function( scope, element, attrs ) {
 
 				var tabs = element[0].getElementsByTagName( 'md-tab' );
-				console.log( element, tabs.length );
 				/*
 				Replicating these structure without ng-repeats
 
@@ -848,7 +843,7 @@ angular.module('mdColorPicker', [])
                 if ( options === undefined ) {
                     options = {};
                 }
-				console.log( 'DIALOG OPTIONS', options );
+				//console.log( 'DIALOG OPTIONS', options );
 				// Defaults
 				// Dialog Properties
                 options.hasBackdrop = options.hasBackdrop === undefined ? true : options.hasBackdrop;
