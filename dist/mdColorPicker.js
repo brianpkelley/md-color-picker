@@ -389,7 +389,7 @@ angular.module('mdColorPicker', [])
 		};
 	}])
 	.directive('mdColorPicker', [ '$timeout', 'mdColorPickerHistory', function( $timeout, colorHistory ) {
-		console.log("TESTING!!!!");
+
 		return {
 			templateUrl: "mdColorPicker.tpl.html",
 
