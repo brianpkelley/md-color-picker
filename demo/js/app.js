@@ -1,7 +1,8 @@
 var app = angular.module('plunker', ['ngMaterial','ngCookies', 'mdColorPicker']);
 
 app.controller('MainCtrl', function($scope) {
-  $scope.fonts = [
+  $scope.textConfig = {};
+  $scope.textConfig.fonts = [
 			'Arial',
 			'Arial Black',
 			'Comic Sans MS',
@@ -13,11 +14,11 @@ app.controller('MainCtrl', function($scope) {
 			'Verdana'
 		];
 
-	$scope.font;
-	$scope.textColor;
-	$scope.textBackground;
+	$scope.textConfig.font;
+	$scope.textConfig.textColor;
+	$scope.textConfig.textBackground;
 
-    $scope.backgroundOptions = {
+    $scope.textConfig.backgroundOptions = {
         label: "Text Background",
         icon: "font_download",
 
@@ -29,6 +30,7 @@ app.controller('MainCtrl', function($scope) {
         alphaChannel: false,
         history: false,
         defaultTab: 1
-    }
+    };
+    $scope.textConfig.showPreview = true;
 
 });

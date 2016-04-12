@@ -66,26 +66,17 @@
             <h4>Text Style</h4>
         		<md-input-container>
               <label>Font</label>
-              <md-select ng-model="font" aria-label="Font Family">
-                <md-option ng-repeat="font in fonts" ng-style="{'font-family':font}">{{font}}</md-option>
+              <md-select ng-model="textConfig.font" aria-label="Font Family">
+                <md-option ng-repeat="font in textConfig.fonts" ng-style="{'font-family':font}">{{font}}</md-option>
               </md-select>
           	</md-input-container>
         		<div layout="row">
-        			<div flex
-                        md-color-picker
-                        ng-model="textColor"
-                        label="Text Color"
-                        icon="format_color_text"
-
-                        md-color-clear-button="false"
-                        md-color-spectrum="false"
-                        md-color-history="false"
-                    ></div>
+        			<div md-color-picker ng-model="textConfig.textColor" md-color-preview></div>
         		</div>
         		<div layout="row">
         			<div flex
-                        md-color-picker="backgroundOptions"
-                        ng-model="textBackground"
+                        md-color-picker="textConfig.backgroundOptions"
+                        ng-model="textConfig.textBackground"
                         md-color-history="true"
                     ></div>
         		</div>
@@ -93,7 +84,7 @@
         		<div>
         			<h5>Text Preview</h5>
         			<div class="md-color-picker-checkered-bg" layout="row" layout-align="center center">
-        				<div class="text-preview" ng-style="{'background-color': textBackground, 'color': textColor, 'font-family': font}" style="width: 100%; height: 100%;"  layout="row" layout-align="center center" layout-padding>
+        				<div class="text-preview" ng-style="{'background-color': textConfig.textBackground, 'color': textConfig.textColor, 'font-family': textConfig.font}" style="width: 100%; height: 100%;"  layout="row" layout-align="center center" layout-padding>
         					The five boxing wizards jump quickly.
         		 		</div>
         			</div>
