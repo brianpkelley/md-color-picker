@@ -424,11 +424,10 @@ angular.module('mdColorPicker', [])
 				if ( $scope.options !== undefined ) {
 					for ( var opt in $scope.options ) {
 						if ( $scope.options.hasOwnProperty( opt ) ) {
-							var scopeVal = undefined;
 							var scopeKey = undefined;
 							if ( $scope.hasOwnProperty( opt ) ) {
 								scopeKey = opt;
-							} else if ( $scope.hasOwnProperty( 'mdColor' + opt.slice(0,1).toUpperCase() + opt.slice(1) ) ) {
+							} else if ( !$scope.hasOwnProperty( 'mdColor' + opt.slice(0,1).toUpperCase() + opt.slice(1) ) ) {
 								scopeKey = 'mdColor' + opt.slice(0,1).toUpperCase() + opt.slice(1);
 							}
 
