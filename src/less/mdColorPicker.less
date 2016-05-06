@@ -18,8 +18,9 @@ md-color-picker .md-color-picker-input-container,
 	&.md-input-focused label:not(.md-no-float), &.md-input-has-value label:not(.md-no-float) {
 		//padding-left: 2px;
 	}
-	input {
-	//	margin-left: 30px;
+	//remove clear X button from IE input fields
+	input::-ms-clear {
+	    display: none;
 	}
 	.md-color-picker-preview {
 	//	position: absolute;
