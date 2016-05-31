@@ -415,6 +415,9 @@ angular.module('mdColorPicker', [])
 				mdColorGenericPalette: '=?',
 				mdColorMaterialPalette: '=?',
 				mdColorHistory: '=?',
+				mdColorHex: '=?',
+				mdColorRgb: '=?',
+				mdColorHsl: '=?',
 				mdColorDefaultTab: '=?'
 			},
 			controller: ['$scope', '$element', '$attrs', '$mdDialog', '$mdColorPicker', function( $scope, $element, $attrs, $mdDialog, $mdColorPicker ) {
@@ -458,8 +461,9 @@ angular.module('mdColorPicker', [])
 				$scope.mdColorGenericPalette = $scope.mdColorGenericPalette === undefined ? true : $scope.mdColorGenericPalette;
 				$scope.mdColorMaterialPalette = $scope.mdColorMaterialPalette === undefined ? true : $scope.mdColorMaterialPalette;
 				$scope.mdColorHistory = $scope.mdColorHistory === undefined ? true : $scope.mdColorHistory;
-
-
+				$scope.mdColorHex = $scope.mdColorHex === undefined ? true : $scope.mdColorHex;
+				$scope.mdColorRgb = $scope.mdColorRgb === undefined ? true : $scope.mdColorRgb;
+				$scope.mdColorHsl = $scope.mdColorHsl === undefined ? true : $scope.mdColorHsl;
 				// Set the starting value
 				updateValue();
 
@@ -504,6 +508,9 @@ angular.module('mdColorPicker', [])
 						mdColorGenericPalette: $scope.mdColorGenericPalette,
 						mdColorMaterialPalette: $scope.mdColorMaterialPalette,
 						mdColorHistory: $scope.mdColorHistory,
+						mdColorHex: $scope.mdColorHex,
+						mdColorRgb: $scope.mdColorRgb,
+						mdColorHsl: $scope.mdColorHsl,
 						mdColorDefaultTab: $scope.mdColorDefaultTab,
 
 						$event: $event,
@@ -535,6 +542,9 @@ angular.module('mdColorPicker', [])
 				mdColorGenericPalette: '=',
 				mdColorMaterialPalette: '=',
 				mdColorHistory: '=',
+				mdColorHex: '=',
+				mdColorRgb: '=',
+				mdColorHsl: '=',
 				mdColorDefaultTab: '='
 			},
 			controller: function( $scope, $element, $attrs ) {
@@ -853,9 +863,9 @@ angular.module('mdColorPicker', [])
 				options.mdColorGenericPalette = options.mdColorGenericPalette === undefined ? true : options.mdColorGenericPalette;
 				options.mdColorMaterialPalette = options.mdColorMaterialPalette === undefined ? true : options.mdColorMaterialPalette;
 				options.mdColorHistory = options.mdColorHistory === undefined ? true : options.mdColorHistory;
-
-
-
+				options.mdColorRgb = options.mdColorRgb === undefined ? true : options.mdColorRgb;
+				options.mdColorHsl = options.mdColorHsl === undefined ? true : options.mdColorHsl;
+				options.mdColorHex = ((options.mdColorHex === undefined) || (!options.mdColorRgb && !options.mdColorHsl))  ? true : options.mdColorHex;
 
 
                 dialog = $mdDialog.show({
@@ -887,6 +897,9 @@ angular.module('mdColorPicker', [])
 							$scope.mdColorGenericPalette = options.mdColorGenericPalette;
 							$scope.mdColorMaterialPalette = options.mdColorMaterialPalette;
 							$scope.mdColorHistory = options.mdColorHistory;
+							$scope.mdColorHex = options.mdColorHex;
+							$scope.mdColorRgb = options.mdColorRgb;
+							$scope.mdColorHsl = options.mdColorHsl;
 							$scope.mdColorDefaultTab = options.mdColorDefaultTab;
 
 					}],

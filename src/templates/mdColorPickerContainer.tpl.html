@@ -10,9 +10,9 @@
 			</div>
 			<div class="md-color-picker-tabs" style="width: 100%">
 				<md-tabs md-selected="type" md-stretch-tabs="always" md-no-bar md-no-ink md-no-pagination="true" >
-					<md-tab label="Hex" ng-disabled="color.getAlpha() !== 1" md-ink-ripple="#ffffff"></md-tab>
-					<md-tab label="RGB"></md-tab>
-					<md-tab label="HSL"></md-tab>
+					<md-tab ng-if="mdColorHex" label="Hex" ng-disabled="color.getAlpha() !== 1" md-ink-ripple="#ffffff"></md-tab>
+					<md-tab ng-if="mdColorRgb" label="RGB"></md-tab>
+					<md-tab ng-if="mdColorHsl" label="HSL"></md-tab>
 					<!--<md-tab label="HSV"></md-tab>
 					<md-tab label="VEC"></md-tab>-->
 				</md-tabs>
