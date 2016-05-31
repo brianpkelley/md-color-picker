@@ -37,8 +37,7 @@ var GradientCanvas = function( type, restrictX ) {
 		//$scope.$watch( function() { return color.getRgb(); }, hslObserver, true );
 
 
-
-		this.$element.on( 'mousedown', angular.bind( this, this.onMouseDown ) );
+		this.$element.on('touchstart mousedown', angular.bind(this, this.onMouseDown));
 		this.$scope.$on('mdColorPicker:colorSet', angular.bind( this, this.onColorSet ) );
 		if ( this.extra ) {
 			this.extra();
@@ -56,10 +55,16 @@ var GradientCanvas = function( type, restrictX ) {
 GradientCanvas.prototype.$window = angular.element( window );
 
 GradientCanvas.prototype.getColorByMouse = function( e ) {
-	var x = e.pageX - this.offset.x;
-	var y = e.pageY - this.offset.y;
 
-	return this.getColorByPoint( x, y );
+            var te =  e.touches && e.touches[0];
+
+            var pageX = te && te.pageX || e.pageX;
+            var pageY = te && te.pageY || e.pageY;
+
+            var x = pageX - this.offset.x;
+            var y = pageY - this.offset.y;
+
+            return this.getColorByPoint(x, y);
 };
 
 GradientCanvas.prototype.setMarkerCenter = function( x, y ) {
@@ -131,9 +136,9 @@ GradientCanvas.prototype.onMouseDown = function( e ) {
 		}
 	});
 
-	this.$window.on( 'mousemove', fn );
-	this.$window.one( 'mouseup', angular.bind(this, function( e ) {
-		this.$window.off( 'mousemove', fn );
+        this.$window.on('touchmove mousemove', fn);
+        this.$window.one('touchend mouseup', angular.bind(this, function (e) {
+        this.$window.off('touchmove mousemove', fn);
 		this.$element.css({ 'cursor': 'crosshair' });
 	}));
 
