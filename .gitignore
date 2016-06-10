@@ -16,6 +16,7 @@ src/lib/
 .idea/workspace.xml
 
 dist/demo
+demo/lib
 npm-debug.log
 
 /bower_components/

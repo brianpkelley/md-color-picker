@@ -1,4 +1,4 @@
-require('es6-promise').polyfill();
+require('es6-promise').polyfill(); // Needed for autoprefix and travis-ci
 
 var gulp = require('gulp'),
 	gutil = require('gulp-util'),
@@ -33,7 +33,7 @@ var ports = {
 
 var moduleName = 'mdColorPicker';
 var paths = {
-	demo: 'demo',
+	demo: 'src/demo',
 	dist: 'dist/',
 	src: {
 		demo: ['demo/**/*.*'],
@@ -116,18 +116,21 @@ gulp.task('js', function () {
  ====================================================================*/
 
 gulp.task('demo-resources', function () {
-	gulp.src(['demo/**/*.{js,css}', 'demo/redirect.html'])
-		.pipe(gulp.dest('dist/demo'))
+	gulp.src(['demo/js/*.js','demo/css/*.css'])
+	//	.pipe(gulp.dest('dist/demo'))
 		.pipe(livereload());
-
-
 });
 
+gulp.task('dist-resources', function () {
+	gulp.src(['dist/*'])
+	//	.pipe(gulp.dest('dist/demo/md-color-picker'))
+		.pipe(livereload());
+});
 
 gulp.task('demo', ['demo-resources'], function () {
 	gulp.src('demo/index.html')
 		.pipe(injectReload({port: ports.livereload}))
-		.pipe(gulp.dest('dist/demo'))
+	//	.pipe(gulp.dest('dist/demo'))
 		.pipe(livereload());
 
 
@@ -136,7 +139,7 @@ gulp.task('demo', ['demo-resources'], function () {
 /*===================================================================
  =            Start local demo/dev server                           =
  ===================================================================*/
-gulp.task('server', ['build', 'demo'], function () {
+gulp.task('server', ['build', 'demo', 'dist-resources'], function () {
 	livereload.listen({port: ports.livereload, basePath: "."});
 	http.createServer(
 		st({path: path.resolve(__dirname, 'dist'), index: 'demo/redirect.html', cache: false})
@@ -177,7 +180,7 @@ gulp.task('clean', function (cb) {
  ======================================*/
 
 gulp.task('build', function (done) {
-	var tasks = ['less', 'js', 'demo'];
+	var tasks = ['less', 'js', 'demo', 'dist-resources'];
 	seq('clean', tasks, done);
 });
 
