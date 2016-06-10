@@ -114,9 +114,10 @@ This is still in a very early beta, and is rapidly changing (3 versions before i
 
 
 ## Known issues / TODO
-- [ ] Prevent focus from opening color picker on window/tab activation.
-- [ ] Focus on preview input when user starts typing.
-- [ ] Clean up code.
-  - [ ] Javascript
-  - [ ] CSS / LESS
-  - [X] Build script cleaned up and static server integrated for development
+[ ] Break apart md-color-picker into other directives, md-color-picker-preview , input, etc.
+[ ] Add i18n support.
+[ ] Refactor LESS
+[ ] Add optional SASS file
+[ ] IE 11 Issues
+[ ] Inline dropdown mode
+[ ] Validation
