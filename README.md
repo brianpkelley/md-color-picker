@@ -3,6 +3,7 @@ Angular-Material based color picker with no jQuery or other DOM/utility library 
 
 [![NPM version](https://badge-me.herokuapp.com/api/npm/md-color-picker.png)](http://badges.enytc.com/for/npm/md-color-picker)
 [![BOWER version](https://badge-me.herokuapp.com/api/bower/brianpkelley/md-color-picker.png)](http://badges.enytc.com/for/bower/brianpkelley/md-color-picker)
+[![Build Status](https://travis-ci.org/brianpkelley/md-color-picker.svg?branch=develop)](https://travis-ci.org/brianpkelley/md-color-picker)
 
 ![preview](https://raw.githubusercontent.com/brianpkelley/md-color-picker/master/md-color-picker-2.png)
 
