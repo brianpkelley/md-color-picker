@@ -8,6 +8,5 @@ before_script:
   - 'npm install -g bower jshint'
   - 'npm install' # install npm packages
   - 'bower install' # install bower packages
-
-after_script:
+script:
   - 'gulp build' # or other command for build, run tests, etc
