@@ -1,3 +1,5 @@
+require('es6-promise').polyfill();
+
 var gulp = require('gulp'),
 	gutil = require('gulp-util'),
 	path = require('path'),
