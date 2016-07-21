@@ -393,7 +393,9 @@ angular.module('mdColorPicker', [])
 					return history.length;
 				}
 			},
-			add: function( color ) {
+			add: function( color, saveCookies ) {
+				saveCookies = typeof saveCookies === 'undefined' ? true : saveCookies;
+
 				for( var x = 0; x < history.length; x++ ) {
 					if ( history[x].toRgbString() === color.toRgbString() ) {
 						history.splice(x, 1);
@@ -408,7 +410,7 @@ angular.module('mdColorPicker', [])
 					history.pop();
 					strHistory.pop();
 				}
-				if ( $cookies ) {
+				if ( $cookies && saveCookies ) {
 					$cookies.putObject('mdColorPickerHistory', strHistory );
 				}
 			},
@@ -937,8 +939,8 @@ angular.module('mdColorPicker', [])
                 });
 
 				dialog.then(function (value) {
-                    colorHistory.add(new tinycolor(value));
-                }, function () { });
+					colorHistory.add(new tinycolor(value), options.mdColorHistory);
+				});
 
                 return dialog;
             },
