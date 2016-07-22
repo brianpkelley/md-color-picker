@@ -18,6 +18,7 @@
     "gulp-header": "^1.7.1",
     "gulp-inject-reload": "0.0.2",
     "gulp-jsclosure": "0.0.1",
+    "gulp-jsdoc-to-markdown": "^1.2.2",
     "gulp-less": "^3.0.3",
     "gulp-livereload": "^3.8.0",
     "gulp-ng-annotate": "^1.1.0",

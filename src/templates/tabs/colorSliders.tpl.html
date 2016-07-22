@@ -1,0 +1,42 @@
+<div layout="column" flex="100" layout-fill layout-align="space-between start center" class="md-color-picker-sliders">
+	<div layout="row" layout-align="start center" layout-wrap flex layout-fill>
+		<div flex="10" layout layout-align="center center">
+			<span class="md-body-1">R</span>
+		</div>
+		<md-slider flex="65" min="0" max="255" ng-model="data.color._r" aria-label="red" class="red-slider"></md-slider>
+		<span flex></span>
+		<div flex="20" layout layout-align="center center">
+			<input style="width: 100%;" min="0" max="255" step="1" type="number" ng-model="data.color._r" aria-label="red" aria-controls="red-slider">
+		</div>
+	</div>
+	<div layout="row" layout-align="start center" layout-wrap flex layout-fill>
+		<div flex="10" layout layout-align="center center">
+			<span class="md-body-1">G</span>
+		</div>
+		<md-slider flex="65" min="0" max="255" ng-model="data.color._g" aria-label="green" class="green-slider"></md-slider>
+		<span flex></span>
+		<div flex="20" layout layout-align="center center">
+			<input style="width: 100%;" min="0" max="255" step="1" type="number" ng-model="data.color._g" aria-label="green" aria-controls="green-slider">
+		</div>
+	</div>
+	<div layout="row" layout-align="start center" layout-wrap flex layout-fill>
+		<div flex="10" layout layout-align="center center">
+			<span class="md-body-1">B</span>
+		</div>
+		<md-slider flex="65" min="0" max="255" ng-model="data.color._b" aria-label="blue" class="blue-slider"></md-slider>
+		<span flex></span>
+		<div flex="20" layout layout-align="center center" >
+			<input style="width: 100%;" min="0" max="255" step="1" type="number" ng-model="data.color._b" aria-label="blue" aria-controls="blue-slider">
+		</div>
+	</div>
+	<div layout="row" layout-align="start center" layout-wrap flex layout-fill ng-if="!config.options.useAlpha">
+		<div flex="10" layout layout-align="center center">
+			<span class="md-body-1">A</span>
+		</div>
+		<md-slider flex="65" min="0" max="1" step=".01" ng-model="data.color._a" aria-label="alpha" class="md-primary"></md-slider>
+		<span flex></span>
+		<div flex="20" layout layout-align="center center" >
+			<input style="width: 100%;" min="0" max="1" step=".01" type="number" ng-model="data.color._a" aria-label="alpha" aria-controls="alpha-slider">
+		</div>
+	</div>
+</div>

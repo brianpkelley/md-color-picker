@@ -23,11 +23,7 @@ md-color-picker .md-color-picker-input-container .md-color-picker-preview,
   position: relative;
   top: 22px;
   overflow: hidden;
-  background-color: #fff;
-  background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
-  background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
-  background-size: 8px 8px;
-  background-position: 0 0, 4px 4px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJ0lEQVQYV2M8c+bMfwYkYGxsjMxlYKSDgv///6O44ezZs6huoL0CAHomKYWYrWVpAAAAAElFTkSuQmCC) repeat center center;
 }
 md-color-picker .md-color-picker-input-container .md-color-picker-preview .md-color-picker-result,
 [md-color-picker] .md-color-picker-input-container .md-color-picker-preview .md-color-picker-result {
@@ -41,12 +37,33 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   right: -16px;
   color: rgba(0, 0, 0, 0.26);
 }
+.md-color-picker-panel {
+  width: 350px;
+  border-radius: 3px;
+  background: #fff;
+  width: 325px;
+  height: 419px;
+  overflow: hidden;
+  -webkit-transition: height 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: height 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.md-color-picker-panel > * > * {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.md-color-picker-panel.md-pane-open {
+  width: 350px;
+  height: 444px;
+  opacity: 1;
+  -webkit-transition: none;
+  transition: none;
+}
 .md-color-picker-container {
   padding: 8px;
   background: #fff;
   outline: none;
   height: 397px;
-  width: 347px;
+  width: 350px;
   opacity: 1;
   overflow: hidden;
   z-index: 1000;
@@ -160,7 +177,7 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   height: 36px;
 }
 .md-color-picker-container .md-color-picker-tabs .md-tab {
-  padding: 7px 24px;
+  padding: 7px 0;
   background: transparent;
 }
 .md-color-picker-container .md-color-picker-tabs .md-tab:last-of-type {
@@ -170,11 +187,11 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   min-height: 298px;
 }
 .md-color-picker-container .md-color-picker-tabs md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) md-tabs-content-wrapper {
-  height: 255px;
+  height: 256px;
   margin-bottom: 8px;
 }
 .md-color-picker-container .md-color-picker-tabs md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) md-tabs-content-wrapper md-tab-content {
-  height: 255px;
+  height: 256px;
   padding: 0px 8px 0;
 }
 .md-color-picker-container .md-color-picker-tabs md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) md-tabs-content-wrapper md-tab-content [md-tabs-template] {
@@ -201,14 +218,16 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   border: 2px solid #fff;
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
 }
-.md-color-picker-container .md-color-picker-colors [md-color-picker-spectrum] {
+.md-color-picker-container .md-color-picker-colors [md-color-picker-spectrum],
+.md-color-picker-container .md-color-picker-colors [md-color-picker-wheel] {
   position: relative;
   cursor: crosshair;
   overflow: hidden;
-  height: 255px;
-  width: 255px;
+  height: 256px;
+  width: 256px;
 }
-.md-color-picker-container .md-color-picker-colors [md-color-picker-spectrum] .md-color-picker-marker {
+.md-color-picker-container .md-color-picker-colors [md-color-picker-spectrum] .md-color-picker-marker,
+.md-color-picker-container .md-color-picker-colors [md-color-picker-wheel] .md-color-picker-marker {
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -217,18 +236,21 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   left: calc(100% - 5px);
 }
 .md-color-picker-container .md-color-picker-colors [md-color-picker-hue],
-.md-color-picker-container .md-color-picker-colors [md-color-picker-alpha] {
+.md-color-picker-container .md-color-picker-colors [md-color-picker-alpha],
+.md-color-picker-container .md-color-picker-colors [md-color-picker-value] {
   position: relative;
   cursor: crosshair;
   overflow: hidden;
   width: 30px;
 }
 .md-color-picker-container .md-color-picker-colors [md-color-picker-hue].md-color-picker-wide,
-.md-color-picker-container .md-color-picker-colors [md-color-picker-alpha].md-color-picker-wide {
+.md-color-picker-container .md-color-picker-colors [md-color-picker-alpha].md-color-picker-wide,
+.md-color-picker-container .md-color-picker-colors [md-color-picker-value].md-color-picker-wide {
   width: 67px;
 }
 .md-color-picker-container .md-color-picker-colors [md-color-picker-hue] .md-color-picker-marker,
-.md-color-picker-container .md-color-picker-colors [md-color-picker-alpha] .md-color-picker-marker {
+.md-color-picker-container .md-color-picker-colors [md-color-picker-alpha] .md-color-picker-marker,
+.md-color-picker-container .md-color-picker-colors [md-color-picker-value] .md-color-picker-marker {
   height: 5px;
   width: 100%;
   border-left: 0;
@@ -284,27 +306,30 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   -webkit-transition: left cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, right cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, bottom cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
   transition: left cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, right cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, bottom cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
 }
+.md-color-picker-container .md-color-picker-history {
+  position: relative;
+}
 .md-color-picker-container .md-color-picker-history > div > div {
-  height: 20px;
-  margin: 4px;
-  background-color: #fff;
-  background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
-  background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
-  background-size: 8px 8px;
-  background-position: 0 0, 4px 4px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  box-shadow: 0 0 3px 0px #999;
+  height: 29px;
+  width: 29px;
+  margin: 2px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJ0lEQVQYV2M8c+bMfwYkYGxsjMxlYKSDgv///6O44ezZs6huoL0CAHomKYWYrWVpAAAAAElFTkSuQmCC) repeat center center;
 }
 .md-color-picker-container .md-color-picker-history > div > div > div {
+  border-radius: 50%;
   width: 100%;
   height: 100%;
 }
 .md-color-picker-container .md-color-picker-history button {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
   margin-top: auto;
   margin-left: auto;
 }
 .md-color-picker-checkered-bg {
-  background-color: #fff;
-  background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), -webkit-linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
-  background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
-  background-size: 8px 8px;
-  background-position: 0 0, 4px 4px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJ0lEQVQYV2M8c+bMfwYkYGxsjMxlYKSDgv///6O44ezZs6huoL0CAHomKYWYrWVpAAAAAElFTkSuQmCC) repeat center center;
 }
