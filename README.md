@@ -1,3 +1,5 @@
+# IGNORE THIS README IF YOU ARE VIEWING THE plugin-rewrite BRANCH
+
 # md-color-picker
 Angular-Material based color picker with no jQuery or other DOM/utility library dependencies.
 
