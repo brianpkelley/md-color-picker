@@ -37,12 +37,30 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
 	.config( ['$mdColorPickerConfigProvider', function( $mdColorPickerConfigProvider ) {
 
 	}])
+	.directive('mdColorPickerPreview', function() {
+		return {
+			template: '<div class="md-color-picker-preview md-color-picker-checkered-bg" ng-click="showColorPicker($event)"><div class="md-color-picker-result" ng-style="{background: preview.value}"></div></div>',
+			require: '^ngModel',
+		//	scope: {},
+			link: function( $scope, $element, $attrs, $ngModel ) {
+				$scope.preview = {
+					value: ''
+				};
 
-	.directive('mdColorPicker', [ '$timeout', '$mdColorPickerConfig', '$mdColorPickerHistory', function( $timeout, $mdColorPickerConfig, $mdColorPickerHistory ) {
+				// Keep an eye on changes
+				$scope.$watch(function() {
+					return $ngModel.$modelValue;
+				},function(newVal) {
+					$scope.preview.value = $ngModel.$viewValue;
+				});
+			}
+		};
+	})
+/*	.directive('mdColorPicker', [ '$timeout', '$mdColorPickerConfig', '$mdColorPickerHistory', function( $timeout, $mdColorPickerConfig, $mdColorPickerHistory ) {
 
 		return {
-			templateUrl: "mdColorPicker.tpl.html",
-
+			//templateUrl: "mdColorPicker.tpl.html",
+			transclude: true,
 			// Added required controller ngModel
 			require: '^ngModel',
 			scope: {
@@ -50,8 +68,6 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
 
 				// Input options
 				notation: '@',
-				label: '@?',
-				icon: '@?',
 				random: '@?',
 				default: '@?',
 
@@ -90,14 +106,12 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
 					}
 				}
 
-				// Get ngModelController from the current element
-				var ngModel = $element.controller('ngModel');
 
 				// Quick function for updating the local 'value' on scope
 				var updateValue = function(val) {
 					console.log("updateValue", val || ngModel.$viewValue || '');
-					$scope.value = val || ngModel.$viewValue || '';
-					return $scope.value;
+					$scope.data.value = val || ngModel.$viewValue || '';
+					return $scope.data.value;
 				};
 
 				// Defaults
@@ -105,6 +119,8 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
 				$scope.mdColorClearButton = $scope.mdColorClearButton === undefined ? true : $scope.mdColorClearButton;
 				$scope.mdColorPreview = $scope.mdColorPreview === undefined ? true : $scope.mdColorPreview;
 				$scope.mdColorAlphaChannel = $scope.mdColorAlphaChannel === undefined ? true : $scope.mdColorAlphaChannel;
+
+				$scope.openOnInput = $scope.openOnInput === undefined ? true : $scope.openOnInput;
 
 				// Set the starting value
 				var INITIAL_VALUE = updateValue();
@@ -117,7 +133,7 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
 				});
 
 				// Watch for updates to value and set them on the model
-				$scope.$watch('value',function(newVal,oldVal) {
+				$scope.$watch('data.value',function(newVal,oldVal) {
 					console.info( "VALUE CHANGE", newVal, ' ', oldVal );
 					console.trace();
 
@@ -153,32 +169,33 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
 
 
 				$scope.showColorPicker = function showColorPicker($event) {
+					console.log("CLICK");
 					if ( didJustClose ) {
 						return;
 					}
 				//	dateClick = Date.now();
 				//	console.log( "CLICK OPEN", dateClick, $scope );
 					dialogOptions.$event = $event;
-					dialogOptions.value = $scope.value;
+					dialogOptions.value = $scope.data.value;
 
-					//var colorPicker = $mdColorPickerPanel.show( dialogOptions );
-					var colorPicker = $mdColorPickerDialog.show( dialogOptions );
+					var colorPicker = $mdColorPickerPanel.show( dialogOptions );
+					//var colorPicker = $mdColorPickerDialog.show( dialogOptions );
 
 
 					var removeWatch = $scope.$watch( function() { return dialogOptions.value; }, function( newVal ) {
 						console.log('Color Updated dialog watch');
-						$scope.value = newVal;
+						$scope.data.value = newVal;
 					});
 
 					colorPicker.then(function( color ) {
 						removeWatch();
-						INITIAL_VALUE = $scope.value = color;
+						INITIAL_VALUE = $scope.data.value = color;
 						$mdColorPickerHistory.add( color );
 
 					}, function() {
 						removeWatch();
 						console.log('Color Updated by rejection', INITIAL_VALUE);
-						$scope.value = INITIAL_VALUE;
+						$scope.data.value = INITIAL_VALUE;
 					});
 
 
@@ -187,10 +204,142 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
 			compile: function( element, attrs ) {
 
 				//attrs.value = attrs.value || "#ff0000";
-					attrs.currentNotation = attrs.currentNotation !== undefined ? attrs.currentNotation : $mdColorPickerConfig.notations.get(0);
+				attrs.currentNotation = attrs.currentNotation !== undefined ? attrs.currentNotation : $mdColorPickerConfig.notations.get(0);
 			}
 		};
 	}])
+	*/
+	.directive( 'mdColorPicker', ['$mdColorPickerConfig', '$mdColorPickerHistory', '$mdColorPickerDialog', '$mdColorPickerPanel', function( $mdColorPickerConfig, $mdColorPickerHistory, $mdColorPickerDialog, $mdColorPickerPanel ) {
+		return {
+			require: '^ngModel',
+			scope: {
+				options: '=mdColorPicker',
+				ngModel: '=ngModel',
+				// Input options
+				notation: '@',
+				random: '@?',
+				default: '@?',
+
+				// Dialog Options
+				openOnInput: '=?',
+				hasBackdrop: '=?',
+				clickOutsideToClose: '=?',
+				skipHide: '=?',
+				preserveScope: '=?',
+
+				// Advanced options
+				mdColorClearButton: '=?',
+				mdColorPreview: '=?',
+
+				mdColorAlphaChannel: '=?',
+				mdColorDefaultTab: '=?'
+			},
+			link: function( $scope, $element, $attrs, $ngModel ) {
+				console.log( "ELEMENT", $element );
+
+				var isInputElement = $element.prop('tagName') === 'INPUT';
+				var INITIAL_VALUE = undefined;
+
+				$scope.data = {};
+
+				/*
+				 * Model / Value Changes
+				 */
+
+
+				// Quick function for updating the local 'value' on scope
+				var updateValue = function(val) {
+					$scope.data.value = val || $ngModel.$viewValue || '';
+				//	INITIAL_VALUE = $scope.data.value;
+					return $scope.data.value;
+				};
+
+				// Set the starting value
+				INITIAL_VALUE = updateValue();
+
+				// Keep an eye on changes
+				$scope.$watch(function() {
+					return $ngModel.$modelValue;
+				},function(newVal) {
+					updateValue(newVal);
+				});
+
+				// console.log( 'IDDDD DDRDFG ', isInputElement, $element.prop('type').toLowerCase() );
+				function viewParser( value ) {
+					var formatted = new tinycolor( value ).toHexString();
+					console.log( "parsing ", $element.prop('tagName'), value, formatted );
+					return formatted;
+				}
+				if ( isInputElement && $element.prop('type').toLowerCase() === 'color' ) {
+					console.log("Adding formatter");
+					$ngModel.$formatters.push(function( value ) {
+						var formatted = new tinycolor( value ).toHexString();
+						console.log( "formatting ", value, formatted );
+						return formatted;
+					});
+
+					$ngModel.$parsers.push( viewParser );
+				}
+
+				// Watch for updates to value and set them on the model
+				$scope.$watch('data.value',function(newVal,oldVal) {
+					if ( typeof newVal !== 'undefined' && newVal !== oldVal) {
+						$ngModel.$setViewValue(newVal);
+						isInputElement && $element.val( viewParser( $scope.data.value ) );
+					}
+				});
+
+				//
+
+				var showColorPicker = function showColorPicker($event) {
+					INITIAL_VALUE = $scope.data.value;
+
+					var dialogOptions = {
+						value: $scope.data.value,
+						defaultValue: $scope.default,
+						random: $scope.random,
+						clickOutsideToClose: $scope.clickOutsideToClose,
+						hasBackdrop: $scope.hasBackdrop,
+						skipHide: $scope.skipHide,
+						preserveScope: $scope.preserveScope,
+						$event: $event,
+
+
+						mdColorAlphaChannel: true, //$scope.mdColorAlphaChannel,
+						mdColorDefaultTab: $scope.mdColorDefaultTab,
+
+
+
+					};
+
+
+					//var colorPicker = $mdColorPickerPanel.show( dialogOptions );
+					var colorPicker = $mdColorPickerDialog.show( dialogOptions );
+
+
+					var removeWatch = $scope.$watch( function() { return dialogOptions.value; }, function( newVal ) {
+						$scope.data.value = newVal;
+						isInputElement && $element.val( $scope.data.value );
+					});
+
+					colorPicker.then(function( color ) {
+						removeWatch();
+						INITIAL_VALUE = $scope.data.value = color;
+						$mdColorPickerHistory.add( color );
+
+					}, function() {
+						removeWatch();
+						$scope.data.value = INITIAL_VALUE;
+					});
+
+
+				};
+
+				$element.on('mousedown', showColorPicker );
+			},
+
+		};
+	}		])
 	.directive( 'mdColorPickerContainer', ['$compile','$timeout','$mdColorPickerConfig', '$mdColorPickerHistory', function( $compile, $timeout, $mdColorPickerConfig, $mdColorPickerHistory ) {
 		return {
 			templateUrl: 'mdColorPickerContainer.tpl.html',
@@ -219,32 +368,29 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
 				///////////////////////////////////
 				$scope.data = {};
 				$scope.config = {
-					options: {}
+					options: {
+						displayAlpha: $mdColorPickerConfig.useAlpha
+					}
 				};
 
 				var container = angular.element( $element[0].querySelector('.md-color-picker-container') );
 				var resultSpan = angular.element( container[0].querySelector('.md-color-picker-result') );
 				var previewInput = angular.element( $element[0].querySelector('.md-color-picker-preview-input') );
 
-				console.log( 'DEFAULT VALUE', $scope.default, ' - ', $scope.value );
 				$scope.default = $scope.default ? $scope.default : $scope.random ? tinycolor.random().toHexString() : 'rgb(255,255,255)';
 				$scope.default = $scope.value || $scope.default;
-				console.log( 'DEFAULT VALUE', $scope.default );
 
 
-				$scope.data.history =  $mdColorPickerHistory;
+				$scope.data.history = $mdColorPickerHistory;
 				$scope.config.notations = $mdColorPickerConfig.notations;
-				console.log( "SELECT NOTATION", $mdColorPickerConfig.notations.select( $scope.default ) );
 				$scope.config.currentNotation = $mdColorPickerConfig.notations.select( $scope.default );
 				$scope.config.selectedNotation = $scope.config.currentNotation.index;
 
 				$scope.data.color = new tinycolor($scope.default); // Set initial color
 
-				console.log( $scope.config.currentNotation, $scope.config.selectedNotation );
-
 				$scope.config.tabs = $mdColorPickerConfig.tabs;
 
-				$scope.config.options.displayAlpha = $scope.mdColorAlphaChannel || $mdColorPickerConfig.options.displayAlpha;
+//				$scope.config.options.displayAlpha;
 
 				$scope.inputFocus = false;
 
@@ -324,7 +470,7 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
 				function is_touch_device() {
 					return 'ontouchstart' in window        // works on most browsers
 						|| navigator.maxTouchPoints;       // works on IE10/11 and Surface
-				};
+				}
 
 				$timeout( function() {
 					if ( !is_touch_device() ) {
@@ -356,7 +502,7 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
 							if ( !tab.$element ) {
 
 								var $element = angular.element( compiledTabs[x].querySelectorAll('div[md-tabs-template] > div[layout="row"]') );
-								tab.$element = $element
+								tab.$element = $element;
 
 								tab.getTemplate().then( function( data ) {
 									var tab = data.tab;
@@ -501,7 +647,7 @@ angular.module('mdColorPicker', ['mdColorPickerConfig','mdColorPickerHistory','m
             {
 				var defer = $q.defer();
 
-				console.log( "EVENT ", options.$event.target)
+				console.log( "EVENT ", options.$event.target);
 
 				var position = $mdPanel.newPanelPosition()
 			    	.relativeTo( options.$event.target )

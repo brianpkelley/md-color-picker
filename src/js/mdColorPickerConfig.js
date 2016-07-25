@@ -269,6 +269,7 @@
  			 */
  			this.useCookies = true;
 
+			this.useAlpha = true;
 
  			/*
  			 * return the config Object.
@@ -327,14 +328,33 @@
 
 		/**
 		 * Converts tinycolor.js Object to the notations string equivalent.
+		 * @type function
 		 * @memberof Notation
+		 * @abstract
 		 *
 		 * @param  {tinycolor} color Tinycolor.js color Object.
 		 * @return {String}       String notation of the color.
+		 *
 		 */
-		 Notation.prototype.toString = function( color ) {
+		Notation.prototype.toString = function( color ) {
 
-		 };
+		};
+
+		 /**
+ 		 * Converts tinycolor.js Object to the notations object equivalent.
+ 		 * @memberof Notation
+ 		 *
+ 		 * @param  {tinycolor} color Tinycolor.js color Object.
+ 		 * @return {Object}       Object notation of the color.
+		 *
+		 * @example
+		 * var rgbObject = $mdColorPickerConfig.notations.get('rgb').toObject();
+		 *
+		 * // rbgObject == { r: 200, g: 255, b: 0, a: 1 }
+ 		 */
+ 		Notation.prototype.toObject = function( color ) {
+
+ 		};
 
 		/**
 		 * Check if a color string is in the notations format.

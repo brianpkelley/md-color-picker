@@ -4,17 +4,56 @@
  * @link https://github.com/brianpkelley/md-color-picker
  * @license MIT
  */
-md-color-picker .md-color-picker-input-container,
+/*md-color-picker .md-color-picker-input-container,
 [md-color-picker] .md-color-picker-input-container {
-  position: relative;
-}
-md-color-picker .md-color-picker-input-container .md-color-picker-input::-ms-clear,
-[md-color-picker] .md-color-picker-input-container .md-color-picker-input::-ms-clear {
-  display: none;
-}
-md-color-picker .md-color-picker-input-container .md-color-picker-preview,
-[md-color-picker] .md-color-picker-input-container .md-color-picker-preview {
-  content: '';
+	position: relative;
+	.md-placeholder, label:not(.md-no-float) {
+		//padding-left: 30px;
+		//transition: transform @cubic-trans, padding-left @cubic-trans;
+	}
+	&.md-input-focused label:not(.md-no-float), &.md-input-has-value label:not(.md-no-float) {
+		//padding-left: 2px;
+	}
+	//remove clear X button from IE input fields
+	.md-color-picker-input::-ms-clear {
+	    display: none;
+	}
+	.md-color-picker-preview {
+	//	position: absolute;
+		content: '';
+	//	background-color: attr('data-color');
+		width: 24px;
+		height: 24px;
+		border: 2px solid #fff;
+		border-radius: 50%;
+		box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+		position: relative;
+		top: 22px;
+	//	left: 0;
+		overflow: hidden;
+		//z-index: 10;
+		.checkered_bg();
+
+		.md-color-picker-result {
+			width: 100%;
+			height: 100%;
+		}
+	}
+	.md-color-picker-input {
+
+	}
+	.md-color-picker-clear {
+		position: absolute;
+
+		bottom: 42px;
+		right: -16px;
+
+		color: rgba(0,0,0,0.26);
+
+
+	}
+}*/
+*:not(.md-color-picker-container) > .md-color-picker-preview {
   width: 24px;
   height: 24px;
   border: 2px solid #fff;
@@ -25,17 +64,9 @@ md-color-picker .md-color-picker-input-container .md-color-picker-preview,
   overflow: hidden;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJ0lEQVQYV2M8c+bMfwYkYGxsjMxlYKSDgv///6O44ezZs6huoL0CAHomKYWYrWVpAAAAAElFTkSuQmCC) repeat center center;
 }
-md-color-picker .md-color-picker-input-container .md-color-picker-preview .md-color-picker-result,
-[md-color-picker] .md-color-picker-input-container .md-color-picker-preview .md-color-picker-result {
+*:not(.md-color-picker-container) > .md-color-picker-preview .md-color-picker-result {
   width: 100%;
   height: 100%;
-}
-md-color-picker .md-color-picker-input-container .md-color-picker-clear,
-[md-color-picker] .md-color-picker-input-container .md-color-picker-clear {
-  position: absolute;
-  bottom: 42px;
-  right: -16px;
-  color: rgba(0, 0, 0, 0.26);
 }
 .md-color-picker-panel {
   width: 350px;

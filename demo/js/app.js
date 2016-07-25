@@ -108,6 +108,7 @@
 		    $scope.textConfig.showPreview = true;
 
 			$scope.$watch( 'textConfig.textBackground', function( newVal ) {
+				console.log( "BACKGROUND CHANGED", typeof newVal, newVal );
 				if ( newVal === undefined ) { return; }
 				var baseColor = tinycolor( newVal ).toHsv();
 				baseColor.v = 1;

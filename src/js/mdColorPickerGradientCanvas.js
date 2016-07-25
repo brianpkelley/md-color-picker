@@ -125,9 +125,16 @@
 			// Events
 			this.$element.on( 'touchstart mousedown', this.boundEvents.onMouseDown );
 		//	this.$scope.$on( 'mdColorPicker:colorSet', this.boundEvents.onColorSet );
-			this.$scope.$watch('data.color', angular.bind( this, function(color) { this.$scope.data.hue = color.toHsv().h } ), true );
-			this.$scope.$watch('data.color', this.boundEvents.onColorSet, true );
 
+
+			var initialValueWatch = this.$scope.$watch('data.color', angular.bind( this, function(color) {
+				if ( color === undefined ) {
+					return;
+				}
+				this.$scope.data.hue = color.toHsv().h;
+				initialValueWatch();
+			 } ), true );
+			 this.$scope.$watch('data.color', this.boundEvents.onColorSet, true );
 		}
 	});
 	GradientCanvas.prototype.$window = angular.element( window );
@@ -198,6 +205,7 @@
 			this.$scope.data.color = tinycolor( color );
 			this.$scope.data.color.setAlpha( color.a );
 			this.$scope.data.hue = color.h;
+			console.log( this.$scope.data.hue );
 		}));
 
 		this.setMarkerCenter( coords.x, coords.y );
@@ -385,6 +393,7 @@
 			blackGrd.addColorStop(0.99, 'rgba(0, 0, 0, 1.000)');
 
 			// Fill with solid
+			console.log( "DRAW HUE", this.$scope.data );
 			this.context.fillStyle = 'hsl( ' + this.$scope.data.hue + ', 100%, 50%)';
 			this.context.fillRect( 0, 0, this.canvas.width, this.canvas.height );
 
@@ -413,7 +422,7 @@
 		},
 		onColorSet: function( e, args ) {
 			hsv = this.$scope.data.color.toHsv();
-			this.currentHue = hsv.h;
+			this.currentHue = this.$scope.data.hue || hsv.h;
 			this.draw();
 
 			var posX = this.canvas.width * hsv.s;
@@ -458,7 +467,7 @@
 				.addColorStop(1    , [255, 0, 0])		// Red
 				.fill( this.context, r, r, r, ( PI / 180 ), ( PI / 180 ), false);
 
-
+			console.log( "DRAW HUE", this.$scope.data );
 			var grayValueString = '255,255,255'; //'' + grayValue + ',' + grayValue + ',' + grayValue;
 			var centerGradient = this.context.createRadialGradient( r, r, r, r, r, 0 );
 			centerGradient.addColorStop( 0, 'rgba( 255,255,255, 0 )' );
@@ -637,6 +646,7 @@
 				link: function( $scope, $element, $attrs ) {
 					// Create new instance of the gradient so the same gradient canvases can be used on separate tabs.
 					var gCanvas = new canvasConstructor( $element, $scope );
+					console.log( $scope );
 				}
 			};
 		};

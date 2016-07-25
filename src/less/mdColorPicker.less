@@ -7,7 +7,7 @@
 
 
 
-md-color-picker .md-color-picker-input-container,
+/*md-color-picker .md-color-picker-input-container,
 [md-color-picker] .md-color-picker-input-container {
 	position: relative;
 	.md-placeholder, label:not(.md-no-float) {
@@ -54,6 +54,30 @@ md-color-picker .md-color-picker-input-container,
 		color: rgba(0,0,0,0.26);
 
 
+	}
+}*/
+
+*:not(.md-color-picker-container) {
+	& > .md-color-picker-preview {
+	//	position: absolute;
+	//	content: '';
+	//	background-color: attr('data-color');
+		width: 24px;
+		height: 24px;
+		border: 2px solid #fff;
+		border-radius: 50%;
+		box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+		position: relative;
+		top: 22px;
+	//	left: 0;
+		overflow: hidden;
+		//z-index: 10;
+		.checkered_bg();
+
+		.md-color-picker-result {
+			width: 100%;
+			height: 100%;
+		}
 	}
 }
 

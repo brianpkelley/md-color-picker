@@ -35,7 +35,6 @@
 					this.drawn = [];
 
 					this.removePalette = function() {
-						console.log( "Removing Palette" );
 						// Remove all rows and unbind cells
 						if ( this.drawn.length ) {
 							var cells;
@@ -54,8 +53,6 @@
 					};
 
 					this.drawPalette = function() {
-						console.log("DRAW Palette");
-
 						this.removePalette();
 
 						// Add new rows and bind cells

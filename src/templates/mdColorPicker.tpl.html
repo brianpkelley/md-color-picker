@@ -1,3 +1,4 @@
+<!--
 <div class="md-color-picker-input-container" layout="row">
 	<div class="md-color-picker-preview md-color-picker-checkered-bg" ng-click="showColorPicker($event)" ng-if="mdColorPreview">
 		<div class="md-color-picker-result" ng-style="{background: value}"></div>
@@ -10,3 +11,5 @@
 		<md-icon md-svg-icon="clear.svg"></md-icon>
 	</md-button>
 </div>
+-->
+<input type="text" ng-model="data.value" ng-mousedown="(openOnInput || !mdColorPreview) && showColorPicker($event)">
