@@ -1,6 +1,6 @@
 # IGNORE THIS README IF YOU ARE VIEWING THE plugin-rewrite BRANCH
 
-# md-color-picker
+## md-color-picker
 Angular-Material based color picker with no jQuery or other DOM/utility library dependencies.
 
 [![NPM version](https://badge-me.herokuapp.com/api/npm/md-color-picker.png)](http://badges.enytc.com/for/npm/md-color-picker)
