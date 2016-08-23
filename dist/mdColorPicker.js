@@ -1,6 +1,6 @@
 /**
  * md-color-picker - Angular-Material inspired color picker.
- * @version v0.2.6
+ * @version v0.2.7
  * @link https://github.com/brianpkelley/md-color-picker
  * @license MIT
  */
@@ -533,7 +533,7 @@ angular.module('mdColorPicker', [])
 				// The only other ngModel changes
 
 				$scope.clearValue = function clearValue() {
-					$scope.value = '';
+					ngModel.$setViewValue('');
 				};
 				$scope.showColorPicker = function showColorPicker($event) {
 					if ( didJustClose ) {
