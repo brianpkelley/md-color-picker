@@ -431,6 +431,7 @@ angular.module('mdColorPicker', [])
 
 			// Added required controller ngModel
 			require: '^ngModel',
+      transclude: true,
 			scope: {
 				options: '=mdColorPicker',
 
