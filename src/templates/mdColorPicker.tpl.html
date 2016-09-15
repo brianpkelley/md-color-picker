@@ -1,4 +1,4 @@
-<ng-transclude>
+<ng-transclude ng-controller="mdColorPickerController">
   <div class="md-color-picker-input-container" layout="row">
     <div class="md-color-picker-preview md-color-picker-checkered-bg" ng-click="showColorPicker($event)" ng-if="mdColorPreview">
       <div class="md-color-picker-result" ng-style="{background: value}"></div>
