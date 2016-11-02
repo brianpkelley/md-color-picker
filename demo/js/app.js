@@ -32,5 +32,7 @@ app.controller('MainCtrl', function($scope) {
         defaultTab: 1,
     };
     $scope.textConfig.showPreview = true;
-
+	$scope.onColorSelect = function (color) {
+		console.log(color)
+	};
 });
