@@ -461,7 +461,8 @@ angular.module('mdColorPicker', [])
 				mdColorHex: '=?',
 				mdColorRgb: '=?',
 				mdColorHsl: '=?',
-				mdColorDefaultTab: '=?'
+				mdColorDefaultTab: '=?',
+				mdColorOnSelect: '&?'
 			},
 			controller: ['$scope', '$element', '$attrs', '$mdDialog', '$mdColorPicker', function( $scope, $element, $attrs, $mdDialog, $mdColorPicker ) {
 				var didJustClose = false;
@@ -506,6 +507,7 @@ angular.module('mdColorPicker', [])
 				$scope.mdColorHex = $scope.mdColorHex === undefined ? true : $scope.mdColorHex;
 				$scope.mdColorRgb = $scope.mdColorRgb === undefined ? true : $scope.mdColorRgb;
 				$scope.mdColorHsl = $scope.mdColorHsl === undefined ? true : $scope.mdColorHsl;
+				$scope.mdColorOnSelect = $scope.mdColorOnSelect === undefined ? function() {} : $scope.mdColorOnSelect;
 				// Set the starting value
 				updateValue();
 
@@ -554,6 +556,7 @@ angular.module('mdColorPicker', [])
 						mdColorRgb: $scope.mdColorRgb,
 						mdColorHsl: $scope.mdColorHsl,
 						mdColorDefaultTab: $scope.mdColorDefaultTab,
+						mdColorOnSelect: $scope.mdColorOnSelect,
 
 						$event: $event,
 
@@ -938,6 +941,7 @@ angular.module('mdColorPicker', [])
 
 				dialog.then(function (value) {
                     colorHistory.add(new tinycolor(value));
+					options.mdColorOnSelect({color: value});
                 }, function () { });
 
                 return dialog;
