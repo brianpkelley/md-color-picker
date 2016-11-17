@@ -424,6 +424,105 @@ angular.module('mdColorPicker', [])
 			}
 		};
 	}])
+  .controller('mdColorPickerController', ['$scope', '$element', '$attrs', '$mdDialog', '$mdColorPicker', function( $scope, $element, $attrs, $mdDialog, $mdColorPicker ) {
+    var didJustClose = false;
+
+    // Merge Options Object with scope.  Scope will take precedence much like css vs style attribute.
+    if ( $scope.options !== undefined ) {
+      for ( var opt in $scope.options ) {
+        if ( $scope.options.hasOwnProperty( opt ) ) {
+          var scopeKey;
+          //if ( $scope.hasOwnProperty( opt ) ) { // Removing this because optional scope properties are not added to the scope.
+          scopeKey = opt;
+          //} else
+          if ( $scope.hasOwnProperty( 'mdColor' + opt.slice(0,1).toUpperCase() + opt.slice(1) ) ) {
+            scopeKey = 'mdColor' + opt.slice(0,1).toUpperCase() + opt.slice(1);
+          }
+          if ( scopeKey && ( $scope[scopeKey] === undefined || $scope[scopeKey] === '' ) ) {
+            $scope[scopeKey] = $scope.options[opt];
+          }
+        }
+      }
+    }
+
+    // Get ngModelController from the current element
+    var ngModel = $element.controller('ngModel');
+
+    // Quick function for updating the local 'value' on scope
+    var updateValue = function(val) {
+      $scope.value = val || ngModel.$viewValue || '';
+    };
+
+    // Defaults
+    // Everything is enabled by default.
+    $scope.mdColorClearButton = $scope.mdColorClearButton === undefined ? true : $scope.mdColorClearButton;
+    $scope.mdColorPreview = $scope.mdColorPreview === undefined ? true : $scope.mdColorPreview;
+
+    $scope.mdColorAlphaChannel = $scope.mdColorAlphaChannel === undefined ? true : $scope.mdColorAlphaChannel;
+    $scope.mdColorSpectrum = $scope.mdColorSpectrum === undefined ? true : $scope.mdColorSpectrum;
+    $scope.mdColorSliders = $scope.mdColorSliders === undefined ? true : $scope.mdColorSliders;
+    $scope.mdColorGenericPalette = $scope.mdColorGenericPalette === undefined ? true : $scope.mdColorGenericPalette;
+    $scope.mdColorMaterialPalette = $scope.mdColorMaterialPalette === undefined ? true : $scope.mdColorMaterialPalette;
+    $scope.mdColorHistory = $scope.mdColorHistory === undefined ? true : $scope.mdColorHistory;
+    $scope.mdColorHex = $scope.mdColorHex === undefined ? true : $scope.mdColorHex;
+    $scope.mdColorRgb = $scope.mdColorRgb === undefined ? true : $scope.mdColorRgb;
+    $scope.mdColorHsl = $scope.mdColorHsl === undefined ? true : $scope.mdColorHsl;
+    // Set the starting value
+    updateValue();
+
+    // Keep an eye on changes
+    $scope.$watch(function() {
+      return ngModel.$modelValue;
+    },function(newVal) {
+      updateValue(newVal);
+    });
+
+    // Watch for updates to value and set them on the model
+    $scope.$watch('value',function(newVal,oldVal) {
+      if (newVal !== '' && typeof newVal !== 'undefined' && newVal && newVal !== oldVal) {
+        ngModel.$setViewValue(newVal);
+      }
+    });
+
+    // The only other ngModel changes
+
+    $scope.clearValue = function clearValue() {
+      ngModel.$setViewValue('');
+    };
+    $scope.showColorPicker = function showColorPicker($event) {
+      if ( didJustClose ) {
+        return;
+      }
+      //	dateClick = Date.now();
+      //	console.log( "CLICK OPEN", dateClick, $scope );
+
+      $mdColorPicker.show({
+        value: $scope.value,
+        defaultValue: $scope.default,
+        random: $scope.random,
+        clickOutsideToClose: $scope.clickOutsideToClose,
+        hasBackdrop: $scope.hasBackdrop,
+        skipHide: $scope.skipHide,
+        preserveScope: $scope.preserveScope,
+
+        mdColorAlphaChannel: $scope.mdColorAlphaChannel,
+        mdColorSpectrum: $scope.mdColorSpectrum,
+        mdColorSliders: $scope.mdColorSliders,
+        mdColorGenericPalette: $scope.mdColorGenericPalette,
+        mdColorMaterialPalette: $scope.mdColorMaterialPalette,
+        mdColorHistory: $scope.mdColorHistory,
+        mdColorHex: $scope.mdColorHex,
+        mdColorRgb: $scope.mdColorRgb,
+        mdColorHsl: $scope.mdColorHsl,
+        mdColorDefaultTab: $scope.mdColorDefaultTab,
+
+        $event: $event,
+
+      }).then(function( color ) {
+        $scope.value = color;
+      });
+    };
+  }])
 	.directive('mdColorPicker', [ '$timeout', 'mdColorPickerHistory', function( $timeout, colorHistory ) {
 
 		return {
@@ -431,6 +530,7 @@ angular.module('mdColorPicker', [])
 
 			// Added required controller ngModel
 			require: '^ngModel',
+      transclude: true,
 			scope: {
 				options: '=mdColorPicker',
 
@@ -463,105 +563,6 @@ angular.module('mdColorPicker', [])
 				mdColorHsl: '=?',
 				mdColorDefaultTab: '=?'
 			},
-			controller: ['$scope', '$element', '$attrs', '$mdDialog', '$mdColorPicker', function( $scope, $element, $attrs, $mdDialog, $mdColorPicker ) {
-				var didJustClose = false;
-
-				// Merge Options Object with scope.  Scope will take precedence much like css vs style attribute.
-				if ( $scope.options !== undefined ) {
-					for ( var opt in $scope.options ) {
-						if ( $scope.options.hasOwnProperty( opt ) ) {
-							var scopeKey;
-							//if ( $scope.hasOwnProperty( opt ) ) { // Removing this because optional scope properties are not added to the scope.
-								scopeKey = opt;
-							//} else
-							if ( $scope.hasOwnProperty( 'mdColor' + opt.slice(0,1).toUpperCase() + opt.slice(1) ) ) {
-								scopeKey = 'mdColor' + opt.slice(0,1).toUpperCase() + opt.slice(1);
-							}
-							if ( scopeKey && ( $scope[scopeKey] === undefined || $scope[scopeKey] === '' ) ) {
-								$scope[scopeKey] = $scope.options[opt];
-							}
-						}
-					}
-				}
-
-				// Get ngModelController from the current element
-				var ngModel = $element.controller('ngModel');
-
-				// Quick function for updating the local 'value' on scope
-				var updateValue = function(val) {
-					$scope.value = val || ngModel.$viewValue || '';
-				};
-
-				// Defaults
-				// Everything is enabled by default.
-				$scope.mdColorClearButton = $scope.mdColorClearButton === undefined ? true : $scope.mdColorClearButton;
-				$scope.mdColorPreview = $scope.mdColorPreview === undefined ? true : $scope.mdColorPreview;
-
-				$scope.mdColorAlphaChannel = $scope.mdColorAlphaChannel === undefined ? true : $scope.mdColorAlphaChannel;
-				$scope.mdColorSpectrum = $scope.mdColorSpectrum === undefined ? true : $scope.mdColorSpectrum;
-				$scope.mdColorSliders = $scope.mdColorSliders === undefined ? true : $scope.mdColorSliders;
-				$scope.mdColorGenericPalette = $scope.mdColorGenericPalette === undefined ? true : $scope.mdColorGenericPalette;
-				$scope.mdColorMaterialPalette = $scope.mdColorMaterialPalette === undefined ? true : $scope.mdColorMaterialPalette;
-				$scope.mdColorHistory = $scope.mdColorHistory === undefined ? true : $scope.mdColorHistory;
-				$scope.mdColorHex = $scope.mdColorHex === undefined ? true : $scope.mdColorHex;
-				$scope.mdColorRgb = $scope.mdColorRgb === undefined ? true : $scope.mdColorRgb;
-				$scope.mdColorHsl = $scope.mdColorHsl === undefined ? true : $scope.mdColorHsl;
-				// Set the starting value
-				updateValue();
-
-				// Keep an eye on changes
-				$scope.$watch(function() {
-					return ngModel.$modelValue;
-				},function(newVal) {
-					updateValue(newVal);
-				});
-
-				// Watch for updates to value and set them on the model
-				$scope.$watch('value',function(newVal,oldVal) {
-					if (newVal !== '' && typeof newVal !== 'undefined' && newVal && newVal !== oldVal) {
-						ngModel.$setViewValue(newVal);
-					}
-				});
-
-				// The only other ngModel changes
-
-				$scope.clearValue = function clearValue() {
-					ngModel.$setViewValue('');
-				};
-				$scope.showColorPicker = function showColorPicker($event) {
-					if ( didJustClose ) {
-						return;
-					}
-				//	dateClick = Date.now();
-				//	console.log( "CLICK OPEN", dateClick, $scope );
-
-					$mdColorPicker.show({
-						value: $scope.value,
-						defaultValue: $scope.default,
-						random: $scope.random,
-						clickOutsideToClose: $scope.clickOutsideToClose,
-						hasBackdrop: $scope.hasBackdrop,
-						skipHide: $scope.skipHide,
-						preserveScope: $scope.preserveScope,
-
-						mdColorAlphaChannel: $scope.mdColorAlphaChannel,
-						mdColorSpectrum: $scope.mdColorSpectrum,
-						mdColorSliders: $scope.mdColorSliders,
-						mdColorGenericPalette: $scope.mdColorGenericPalette,
-						mdColorMaterialPalette: $scope.mdColorMaterialPalette,
-						mdColorHistory: $scope.mdColorHistory,
-						mdColorHex: $scope.mdColorHex,
-						mdColorRgb: $scope.mdColorRgb,
-						mdColorHsl: $scope.mdColorHsl,
-						mdColorDefaultTab: $scope.mdColorDefaultTab,
-
-						$event: $event,
-
-					}).then(function( color ) {
-						$scope.value = color;
-					});
-				};
-			}],
 			compile: function( element, attrs ) {
 
 				//attrs.value = attrs.value || "#ff0000";
