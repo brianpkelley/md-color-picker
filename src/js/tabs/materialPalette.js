@@ -1,4 +1,4 @@
-(function( window, angular, undefined) {
+
 
 	angular.module('mdColorPicker')
 		.config(['$mdColorPalette', '$mdColorPickerConfigProvider', function( $mdColorPalette, $mdColorPickerConfig ) {
@@ -8,7 +8,7 @@
 				icon: 'view_headline.svg',
 				template: '<div layout="column" layout-fill flex class="md-color-picker-material-palette"></div>',
 				link: function( $scope, $element ) {
-
+					console.log("Draw material Palette", this.palette );
 					var materialContainer = angular.element( $element[0].querySelector('.md-color-picker-material-palette') );
 					var materialTitle = angular.element('<div class="md-color-picker-material-title"></div>');
 					var materialRow = angular.element('<div class="md-color-picker-with-label"></div>');
@@ -41,7 +41,7 @@
 									}
 
 									row.html('<span>'+label+'</span>');
-									row.bind('click', angular.bind( this, function( e ) {
+									row.on('click', angular.bind( this, function( e ) {
 										this.setPaletteColor( e, $scope );
 									}));
 									materialContainer.append( row );
@@ -57,10 +57,16 @@
 				palette: angular.copy( $mdColorPalette )
 
 			}, false);
-			setTimeout( function() {
-				console.log( "ADDING DYNAMIC TAB" );
-				$mdColorPickerConfig.tabs.order.push( 'materialPalette' );
-			}, 5000);
 
+
+		}])
+		.run( ['$timeout','$mdColorPickerConfig', function( $timeout, $mdColorPickerConfig ) {
+			$timeout( function() {
+				$mdColorPickerConfig.tabs.order.push( 'materialPalette' );
+			}, 5000, true);
+
+			$timeout( function() {
+				var idx = $mdColorPickerConfig.tabs.order.indexOf( 'materialPalette' );
+				$mdColorPickerConfig.tabs.order.splice( idx, 1 );
+			}, 10000, true);
 		}]);
-})(window, window.angular );

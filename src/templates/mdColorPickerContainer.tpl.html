@@ -6,7 +6,7 @@
 		<div class="md-color-picker-result" ng-style="{'background': data.color.toRgbString()}" flex="100" layout="column" layout-fill layout-align="center center" ng-click="focusPreviewInput( $event )">
 			<!--<span flex  layout="column" layout-align="center center">{{value}}</span>-->
 			<div flex  layout="row" layout-align="center center">
-				<input class="md-color-picker-preview-input" type="text" ng-model="value" ng-focus="previewFocus($event);" ng-blur="previewBlur()" ng-change="changeValue()" ng-keypress="previewKeyDown($event)" layout-fill />
+				<input class="md-color-picker-preview-input" type="text" ng-model="value" ng-model-options="{updateOn: 'blur'}"  />
 			</div>
 			<div class="md-color-picker-tabs" style="width: 100%">
 				<md-tabs md-selected="config.selectedNotation" md-stretch-tabs="always" md-no-bar md-no-ink md-no-pagination="true" >
@@ -17,118 +17,18 @@
 	</div>
 
 	<div class="md-color-picker-tabs md-color-picker-colors">
-		<md-tabs md-stretch-tabs="always" md-align-tabs="bottom"  md-selected="whichPane" md-no-pagination>
-			<md-tab ng-repeat="tab in config.tabs.get()">
+		<md-tabs md-stretch-tabs="always" md-align-tabs="bottom" md-selected="config.currentTab" md-no-pagination>
+			<md-tab ng-repeat="tabName in config.tabOrder">
 				<md-tab-label>
-					<md-icon md-svg-icon="{{ tab.icon }}"></md-icon>
+					<md-icon md-svg-icon="{{ config.tabs[ tabName ].icon }}"></md-icon>
 				</md-tab-label>
 				<md-tab-body>
-			<div layout="row" layout-align="space-between" style="height: 255px">
+					<div layout="row" layout-align="space-between" style="height: 255px">
 						<!-- Tab Template will be added here -->
 					</div>
 				</md-tab-body>
 			</md-tab>
 
-			<!--<md-tab ng-if="true || mdColorWheel">
-				<md-tab-label>
-					<md-icon md-svg-icon="wheel.svg"></md-icon>
-				</md-tab-label>
-				<md-tab-body>
-					<div layout="row" layout-align="space-between" style="height: 255px">
-						<div md-color-picker-wheel></div>
-						<div md-color-picker-hue ng-class="{'md-color-picker-wide': !mdColorAlphaChannel}"></div>
-						<div md-color-picker-alpha class="md-color-picker-checkered-bg" ng-if="mdColorAlphaChannel"></div>
-					</div>
-				</md-tab-body>
-			</md-tab>
-			<md-tab ng-if="mdColorSliders">
-				<md-tab-label>
-					<md-icon md-svg-icon="tune.svg"></md-icon>
-				</md-tab-label>
-				<md-tab-body>
-					<div layout="column" flex="100" layout-fill layout-align="space-between start center" class="md-color-picker-sliders">
-						<div layout="row" layout-align="start center" layout-wrap flex layout-fill>
-							<div flex="10" layout layout-align="center center">
-								<span class="md-body-1">R</span>
-							</div>
-							<md-slider flex="65" min="0" max="255" ng-model="data.color._r" aria-label="red" class="red-slider"></md-slider>
-							<span flex></span>
-							<div flex="20" layout layout-align="center center">
-								<input style="width: 100%;" min="0" max="255" type="number" ng-model="data.color._r" aria-label="red" aria-controls="red-slider">
-							</div>
-						</div>
-						<div layout="row" layout-align="start center" layout-wrap flex layout-fill>
-							<div flex="10" layout layout-align="center center">
-								<span class="md-body-1">G</span>
-							</div>
-							<md-slider flex="65" min="0" max="255" ng-model="data.color._g" aria-label="green" class="green-slider"></md-slider>
-							<span flex></span>
-							<div flex="20" layout layout-align="center center">
-								<input style="width: 100%;" min="0" max="255" type="number" ng-model="data.color._g" aria-label="green" aria-controls="green-slider">
-							</div>
-						</div>
-						<div layout="row" layout-align="start center" layout-wrap flex layout-fill>
-							<div flex="10" layout layout-align="center center">
-								<span class="md-body-1">B</span>
-							</div>
-							<md-slider flex="65" min="0" max="255" ng-model="data.color._b" aria-label="blue" class="blue-slider"></md-slider>
-							<span flex></span>
-							<div flex="20" layout layout-align="center center" >
-								<input style="width: 100%;" min="0" max="255" type="number" ng-model="data.color._b" aria-label="blue" aria-controls="blue-slider">
-							</div>
-						</div>
-						<div layout="row" layout-align="start center" layout-wrap flex layout-fill ng-if="!mdColorAlphaChannel">
-							<div flex="10" layout layout-align="center center">
-								<span class="md-body-1">A</span>
-							</div>
-							<md-slider flex="65" min="0" max="1" step=".01" ng-model="data.color._a" aria-label="alpha" class="md-primary"></md-slider>
-							<span flex></span>
-							<div flex="20" layout layout-align="center center" >
-								<input style="width: 100%;" min="0" max="1" step=".01" type="number" ng-model="data.color._a" aria-label="alpha" aria-controls="alpha-slider">
-							</div>
-						</div>
-					</div>
-				</md-tab-body>
-			</md-tab>
-			<md-tab ng-if="mdColorGenericPalette">
-				<md-tab-label>
-					<md-icon md-svg-icon="view_module.svg"></md-icon>
-				</md-tab-label>
-				<md-tab-body>
-					<div layout="column" layout-align="space-between start center" flex class="md-color-picker-palette">
-
-					</div>
-				</md-tab-body>
-			</md-tab>
-			<md-tab  ng-if="mdColorMaterialPalette">
-				<md-tab-label>
-					<md-icon md-svg-icon="view_headline.svg"></md-icon>
-				</md-tab-label>
-				<md-tab-body>
-					<div layout="column" layout-fill flex class="md-color-picker-material-palette">
-
-					</div>
-				</md-tab-body>
-			</md-tab>
-			<md-tab ng-if="mdColorHistory">
-				<md-tab-label>
-					<md-icon md-svg-icon="history.svg"></md-icon>
-				</md-tab-label>
-				<md-tab-body layout="row" layout-fill>
-					<div layout="column" flex layout-align="space-between start" layout-wrap layout-fill class="md-color-picker-history">
-						<div layout="row" flex="80" layout-align="space-between start start" layout-wrap  layout-fill>
-							<div flex="10" ng-repeat="historyColor in data.history.get() track by $index">
-								<div  ng-style="{'background': historydata.color.toRgbString()}" ng-click="setPaletteColor($event)"></div>
-							</div>
-						</div>
-
-
-						<md-button flex-end ng-click="data.history.reset()" class="md-mini" aria-label="Clear History">
-							<md-icon md-svg-icon="clear_all.svg"></md-icon>
-						</md-button>
-					</div>
-				</md-tab-body>
-			</md-tab> -->
 		</md-tabs>
 	</div>
 

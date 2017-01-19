@@ -1,26 +1,28 @@
-(function( window, angular, undefined) {
 
 	angular.module('mdColorPicker')
 		.config(['$mdColorPickerConfigProvider', function( $mdColorPickerConfig ) {
 
 
 
-			var genericPalette = new $mdColorPickerConfig.Tab({
+			var genericPalette = {
 				name: 'genericPalette',
 				icon: 'view_module.svg',
 				template: '<div layout="column" layout-align="space-between start center" flex class="md-color-picker-palette"></div>',//'tabs/colorSliders.tpl.html',
 				link: function( $scope, $element ) {
-
+					console.log( "LINK GENERICA PALETTE", this  );
 					var paletteContainer = angular.element( $element[0].querySelector('.md-color-picker-palette') );
 					var paletteRow = angular.element('<div class="flex-15 layout-row layout-align-space-between" layout-align="space-between" layout="row" style="width: 100%;"></div>');
 					var paletteCell = angular.element('<div class="flex-10"></div>');
-					console.log( paletteContainer );
 					var materialTitle = angular.element('<div class="md-color-picker-material-title"></div>');
 					var materialRow = angular.element('<div class="md-color-picker-with-label"></div>');
 
-
+					var vm = this;
 					var drawTimeout;
-					$scope.$watch( angular.bind( this, function() { return this.palette; } ), angular.bind( this, function( newVal, oldVal ) {
+
+
+
+					$scope.$watch( angular.bind( vm, function() { return vm.palette; }), angular.bind( vm, function( newVal, oldVal ) {
+						console.log( "NEW GENERIC PALETTE", newVal );
 						if ( newVal && ( !oldVal || !angular.equals( newVal, oldVal ) )  ) {
 							// Debounce the value so we don't do thise 100 times a second.
 							clearTimeout( drawTimeout );
@@ -54,6 +56,7 @@
 
 					this.drawPalette = function() {
 						this.removePalette();
+						console.log( "GENERICA PALETTE DRAW", paletteContainer );
 
 						// Add new rows and bind cells
 						angular.forEach(this.palette, function( value, key ) {
@@ -75,7 +78,7 @@
 							paletteContainer.append( row );
 						}, this);
 					};
-
+					console.log( "GENERICA PALETTE INIT");
 					this.drawPalette();
 
 					$scope.$on('$destroy', angular.bind( this, function() {
@@ -95,11 +98,9 @@
 					["rgb(92, 0, 0)","rgb(92, 46, 0)","rgb(92, 92, 0)","rgb(0, 92, 0)","rgb(0, 92, 46)","rgb(0, 92, 92)","rgb(0, 46, 92)","rgb(0, 0, 92)","rgb(46, 0, 92)","rgb(92, 0, 92)"],
 					["rgb(255, 255, 255)","rgb(205, 205, 205)","rgb(178, 178, 178)","rgb(153, 153, 153)","rgb(127, 127, 127)","rgb(102, 102, 102)","rgb(76, 76, 76)","rgb(51, 51, 51)","rgb(25, 25, 25)","rgb(0, 0, 0)"]
 				]
-			});
+			};
 
 			$mdColorPickerConfig.tabs.add( genericPalette, 14 );
 			//$mdColorPickerConfig.tabs.order.push( 'genericPalette' );
 
 		}]);
-
-})( window, window.angular );

@@ -4,70 +4,6 @@
  * @link https://github.com/brianpkelley/md-color-picker
  * @license MIT
  */
-/*md-color-picker .md-color-picker-input-container,
-[md-color-picker] .md-color-picker-input-container {
-	position: relative;
-	.md-placeholder, label:not(.md-no-float) {
-		//padding-left: 30px;
-		//transition: transform @cubic-trans, padding-left @cubic-trans;
-	}
-	&.md-input-focused label:not(.md-no-float), &.md-input-has-value label:not(.md-no-float) {
-		//padding-left: 2px;
-	}
-	//remove clear X button from IE input fields
-	.md-color-picker-input::-ms-clear {
-	    display: none;
-	}
-	.md-color-picker-preview {
-	//	position: absolute;
-		content: '';
-	//	background-color: attr('data-color');
-		width: 24px;
-		height: 24px;
-		border: 2px solid #fff;
-		border-radius: 50%;
-		box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
-		position: relative;
-		top: 22px;
-	//	left: 0;
-		overflow: hidden;
-		//z-index: 10;
-		.checkered_bg();
-
-		.md-color-picker-result {
-			width: 100%;
-			height: 100%;
-		}
-	}
-	.md-color-picker-input {
-
-	}
-	.md-color-picker-clear {
-		position: absolute;
-
-		bottom: 42px;
-		right: -16px;
-
-		color: rgba(0,0,0,0.26);
-
-
-	}
-}*/
-*:not(.md-color-picker-container) > .md-color-picker-preview {
-  width: 24px;
-  height: 24px;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
-  position: relative;
-  top: 22px;
-  overflow: hidden;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJ0lEQVQYV2M8c+bMfwYkYGxsjMxlYKSDgv///6O44ezZs6huoL0CAHomKYWYrWVpAAAAAElFTkSuQmCC) repeat center center;
-}
-*:not(.md-color-picker-container) > .md-color-picker-preview .md-color-picker-result {
-  width: 100%;
-  height: 100%;
-}
 .md-color-picker-panel {
   width: 350px;
   border-radius: 3px;
@@ -145,18 +81,27 @@
   text-align: center;
   position: absolute;
   top: -15px;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
   color: #eee;
   outline: none;
   opacity: 0;
+  margin: auto;
+  width: 75%;
 }
 .md-color-picker-container .md-color-picker-preview .md-color-picker-result > div > input.switch {
   -webkit-transition: top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, 0.25s opacity ease-out;
   transition: top cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s, 0.25s opacity ease-out;
-  top: 0px;
+  top: 10px;
   opacity: 1;
+}
+.md-color-picker-container .md-color-picker-preview .md-color-picker-result > div > input:hover,
+.md-color-picker-container .md-color-picker-preview .md-color-picker-result > div > input:focus {
+  background: rgba(255, 255, 255, 0.1);
+}
+.md-color-picker-container .md-color-picker-preview .md-color-picker-result > div > input:focus {
+  border: 2px solid rgba(255, 255, 255, 0.1);
 }
 .md-color-picker-container .md-color-picker-preview .md-color-picker-tabs .md-tab,
 .md-color-picker-container .md-color-picker-preview .md-color-picker-tabs md-tabs-wrapper,
@@ -183,6 +128,13 @@
 }
 .md-color-picker-container .md-color-picker-preview.dark .md-color-picker-preview-input {
   color: #333;
+}
+.md-color-picker-container .md-color-picker-preview.dark .md-color-picker-preview-input:hover,
+.md-color-picker-container .md-color-picker-preview.dark .md-color-picker-preview-input:focus {
+  background: rgba(0, 0, 0, 0.1);
+}
+.md-color-picker-container .md-color-picker-preview.dark .md-color-picker-preview-input:focus {
+  border: 2px solid rgba(0, 0, 0, 0.1);
 }
 .md-color-picker-container .md-color-picker-preview.dark .md-tab {
   background: rgba(0, 0, 0, 0.25);
@@ -363,4 +315,71 @@
 }
 .md-color-picker-checkered-bg {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJ0lEQVQYV2M8c+bMfwYkYGxsjMxlYKSDgv///6O44ezZs6huoL0CAHomKYWYrWVpAAAAAElFTkSuQmCC) repeat center center;
+}
+md-color-picker-preview,
+[md-color-picker-preview] {
+  display: inline-block;
+}
+[layout="row"] > md-color-picker-preview,
+[layout="row"] > [md-color-picker-preview] {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+}
+md-color-picker-preview .md-color-picker-preview,
+[md-color-picker-preview] .md-color-picker-preview {
+  box-sizing: border-box;
+  border: 2px solid #fff;
+  display: inline-block;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+  overflow: hidden;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJ0lEQVQYV2M8c+bMfwYkYGxsjMxlYKSDgv///6O44ezZs6huoL0CAHomKYWYrWVpAAAAAElFTkSuQmCC) repeat center center;
+  margin: 0px 0px;
+  height: 26px;
+  width: 26px;
+  min-width: 0;
+  line-height: 24px;
+  padding: 0px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+md-color-picker-preview .md-color-picker-preview .md-color-picker-result,
+[md-color-picker-preview] .md-color-picker-preview .md-color-picker-result {
+  width: 100%;
+  height: 100%;
+}
+.md-color-picker-input-container > md-color-picker-preview,
+.md-color-picker-input-container > [md-color-picker-preview] {
+  position: absolute;
+  top: 23px;
+  left: 2px;
+  right: auto;
+}
+md-color-picker .md-color-picker-input-container {
+  position: relative;
+}
+md-color-picker .md-color-picker-input-container > .md-color-picker-input::-ms-clear {
+  display: none;
+}
+md-color-picker .md-color-picker-input-container > md-color-picker-clear,
+md-color-picker .md-color-picker-input-container > [md-color-picker-clear],
+md-color-picker .md-color-picker-input-container > .md-color-picker-clear {
+  box-sizing: border-box;
+  position: absolute;
+  right: -8px;
+  top: 20px;
+}
+md-color-picker .md-color-picker-input-container > md-color-picker-clear .md-button,
+md-color-picker .md-color-picker-input-container > [md-color-picker-clear] .md-button,
+md-color-picker .md-color-picker-input-container > .md-color-picker-clear .md-button {
+  margin-bottom: 16px;
 }

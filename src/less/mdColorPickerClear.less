@@ -1,0 +1,38 @@
+md-color-picker-clear,
+[md-color-picker-clear],
+.md-color-picker-clear {
+	// background: #f0f;
+	// height: 24px;
+	// width: 24px;
+}
+
+md-color-picker .md-color-picker-input-container {
+	position: relative;
+
+	//remove clear X button from IE input fields
+	& > .md-color-picker-input::-ms-clear {
+	    display: none;
+	}
+
+	& > md-color-picker-clear,
+	& > [md-color-picker-clear],
+	& > .md-color-picker-clear {
+		box-sizing: border-box;
+		position: absolute;
+		right: -8px;
+		top: 20px;
+
+		.md-button {
+			margin-bottom: 16px;
+		}
+
+		// position: absolute;
+		//
+		// bottom: 42px;
+		// right: -16px;
+		//
+		// color: rgba(0,0,0,0.26);
+
+
+	}
+}

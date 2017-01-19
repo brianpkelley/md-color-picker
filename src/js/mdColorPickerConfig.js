@@ -1,21 +1,10 @@
-(function( window, angular, undefined ) {
-	'use strict';
-
-
-
-
-	angular.module( 'mdColorPickerConfig', [] )
-
-		.provider( '$mdColorPickerConfig', [mdColorPickerConfig]);
-
-
 		/**
 		 * @classdesc $mdColorPickerConfig Provider
 		 * @class $mdColorPickerConfig
 		 */
-
-		 function mdColorPickerConfig() {
-
+		var mdColorPickerConfigRef;
+		var mdColorPickerConfig = function() {
+			mdColorPickerConfigRef= this;
 			this.Tab = Tab;
 			this.Notation = Notation;
 
@@ -157,14 +146,13 @@
  			 * @member {Object} $mdColorPickerConfig#tabs
  			 */
  			this.tabs = {
- 				tabs_: {
-
- 				},
+				cache_: {},
+ 				tabs_: {},
  				/**
  				 * Adds a tab object to the avaiable tabs for the window.
 				 * @function $mdColorPickerConfig#tabs#add
  				 *
- 				 * @param  {Object|Tab} tab {@link Tab} Options object or an instance of a {@link Tab}.
+ 				 * @param  {Object} tab {@link Tab} Options object or an instance of a {@link Tab}.
 				 * @param  {Number|String|Boolean} [addToOrder=true] Should the new tab be added to the order.  Can be an index, array function name (`push`,`unshift`, etc), or `true` to push it on the end of the order.  If index is greater than the length of the array, actual starting index will be set to the length of the array, if negative, will begin that many elements from the end.
  				 *
  				 * @example <caption> Adding the Spectrum Tab.</caption>
@@ -192,17 +180,11 @@
 				 * $mdColorPickerConfig.tabs.add( spectrumTab );
  				 */
  				add: function( tab, addToOrder ) {
-					if ( tab instanceof Tab ) {
-						this.tabs_[ tab.name ] = tab;
-					} else {
- 						this.tabs_[ tab.name ] = new Tab( tab );
-					}
+
+					this.tabs_[ tab.name ] = tab;
 
 					addToOrder = addToOrder === undefined ? true : addToOrder;
-					console.log( 'Add to order ' + tab.name + ': ', addToOrder, this.order.indexOf( tab.name ), this.order );
 					if ( addToOrder !== false && this.order.indexOf( tab.name ) === -1 ) {
-
-						console.log( addToOrder, typeof addToOrder == 'number' && addToOrder < this.order.length );
 						if ( typeof this.order[addToOrder] === 'function' ) {
 							this.order[addToOrder]( tab.name );
 						} else if ( typeof addToOrder == 'number' ) {
@@ -220,9 +202,17 @@
  				 * @param  {String} tab The identifier of the tab.
  				 * @return {Tab}     The tab object requested.
  				 */
- 				get: function( tab ) {
+ 				get: function( tab, config ) {
+					console.log('GET TAB', this);
  					if ( tab ) {
- 						return this.tabs_[ tab ];
+						if ( config === true ) {
+							return this.tabs_[tab];
+						} else {
+							var newTab = new Tab( this.tabs_[ tab ] );
+							this.cache_[ tab ] = this.cache_[ tab ] || [];
+							this.cache_[ tab ].push( newTab );
+	 						return newTab;
+						}
  					} else {
  						var returnObj = {};
  						for ( var x = 0; x < this.order.length; x++ ) {
@@ -231,6 +221,10 @@
  						return returnObj;
  					}
  				},
+
+				getFromCache: function( tabName, index ) {
+					return isNaN( index ) ? this.cache_[ tabName ] : this.cache_[ tabName ][index];
+				},
 
  				/**
  				 * Holds the order of the tabs, if a tab is not in this list, it will not be shown.
@@ -247,8 +241,8 @@
  				icon: 'gradient.svg',
  				template: [
  							'<div md-color-picker-spectrum></div>',
- 							'<div md-color-picker-hue ng-class="{\'md-color-picker-wide\': !mdColorAlphaChannel}"></div>',
- 							'<div md-color-picker-alpha class="md-color-picker-checkered-bg" ng-show="mdColorAlphaChannel"></div>'
+ 							'<div md-color-picker-hue ng-class="{\'md-color-picker-wide\': false && !mdColorAlphaChannel}"></div>',
+ 							'<div md-color-picker-alpha class="md-color-picker-checkered-bg" ng-show="true || mdColorAlphaChannel"></div>'
  						].join( '\n' )
  			});
 
@@ -264,12 +258,39 @@
  			});
 
 
- 			/**
- 			 * Set mdColorPicker to use cookies for storing the history object.
- 			 */
- 			this.useCookies = true;
 
-			this.useAlpha = true;
+			this.defaults = {
+				history: {
+					useLocalStorage: false,
+					useCookies: true,
+				},
+				dialog: {
+					hasBackdrop: true,
+					clickOutsideToClose: true,
+					escapeToClose: true,
+					focusOnOpen: false,
+					preserveScope: false,
+					skipHide: true,
+					targetEvent: undefined
+
+				},
+				panel: {
+					hasBackdrop: false,
+					escapeToClose: true,
+					trapFocus: false,
+					clickOutsideToClose: true,
+					focusOnOpen: true,
+					fullscree: false
+
+				},
+				mdColorPicker: {
+					default: '#FFFFFF',
+					tab: 'spectrum',
+					alphaChannel: true,
+					random: false
+				}
+			};
+
 
  			/*
  			 * return the config Object.
@@ -295,7 +316,7 @@
  				return this;
  			}];
 
- 		}
+ 		};
 
 
 
@@ -409,9 +430,9 @@
 				this.message = '[' + this.name + '] ' + this.type + ' - ' + message;//message;
 
 				this.toString = function() {
-					return '[' + this.type + '] ' + this.type + ' - ' + this.message;
+					return '[' + this.name + '] ' + this.type + ' - ' + this.message;
 				};
-			};
+			}
 			TabException.prototype = new Error();
 			TabException.prototype.constructor = TabException;
 
@@ -420,10 +441,10 @@
 
 
 			if ( !options.templateUrl && ( options.template === undefined ) ) {
-				throw new TabException( 'A template or template URL must be specified.', 'Template Error' );
+				throw new TabException( '[' + options.name + '] A template or template URL must be specified.', 'Template Error' );
 			}
 			if ( !options.name ) {
-				throw new TabException( 'A non empty tab name must be specified.', 'Name Error' )
+				throw new TabException( 'A non empty tab name must be specified.', 'Name Error' );
 			}
 
 			/** @member {String} $mdColorPickerConfig#Tab#name The name of the tab. */
@@ -433,7 +454,7 @@
 			this.icon = options.icon || '';
 
 			/** @member {String} $mdColorPickerConfig#Tab#template The template string for the tab. */
-			this.template;
+			//this.template;
 			if ( options.template !== undefined && options.templateUrl === undefined ) {
 				this.template = options.template;
 			}
@@ -441,16 +462,49 @@
 			/** @member {String} $mdColorPickerConfig#Tab#templateUrl The template URL for the tab. */
 			this.templateUrl = options.templateUrl;
 
+			var linkFn;
 			if ( typeof options.link == 'function' ) {
-				this.link_ = angular.bind( this, options.link );
-				delete options.link;
+				linkFn = options.link; //angular.bind( this, options.link );
+				//delete options.link;
+			} else {
+				linkFn = angular.noop;
 			}
+
+
+
+			this.link = function ( $scope, $element) {
+				this.$scope = $scope;
+				this.$element = $element;
+				angular.bind( this, linkFn )( $scope, $element );
+			}
+
+			// setTimeout( angular.bind( this, function() {
+			// 	this.getTemplate = Tab.prototype.getTemplate;
+			// }),1);
 
 			/** @member {$element} $mdColorPickerConfig#Tab#$elemnt The angular.element wrapped element of the tab once rendered. */
 
 			angular.merge( this, options );
-			console.log("Adding Tab" + options.name + ": ", this );
+			console.log( "ADDING ", this.name, "TO CACHE", mdColorPickerConfigRef );
+			// Add this tab to the tabs.cache_ objet;
+			mdColorPickerConfigRef.tabs.cache_[ options.name ] = mdColorPickerConfigRef.tabs.cache_[ options.name ] || [];
+			// keep track of index for removal later
+			this.cacheIndex = mdColorPickerConfigRef.tabs.cache_[ options.name ].length;
+			mdColorPickerConfigRef.tabs.cache_[ options.name ].push( this );
 		}
+		/**
+		 * Tab.$destroy - Destroy function called when the tab is destroyed.
+ 		 * @memberof Tab
+ 		 */
+		Tab.prototype.$destroy = function( ) {
+			console.log( "DESTRYOING", this );
+			if ( this.$element ) {
+				this.$element.remove();
+				this.$element = undefined;
+			}
+			mdColorPickerConfigRef.tabs.cache_[this.name].splice(this.cacheIndex, 1);
+		};
+
 
 		/**
 		 * Tab.link - Link function called after the tab is created and added to the md-tabs element.
@@ -459,13 +513,7 @@
 		 * @param  {type} $scope   Current $scope of the mdColorPicker
 		 * @param  {type} $element The content element of the `<md-tab>`
 		 */
-		Tab.prototype.link = function( $scope, $element ) {
-			console.log('Tab Link' + this.name + ': ', this );
-			this.$element = $element;
-			if ( this.link_ && typeof this.link_ == 'function' ) {
-				this.link_( $scope, $element);
-			}
-		};
+		Tab.prototype.link = function( $scope, $element ) { };
 
 		/**
 		 * Tab.setPaletteColor - Upadates $scope.data.color and calls $scope.$apply to refresh everything.
@@ -477,10 +525,12 @@
 		Tab.prototype.setPaletteColor = function( event, $scope ) {
 			event.stopImmediatePropagation();
 			event.preventDefault();
-			$scope.previewBlur();
+			//$scope.previewBlur();
 
 			$scope.$apply(function() {
-				$scope.data.color = tinycolor( event.target.style.backgroundColor );
+				$scope.data.color = new tinycolor( event.target.style.backgroundColor );
+				$scope.data.hsva = $scope.data.color.toHsv();
+				$scope.data.hsva.a = $scope.data.color.getAlpha();
 			});
 		};
 
@@ -493,4 +543,5 @@
 		Tab.prototype.getTemplate = function() {}; // Stub replaced in the $get function.
 
 
-})( window, window.angular );
+		angular.module( 'mdColorPickerConfig', [] )
+			.provider( '$mdColorPickerConfig', [mdColorPickerConfig]);

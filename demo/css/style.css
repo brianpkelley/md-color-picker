@@ -17,3 +17,7 @@ p, ul {
   margin-bottom: 25px;
   font-size: 14px;
 }
+
+md-content {
+	background: #eee;
+}

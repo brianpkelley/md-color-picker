@@ -1,15 +1,18 @@
-<!--
-<div class="md-color-picker-input-container" layout="row">
-	<div class="md-color-picker-preview md-color-picker-checkered-bg" ng-click="showColorPicker($event)" ng-if="mdColorPreview">
-		<div class="md-color-picker-result" ng-style="{background: value}"></div>
+<div>
+	<div class="md-color-picker-input-container" layout="row" >
+		<div md-color-picker-preview></div>
+		<md-input-container class="md-icon-left md-icon-right" flex>
+			<label><md-icon ng-if="transcluded_content['mdIcon']">{{ transcluded_content['mdIcon'].innerHTML }}</md-icon><span ng-transclude="label"></span></label>
+			<input type="input" ng-model="data.color" class='md-color-picker-input'  ng-mousedown="(openOnInput || !mdColorPreview) && showColorPicker($event)" /><!-- placeholder="{{ transcluded_content['placeholder']}}" -->
+		</md-input-container>
+		<div md-color-picker-clear></div>
 	</div>
-	<md-input-container flex>
-		<label><md-icon ng-if="icon">{{icon}}</md-icon>{{label}}</label>
-		<input type="input" ng-model="value" class='md-color-picker-input'  ng-mousedown="(openOnInput || !mdColorPreview) && showColorPicker($event)"/>
-	</md-input-container>
-	<md-button class="md-icon-button md-color-picker-clear" ng-if="mdColorClearButton && value" ng-click="clearValue();" aria-label="Clear Color">
-		<md-icon md-svg-icon="clear.svg"></md-icon>
-	</md-button>
 </div>
--->
-<input type="text" ng-model="data.value" ng-mousedown="(openOnInput || !mdColorPreview) && showColorPicker($event)">
+
+<!-- <div ng-if="transcluded_content.main"> -->
+	<!-- <div ng-transclude="main"></div> -->
+<!-- </div> -->
+<!-- <input type="text" ng-model="data.value" ng-mousedown="(openOnInput || !mdColorPreview) && showColorPicker($event)"> -->
+<!-- <md-input-container>
+
+<div md-color-picker-preview></div> -->

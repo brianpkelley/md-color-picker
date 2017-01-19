@@ -219,7 +219,7 @@ Adds a tab object to the avaiable tabs for the window.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| tab | <code>Object</code> &#124; <code>Tab</code> |  | [Tab](Tab) Options object or an instance of a [Tab](Tab). |
+| tab | <code>Object</code> |  | [Tab](Tab) Options object or an instance of a [Tab](Tab). |
 | [addToOrder] | <code>Number</code> &#124; <code>String</code> &#124; <code>Boolean</code> | <code>true</code> | Should the new tab be added to the order.  Can be an index, array function name (`push`,`unshift`, etc), or `true` to push it on the end of the order.  If index is greater than the length of the array, actual starting index will be set to the length of the array, if negative, will begin that many elements from the end. |
 
 **Example** *( Adding the Spectrum Tab.)*  

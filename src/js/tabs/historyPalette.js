@@ -1,4 +1,3 @@
-(function( window, angular, undefined) {
 
 	angular.module('mdColorPicker')
 		.config(['$mdColorPickerHistoryProvider', '$mdColorPickerConfigProvider', function( $mdColorPickerHistory, $mdColorPickerConfig ) {
@@ -8,15 +7,17 @@
 				icon: 'history.svg',
 				templateUrl: 'tabs/historyPalette.tpl.html',
 				link: function( $scope, $element ) {
-
+					console.log( 'HISTORY PALETTE: ', this.palette );
 					var historyContainer = angular.element( $element[0].querySelector('.md-color-picker-history') );
 					var paletteRow = angular.element('<div class="flex-15 layout-row" style="width: 100%;"></div>');
 					var paletteCell = angular.element('<div class=""><div></div></div>');
 
 					var drawTimeout;
+					this.palette = $mdColorPickerHistory.get();
+
 					$scope.$watch( angular.bind( this, function() { return $mdColorPickerHistory.get() } ), angular.bind( this, function( newVal, oldVal ) {
 						console.log( 'NEW HISTORY', newVal );
-						if ( newVal && ( !oldVal==[] || !angular.equals( newVal, oldVal ) )  ) {
+						if ( newVal && ( !oldVal == [] || !angular.equals( newVal, oldVal ) )  ) {
 
 							// Debounce the value so we don't do thise 100 times a second.
 							clearTimeout( drawTimeout );
@@ -31,6 +32,7 @@
 
 					this.drawn = [];
 					this.drawPalette = function() {
+						console.log( "DRAWING HISTORY");
 						var row;
 						// Remove all rows and unbind cells
 						if ( this.drawn.length ) {
@@ -41,7 +43,7 @@
 								console.log( "REMOVING" );
 								for( var y = 0; y < cells.length; y ++ ) {
 									var cell = angular.element( cells[y] );
-									cell.unbind( 'click' );
+									cell.off( 'click' );
 									cell.remove();
 								}
 								row.remove();
@@ -62,7 +64,7 @@
 								//height: '25.5px',
 								backgroundColor: color.toRgbString()
 							});
-							cell.bind('click', angular.bind( this, function( e ) {
+							cell.on('click', angular.bind( this, function( e ) {
 								this.setPaletteColor( e, $scope );
 							}));
 
@@ -88,4 +90,3 @@
 			//$mdColorPickerConfig.tabs.order.push( 'historyPalette' );
 
 		}]);
-})(window, window.angular );

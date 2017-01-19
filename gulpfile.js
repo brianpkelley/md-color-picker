@@ -6,7 +6,7 @@ var gulp = require('gulp'),
 	gdebug = require('gulp-debug'),
 	seq = require('run-sequence'),
 	streamqueue = require('streamqueue'),
-	closure = require('gulp-jsclosure'),
+	iife = require('gulp-iife'),
 	less = require('gulp-less'),
 	uglify = require('gulp-uglify'),
 	sourcemaps = require('gulp-sourcemaps'),
@@ -40,14 +40,18 @@ var paths = {
 	dist: 'dist/',
 	src: {
 		demo: ['demo/**/*.*'],
-		less: ['src/less/*.less'],
+		less: ['src/less/mdColorPicker.less'],
 		templates: ['src/templates/**/*.tpl.html'],
 		js: [
-			'src/js/conicalGradient.js',
-			'src/js/mdColorPickerConfig.js',
-			'src/js/mdColorPickerGradientCanvas.js',
-			'src/js/mdColorPickerHistory.js',
+			// Module
 			'src/js/mdColorPicker.js',
+			'src/js/mdColorPickerConfig.js',
+			'src/js/mdColorPickerContainer.js',
+			'src/js/mdColorPickerHistory.js',
+
+			// Canvases ( require the module for config )
+			'src/js/conicalGradient.js',
+			'src/js/mdColorPickerGradientCanvas.js',
 			'src/js/tabs/genericPalette.js',
 			'src/js/tabs/materialPalette.js',
 			'src/js/tabs/historyPalette.js'
@@ -100,12 +104,20 @@ gulp.task('js', function () {
 		gulp.src(paths.src.templates)
 			.pipe(templateCache({module: moduleName}))
 	)
-		//.pipe(debug({title: 'JS: '}))
-		//.pipe(sourcemaps.init())
+		// .pipe(debug({title: 'JS: '}))
+		// .pipe(sourcemaps.init())
 
-		//.pipe(sourcemaps.write('.'))
-//		.pipe(closure(['angular', 'window', 'tinycolor']))
-		.pipe(ngAnnotate())
+		// .pipe(sourcemaps.write('.'))
+		// .pipe(closure(['angular', 'window', 'tinycolor']))
+		// .pipe(ngAnnotate())
+		.pipe(iife({
+			useStrict: true,
+			trimCode: true,
+			prependSemicolon: true,
+			params: ['window', 'angular', 'TinyColor', 'undefined'],
+			args: ['window', 'window.angular', 'window.tinycolor']
+		}))
+
 		.pipe(concat(moduleName + '.js'))
 		.pipe(header(banner, { pkg : pkg } ))
 
@@ -179,7 +191,7 @@ gulp.task('watch', ['clean'], function () {
 
 	gutil.log("Started dev server @ http://localhost:" + ports.web + "/demo/index.html");
 	//gulp.watch(paths.src.html, ['html']);
-	gulp.watch(paths.src.less.concat(paths.src.js.concat(paths.src.templates)), ['build']);
+	gulp.watch(['src/less/*.less'].concat(paths.src.js.concat(paths.src.templates)), ['build']);
 	gulp.watch(paths.src.demo, ['demo']);
 
 
@@ -194,7 +206,7 @@ gulp.task('watch', ['clean'], function () {
 
 gulp.task('docs', function () {
 
-	return gulp.src(paths.src.js)
+		return gulp.src(paths.src.js)
     .pipe(gulpJsdoc2md())
 
     .pipe(rename(function (path) {

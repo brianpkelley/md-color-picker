@@ -1,4 +1,4 @@
-(function( window, angular, undefined) {
+
 	// Video.js CoreObject for a quick and dirty inheritance method.
 	/////////////////////////////////
 
@@ -74,7 +74,6 @@
 
 
 
-
 	var x = 0;
 	var GradientCanvas = CoreObject.extend( {
 		init: function( $element, $scope, restrictX ) {
@@ -126,18 +125,23 @@
 			this.$element.on( 'touchstart mousedown', this.boundEvents.onMouseDown );
 		//	this.$scope.$on( 'mdColorPicker:colorSet', this.boundEvents.onColorSet );
 
-
+			this.$scope.data.hsva = this.$scope.data.hsva || this.$scope.data.color.toHsv();
+			if ( this.$scope.data.hsva.a === undefined ) {
+				this.$scope.data.hsva.a = this.$scope.data.color.getAlpha();
+			}
 			var initialValueWatch = this.$scope.$watch('data.color', angular.bind( this, function(color) {
 				if ( color === undefined ) {
 					return;
 				}
-				this.$scope.data.hue = color.toHsv().h;
+				this.$scope.data.hsva.h = color.toHsv().h;
 				initialValueWatch();
 			 } ), true );
 			 this.$scope.$watch('data.color', this.boundEvents.onColorSet, true );
 		}
 	});
 	GradientCanvas.prototype.$window = angular.element( window );
+
+	GradientCanvas.prototype.applyHueLock = false;
 
 	/**
 	 * GradientCanvas.prototype.draw - Overwrite this in sub class.  Will fill with a "troublesome pink"
@@ -204,8 +208,8 @@
 		this.$scope.$apply( angular.bind( this, function() {
 			this.$scope.data.color = tinycolor( color );
 			this.$scope.data.color.setAlpha( color.a );
-			this.$scope.data.hue = color.h;
-			console.log( this.$scope.data.hue );
+			this.$scope.data.hsva = color;
+			console.log( this.$scope.data.hsva.h );
 		}));
 
 		this.setMarkerCenter( coords.x, coords.y );
@@ -308,7 +312,7 @@
 			};
 		},
 		onColorSet: function( e, args ) {
-			hue = this.$scope.data.hue || this.$scope.data.color.toHsv().h;
+			var hue = this.$scope.data.hsva.h || this.$scope.data.color.toHsv().h;
 			this.setMarkerCenter( this.canvas.height * ( hue / 360 ) );
 		}
 
@@ -360,6 +364,7 @@
 			//this.draw();
 
 			var alpha = this.$scope.data.color.getAlpha();
+			this.$scope.data.hsva.a = alpha;
 			var pos = this.canvas.height - ( this.canvas.height * alpha );
 
 			this.setMarkerCenter( pos );
@@ -375,6 +380,7 @@
 
 		},
 		draw: function() {
+			console.log("DRAWING SPECTRUM!");
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 
@@ -394,7 +400,7 @@
 
 			// Fill with solid
 			console.log( "DRAW HUE", this.$scope.data );
-			this.context.fillStyle = 'hsl( ' + this.$scope.data.hue + ', 100%, 50%)';
+			this.context.fillStyle = 'hsl( ' + this.$scope.data.hsva.h + ', 100%, 50%)';
 			this.context.fillRect( 0, 0, this.canvas.width, this.canvas.height );
 
 			// Fill with white
@@ -408,10 +414,10 @@
 		},
 		getColorByPoint: function( x, y ) {
 			var currentHSV = this.$scope.data.color.toHsv();
-			var h = this.$scope.data.hue || currentHSV.h;
+			var h = this.$scope.data.hsva.h;
 			var s =  x / this.height;
 			var v = ( this.height - y ) / this.height;
-			var a = this.$scope.data.color.getAlpha();
+			var a = this.$scope.data.hsva.a;
 
 			return {
 				h: h,
@@ -421,8 +427,9 @@
 			};
 		},
 		onColorSet: function( e, args ) {
-			hsv = this.$scope.data.color.toHsv();
-			this.currentHue = this.$scope.data.hue || hsv.h;
+			console.log( 'SET SPECTRUM COLOR', this.$scope.data );
+			var hsv = this.$scope.data.color.toHsv();
+			this.currentHue = this.$scope.data.hsva.h || hsv.h;
 			this.draw();
 
 			var posX = this.canvas.width * hsv.s;
@@ -467,7 +474,7 @@
 				.addColorStop(1    , [255, 0, 0])		// Red
 				.fill( this.context, r, r, r, ( PI / 180 ), ( PI / 180 ), false);
 
-			console.log( "DRAW HUE", this.$scope.data );
+			console.log( "DRAW WHEEL", this.$scope.data );
 			var grayValueString = '255,255,255'; //'' + grayValue + ',' + grayValue + ',' + grayValue;
 			var centerGradient = this.context.createRadialGradient( r, r, r, r, r, 0 );
 			centerGradient.addColorStop( 0, 'rgba( 255,255,255, 0 )' );
@@ -493,8 +500,8 @@
 			// atan2 works in -180..180 so we need to recitify the negatives
 			h = (h > 0 ? h : 360 + h);
 
-			var v = this.$scope.data.color.toHsv().v;
-			var a = this.$scope.data.color.getAlpha();
+			var v = this.$scope.data.hsva.v;
+			var a = this.$scope.data.hsva.a;
 
 			return {
 				h: h,
@@ -546,7 +553,7 @@
 			return { x: xAdjusted, y: yAdjusted };
 		},
 		onColorSet: function( e, args ) {
-			var hsv = this.$scope.data.color.toHsv();
+			var hsv = this.$scope.data.hsva;
 			var hsl = this.$scope.data.color.toHsl();
 
 			var hue = hsv.h;
@@ -597,7 +604,7 @@
 
 			// Create gradient
 			var grayGrd = this.context.createLinearGradient(90, 0.000, 90, this.height);
-			var hsv = this.$scope.data.color.toHsv();
+			var hsv = this.$scope.data.hsva;
 			var color = tinycolor({ h: hsv.h, s: hsv.s, v: 100});
 
 			// Add colors
@@ -610,11 +617,10 @@
 
 		},
 		getColorByPoint: function( x, y ) {
-			var currentHSV = this.$scope.data.color.toHsv();
-			var h = currentHSV.h;
-			var s = currentHSV.s;
+			var h = this.$scope.data.hsva.h;
+			var s = this.$scope.data.hsva.s;
 			var v = ( this.height - y ) / this.height;
-			var a = this.$scope.data.color.getAlpha();
+			var a = this.$scope.data.hsva.a;
 
 			return {
 				h: h,
@@ -624,9 +630,12 @@
 			};
 		},
 		onColorSet: function( e, args ) {
+			console.log( "DATA.COLOR CHANGE... setting", this.$scope.data.color.toHsv(), this.$element, e, args, arguments);
 			this.draw();
 
-			hsv = this.$scope.data.color.toHsv();
+			var hsv = this.$scope.data.color.toHsv();
+			this.$scope.data.hsva.v = hsv.v;
+			
 			var y = this.canvas.height - ( this.canvas.height * hsv.v );
 			this.setMarkerCenter( y );
 		}
@@ -665,5 +674,3 @@
 
 
 	;
-
-})( window, window.angular );
