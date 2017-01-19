@@ -753,7 +753,7 @@ var dateClick;
 				 * @member $mdColorPickerConfig#tabs#order
 				 * @default [ 'spectrum',]
  				 */
- 				order: [ 'spectrum', 'colorSliders' ] // [ 'spectrum', 'wheel', 'rgbSliders', 'palette', 'material', 'history' ];
+ 				order: [ 'spectrum', 'wheel', 'colorSliders', 'material', 'history' ] // [ 'spectrum', 'wheel', 'rgbSliders', 'palette', 'material', 'history' ];
  			};
 
 
@@ -779,6 +779,15 @@ var dateClick;
  				}
  			});
 
+			$mdColorPickerConfig.tabs.add({
+				name: 'wheel',
+				icon: 'wheel.svg',
+				template: [
+					'<div md-color-picker-wheel></div>',
+					'<div md-color-picker-value ng-class="{\'md-color-picker-wide\': false && !mdColorAlphaChannel}"></div>',
+					'<div md-color-picker-alpha class="md-color-picker-checkered-bg" ng-if="true || mdColorAlphaChannel"></div>'
+				].join('\n')
+			}, 'push');
 
 
 			this.defaults = {
