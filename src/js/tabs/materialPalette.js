@@ -60,13 +60,14 @@
 
 
 		}])
-		.run( ['$timeout','$mdColorPickerConfig', function( $timeout, $mdColorPickerConfig ) {
-			$timeout( function() {
-				$mdColorPickerConfig.tabs.order.push( 'materialPalette' );
-			}, 5000, true);
-
-			$timeout( function() {
-				var idx = $mdColorPickerConfig.tabs.order.indexOf( 'materialPalette' );
-				$mdColorPickerConfig.tabs.order.splice( idx, 1 );
-			}, 10000, true);
-		}]);
+		// .run( ['$timeout','$mdColorPickerConfig', function( $timeout, $mdColorPickerConfig ) {
+		// 	$timeout( function() {
+		// 		$mdColorPickerConfig.tabs.order.push( 'materialPalette' );
+		// 	}, 5000, true);
+		//
+		// 	$timeout( function() {
+		// 		var idx = $mdColorPickerConfig.tabs.order.indexOf( 'materialPalette' );
+		// 		$mdColorPickerConfig.tabs.order.splice( idx, 1 );
+		// 	}, 10000, true);
+		// }])
+		;

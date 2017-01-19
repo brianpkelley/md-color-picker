@@ -180,7 +180,7 @@
 				 * $mdColorPickerConfig.tabs.add( spectrumTab );
  				 */
  				add: function( tab, addToOrder ) {
-
+					console.log( "ADD TAB", tab );
 					this.tabs_[ tab.name ] = tab;
 
 					addToOrder = addToOrder === undefined ? true : addToOrder;
@@ -231,7 +231,7 @@
 				 * @member $mdColorPickerConfig#tabs#order
 				 * @default [ 'spectrum',]
  				 */
- 				order: [ 'spectrum', 'wheel', 'colorSliders', 'material', 'history' ] // [ 'spectrum', 'wheel', 'rgbSliders', 'palette', 'material', 'history' ];
+ 				order: [ 'spectrum', 'wheel', 'colorSliders' ] // [ 'spectrum', 'wheel', 'rgbSliders', 'palette', 'material', 'history' ];
  			};
 
 
@@ -257,14 +257,14 @@
  				}
  			});
 
-			$mdColorPickerConfig.tabs.add({
+			this.tabs.add({
 				name: 'wheel',
 				icon: 'wheel.svg',
 				template: [
-					'<div md-color-picker-wheel></div>',
-					'<div md-color-picker-value ng-class="{\'md-color-picker-wide\': false && !mdColorAlphaChannel}"></div>',
-					'<div md-color-picker-alpha class="md-color-picker-checkered-bg" ng-if="true || mdColorAlphaChannel"></div>'
-				].join('\n')
+							'<div md-color-picker-wheel></div>',
+							'<div md-color-picker-value ng-class="{\'md-color-picker-wide\': false && !mdColorAlphaChannel}"></div>',
+							'<div md-color-picker-alpha class="md-color-picker-checkered-bg" ng-if="true || mdColorAlphaChannel"></div>'
+						].join('\n')
 			}, 'push');
 
 
