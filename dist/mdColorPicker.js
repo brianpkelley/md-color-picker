@@ -907,6 +907,7 @@ angular.module('mdColorPicker', [])
 							//console.log( "DIALOG CONTROLLER OPEN", Date.now() - dateClick );
 							$scope.close = function close()
                             {
+                colorDelta = options.value;
 								$mdDialog.cancel();
 							};
 							$scope.ok = function ok()
