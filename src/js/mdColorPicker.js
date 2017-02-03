@@ -3,7 +3,7 @@
 'use strict';
 
 var dateClick;
-
+var colorDelta;
 
 var canvasTypes = {
 	hue: {
@@ -516,6 +516,13 @@ angular.module('mdColorPicker', [])
 					updateValue(newVal);
 				});
 
+				// Real time update on ngModel value
+				$scope.$watch(function () {
+					return colorDelta;
+				}, function () {
+					$scope.value = colorDelta;
+				});
+
 				// Watch for updates to value and set them on the model
 				$scope.$watch('value',function(newVal,oldVal) {
 					if (newVal !== '' && typeof newVal !== 'undefined' && newVal && newVal !== oldVal) {
@@ -710,6 +717,7 @@ angular.module('mdColorPicker', [])
 				$scope.setValue = function setValue() {
 					// Set the value if available
 					if ( $scope.color && $scope.color && outputFn[$scope.type] && $scope.color.toRgbString() !== 'rgba(0, 0, 0, 0)' ) {
+						colorDelta = tinycolor( $scope.color );
 						$scope.value = $scope.color[outputFn[$scope.type]]();
 					}
 				};
