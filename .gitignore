@@ -1,22 +1,12 @@
-# Specifies intentionally untracked files to ignore when using Git
-# http://git-scm.com/docs/gitignore
-
-node_modules/
-platforms/
-plugins/
-src/lib/
-.idea/
-# Mac.
-.DS_STORE
-
-/node_modules
-
+# Mac
 .DS_Store
 
-.idea/workspace.xml
+# IDE
+.idea/
 
-dist/demo
-demo/lib
+# npm
+node_modules/
 npm-debug.log
 
-/bower_components/
+# bower_components for demo page
+demo/lib

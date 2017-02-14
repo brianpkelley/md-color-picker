@@ -8,6 +8,7 @@ const paths = require('../paths');
 module.exports = function cleanTask() {
 
 	return del.sync([
-		paths.dist + '/**/*', 'docs/**/*.1',
+		`${paths.dist}/**/*`,
+		'docs/**/*.1',
 	]);
 };

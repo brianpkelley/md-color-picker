@@ -21,6 +21,5 @@ module.exports = function docsTask() {
 		)
 		.pipe(
 			gulp.dest('docs')
-		)
-		;
+		);
 };
