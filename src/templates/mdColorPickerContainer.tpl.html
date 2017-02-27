@@ -109,7 +109,7 @@
 				</md-tab-label>
 				<md-tab-body layout="row" layout-fill>
 					<div layout="column" flex layout-align="space-between start" layout-wrap layout-fill class="md-color-picker-history">
-						<div layout="row" flex="80" layout-align="space-between start start" layout-wrap  layout-fill>
+						<div layout="row" flex layout-fill>
 							<div flex="10" ng-repeat="historyColor in history.get() track by $index">
 								<div  ng-style="{'background': historyColor.toRgbString()}" ng-click="setPaletteColor($event)"></div>
 							</div>

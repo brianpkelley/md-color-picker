@@ -509,6 +509,7 @@ angular.module('mdColorPicker', [])
         mdColorSpectrum: $scope.mdColorSpectrum,
         mdColorSliders: $scope.mdColorSliders,
         mdColorGenericPalette: $scope.mdColorGenericPalette,
+        mdColorPalette: $scope.mdColorPalette,
         mdColorMaterialPalette: $scope.mdColorMaterialPalette,
         mdColorHistory: $scope.mdColorHistory,
         mdColorHex: $scope.mdColorHex,
@@ -556,6 +557,7 @@ angular.module('mdColorPicker', [])
 				mdColorSpectrum: '=?',
 				mdColorSliders: '=?',
 				mdColorGenericPalette: '=?',
+                mdColorPalette: '=?',
 				mdColorMaterialPalette: '=?',
 				mdColorHistory: '=?',
 				mdColorHex: '=?',
@@ -583,6 +585,7 @@ angular.module('mdColorPicker', [])
 				mdColorSpectrum: '=',
 				mdColorSliders: '=',
 				mdColorGenericPalette: '=',
+				mdColorPalette: '=',
 				mdColorMaterialPalette: '=',
 				mdColorHistory: '=',
 				mdColorHex: '=',
@@ -656,7 +659,7 @@ angular.module('mdColorPicker', [])
 				var steps = 9;
 				var freq = 2*Math.PI/steps;
 
-				$scope.palette = [
+				$scope.palette = $scope.mdColorPalette || [
 					["rgb(255, 204, 204)","rgb(255, 230, 204)","rgb(255, 255, 204)","rgb(204, 255, 204)","rgb(204, 255, 230)","rgb(204, 255, 255)","rgb(204, 230, 255)","rgb(204, 204, 255)","rgb(230, 204, 255)","rgb(255, 204, 255)"],
 					["rgb(255, 153, 153)","rgb(255, 204, 153)","rgb(255, 255, 153)","rgb(153, 255, 153)","rgb(153, 255, 204)","rgb(153, 255, 255)","rgb(153, 204, 255)","rgb(153, 153, 255)","rgb(204, 153, 255)","rgb(255, 153, 255)"],
 					["rgb(255, 102, 102)","rgb(255, 179, 102)","rgb(255, 255, 102)","rgb(102, 255, 102)","rgb(102, 255, 179)","rgb(102, 255, 255)","rgb(102, 179, 255)","rgb(102, 102, 255)","rgb(179, 102, 255)","rgb(255, 102, 255)"],
@@ -911,6 +914,7 @@ angular.module('mdColorPicker', [])
 							$scope.mdColorSpectrum = options.mdColorSpectrum;
 							$scope.mdColorSliders = options.mdColorSliders;
 							$scope.mdColorGenericPalette = options.mdColorGenericPalette;
+							$scope.mdColorPalette = options.mdColorPalette;
 							$scope.mdColorMaterialPalette = options.mdColorMaterialPalette;
 							$scope.mdColorHistory = options.mdColorHistory;
 							$scope.mdColorHex = options.mdColorHex;
