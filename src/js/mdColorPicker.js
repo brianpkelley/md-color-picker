@@ -606,16 +606,15 @@ angular.module('mdColorPicker', [])
 						*/
 						var tabName = 'mdColor' + tab.slice(0,1).toUpperCase() + tab.slice(1);
 						var tabs = ['mdColorSpectrum', 'mdColorSliders', 'mdColorGenericPalette', 'mdColorMaterialPalette', 'mdColorHistory'];
-						for ( var x = 0; x < tabs.length; x++ ) {
+						var x =  tabs.length - 1;
+						for ( ; x >=0; x-- ) {
 							//console.log(  tabs[x]('ng-if') );
 							//if ( tabs[x].getAttribute('ng-if') == tabName ) {
-							if ( tabs[x] == tabName ) {
-								if ( $scope[tabName] ) {
-									index = x;
-									break;
-								}
+							if ( !$scope[tabs[x]] ) {
+								tabs.splice(x, 1);
 							}
 						}
+						index = tabs.indexOf(tabName);
 					} else if ( tab && typeof ( tab ) === 'number') {
 						index = tab;
 					}
