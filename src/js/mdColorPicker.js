@@ -440,6 +440,7 @@ angular.module('mdColorPicker', [])
 				icon: '@?',
 				random: '@?',
 				default: '@?',
+				validateFieldMessage: '@?',
 
 				// Dialog Options
 				openOnInput: '=?',
@@ -524,6 +525,20 @@ angular.module('mdColorPicker', [])
 				});
 
 				// The only other ngModel changes
+
+				var regexTypes = [
+					new RegExp('^#[A-F0-9]{6}$'), // HEX
+					new RegExp('^rgba\(((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9]), ){3}(1[.]0|0[.][0-9]{1,2})\)$'), // RGBA
+					new RegExp('^hsl\((35[0-9]|3[0-4][0-9]|[1-2][0-9][0-9]|[1-9][0-9]|[0-9]), (100|[1-9][0-9]|[0-9])%, (100|[1-9][0-9]|[0-9])%\)$') // HSL
+				];
+
+				$scope.hasErrors = false;
+                if ($scope.validateFieldMessage !== undefined) {
+					$scope.$watch('value', function (newValue) {
+						$scope.hasErrors = !newValue.match(regexTypes[$scope.type]);
+						ngModel.$setValidity('invalidFormat', $scope.hasErrors);
+                    });
+				}
 
 				$scope.clearValue = function clearValue() {
 					ngModel.$setViewValue('');
