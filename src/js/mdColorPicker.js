@@ -1,9 +1,12 @@
-
 (function( window, angular, undefined ) {
 'use strict';
 
 var dateClick;
-
+var outputFn = [
+	'toHexString',
+	'toRgbString',
+	'toHslString'
+];
 
 var canvasTypes = {
 	hue: {
@@ -140,7 +143,6 @@ function GradientCanvasFactory( ) {
 			template: '<canvas width="100%" height="100%"></canvas><div class="md-color-picker-marker"></div>',
 			link: canvas.get,
 			controller: function() {
-			//	console.log( "mdColorPickerAlpha Controller", Date.now() - dateClick );
 			}
 		};
 	}
@@ -231,7 +233,6 @@ GradientCanvas.prototype.setMarkerCenter = function( x, y ) {
 		xFinal = Math.floor( Math.max( Math.min( this.height + xOffset, xAdjusted ), xOffset ) );
 		yFinal = Math.floor( Math.max( Math.min( this.height + yOffset, yAdjusted ), yOffset ) );
 		// Debug output
-		// console.log( "Raw: ", x+','+y, "Adjusted: ", xAdjusted + ',' + yAdjusted, "Final: ", xFinal + ',' + yFinal );
 	}
 
 
@@ -334,13 +335,6 @@ GradientCanvas.prototype.onColorSet = function( e, args ) {
 	}
 
 };
-
-
-
-
-
-
-
 
 angular.module('mdColorPicker', [])
 	.run(['$templateCache', function ($templateCache) {
@@ -494,7 +488,6 @@ angular.module('mdColorPicker', [])
         return;
       }
       //	dateClick = Date.now();
-      //	console.log( "CLICK OPEN", dateClick, $scope );
 
       $mdColorPicker.show({
         value: $scope.value,
@@ -517,10 +510,10 @@ angular.module('mdColorPicker', [])
         mdColorHsl: $scope.mdColorHsl,
         mdColorDefaultTab: $scope.mdColorDefaultTab,
 
-        $event: $event,
-
+        $event: $event
       }).then(function( color ) {
-        $scope.value = color;
+        $scope.value = $scope.mdColorOutputType === undefined ? color :
+					tinycolor(color)[outputFn[$scope.mdColorOutputType]]();
       });
     };
   }])
@@ -563,6 +556,7 @@ angular.module('mdColorPicker', [])
 				mdColorHex: '=?',
 				mdColorRgb: '=?',
 				mdColorHsl: '=?',
+				mdColorOutputType: '=?',
 				mdColorDefaultTab: '=?'
 			},
 			compile: function( element, attrs ) {
@@ -594,7 +588,6 @@ angular.module('mdColorPicker', [])
 				mdColorDefaultTab: '='
 			},
 			controller: function( $scope, $element, $attrs ) {
-			//	console.log( "mdColorPickerContainer Controller", Date.now() - dateClick, $scope );
 
 				function getTabIndex( tab ) {
 					var index = 0;
@@ -602,13 +595,11 @@ angular.module('mdColorPicker', [])
 						/* DOM isn't fast enough for this
 
 						var tabs = $element[0].querySelector('.md-color-picker-colors').getElementsByTagName( 'md-tab' );
-						console.log( tabs.length );
 						*/
 						var tabName = 'mdColor' + tab.slice(0,1).toUpperCase() + tab.slice(1);
 						var tabs = ['mdColorSpectrum', 'mdColorSliders', 'mdColorGenericPalette', 'mdColorMaterialPalette', 'mdColorHistory'];
 						var x =  tabs.length - 1;
 						for ( ; x >=0; x-- ) {
-							//console.log(  tabs[x]('ng-if') );
 							//if ( tabs[x].getAttribute('ng-if') == tabName ) {
 							if ( !$scope[tabs[x]] ) {
 								tabs.splice(x, 1);
@@ -628,14 +619,6 @@ angular.module('mdColorPicker', [])
 				var container = angular.element( $element[0].querySelector('.md-color-picker-container') );
 				var resultSpan = angular.element( container[0].querySelector('.md-color-picker-result') );
 				var previewInput = angular.element( $element[0].querySelector('.md-color-picker-preview-input') );
-
-				var outputFn = [
-					'toHexString',
-					'toRgbString',
-					'toHslString'
-				];
-
-
 
 				$scope.default = $scope.default ? $scope.default : $scope.random ? tinycolor.random() : 'rgb(255,255,255)';
 				if ( $scope.value.search('#') >= 0 ) {
@@ -756,9 +739,7 @@ angular.module('mdColorPicker', [])
 				// INIT
 				// Let all the other directives initialize
 				///////////////////////////////////
-			//	console.log( "mdColorPickerContainer Controller PRE Timeout", Date.now() - dateClick );
 				$timeout( function() {
-			//		console.log( "mdColorPickerContainer Controller Timeout", Date.now() - dateClick );
 					$scope.$broadcast('mdColorPicker:colorSet', { color: $scope.color });
 					previewInput.focus();
 					$scope.previewFocus();
@@ -933,10 +914,8 @@ angular.module('mdColorPicker', [])
 					focusOnOpen: options.focusOnOpen,
 					autoWrap: false,
 					onShowing: function() {
-				//		console.log( "DIALOG OPEN START", Date.now() - dateClick );
 					},
 					onComplete: function() {
-				//		console.log( "DIALOG OPEN COMPLETE", Date.now() - dateClick );
 					}
                 });
 
