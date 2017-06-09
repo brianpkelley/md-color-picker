@@ -447,6 +447,8 @@ angular.module('mdColorPicker', [])
 				clickOutsideToClose: '=?',
 				skipHide: '=?',
 				preserveScope: '=?',
+				okText: '@?',
+				cancelText: '@?',
 
 				// Advanced options
 				mdColorClearButton: '=?',
@@ -543,6 +545,8 @@ angular.module('mdColorPicker', [])
 						hasBackdrop: $scope.hasBackdrop,
 						skipHide: $scope.skipHide,
 						preserveScope: $scope.preserveScope,
+						okText: $scope.okText,
+						cancelText: $scope.cancelText,
 
 						mdColorAlphaChannel: $scope.mdColorAlphaChannel,
 						mdColorSpectrum: $scope.mdColorSpectrum,
@@ -681,6 +685,9 @@ angular.module('mdColorPicker', [])
 					}
 
 				};
+				$scope.toRgbString = function (color) {
+					return $scope.mdColorAlphaChannel? color.toRgbString() : color.clone().setAlpha(1).toRgbString();
+				};
 				$scope.previewFocus = function() {
 					$scope.inputFocus = true;
 					$timeout( function() {
@@ -709,7 +716,10 @@ angular.module('mdColorPicker', [])
 
 				$scope.setValue = function setValue() {
 					// Set the value if available
-					if ( $scope.color && $scope.color && outputFn[$scope.type] && $scope.color.toRgbString() !== 'rgba(0, 0, 0, 0)' ) {
+					if ( $scope && $scope.color && outputFn[$scope.type] && $scope.color.toRgbString() !== 'rgba(0, 0, 0, 0)' ) {
+						if ($scope.mdColorAlphaChannel === false) {
+							$scope.color.setAlpha(1);
+ 						}
 						$scope.value = $scope.color[outputFn[$scope.type]]();
 					}
 				};
@@ -870,6 +880,8 @@ angular.module('mdColorPicker', [])
 				options.focusOnOpen = options.focusOnOpen === undefined ? false : options.focusOnOpen;
 				options.preserveScope = options.preserveScope === undefined ? true : options.preserveScope;
 				options.skipHide = options.skipHide === undefined ? true : options.skipHide;
+				options.okText = options.okText === undefined? 'Select' : options.okText;
+				options.cancelText = options.cancelText === undefined? 'Cancel' : options.cancelText;
 
 				// mdColorPicker Properties
 				options.mdColorAlphaChannel = options.mdColorAlphaChannel === undefined ? false : options.mdColorAlphaChannel;
@@ -905,6 +917,8 @@ angular.module('mdColorPicker', [])
 							$scope.value = options.value;
 							$scope.default = options.defaultValue;
 							$scope.random = options.random;
+							$scope.cancelText = options.cancelText;
+							$scope.okText = options.okText;
 
 							$scope.mdColorAlphaChannel = options.mdColorAlphaChannel;
 							$scope.mdColorSpectrum = options.mdColorSpectrum;
