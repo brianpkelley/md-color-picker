@@ -1,16 +1,16 @@
 <div class="md-color-picker-container in" layout="column">
-	<div class="md-color-picker-arrow" ng-style="{'border-bottom-color': color.toRgbString() }"></div>
+	<div class="md-color-picker-arrow" ng-style="{'border-bottom-color': toRgbString(color) }"></div>
 
 	<div class="md-color-picker-preview md-color-picker-checkered-bg" ng-class="{'dark': !color.isDark() || color.getAlpha() < .45}" flex="1" layout="column">
 
-		<div class="md-color-picker-result" ng-style="{'background': color.toRgbString()}" flex="100" layout="column" layout-fill layout-align="center center" ng-click="focusPreviewInput( $event )">
+		<div class="md-color-picker-result" ng-style="{'background': toRgbString(color)}" flex="100" layout="column" layout-fill layout-align="center center" ng-click="focusPreviewInput( $event )">
 			<!--<span flex  layout="column" layout-align="center center">{{value}}</span>-->
 			<div flex  layout="row" layout-align="center center">
 				<input class="md-color-picker-preview-input" type="text" ng-model="value" ng-focus="previewFocus($event);" ng-blur="previewBlur()" ng-change="changeValue()" ng-keypress="previewKeyDown($event)" layout-fill />
 			</div>
 			<div class="md-color-picker-tabs" style="width: 100%">
 				<md-tabs md-selected="type" md-stretch-tabs="always" md-no-bar md-no-ink md-no-pagination="true" >
-					<md-tab ng-if="mdColorHex" label="Hex" ng-disabled="color.getAlpha() !== 1" md-ink-ripple="#ffffff"></md-tab>
+					<md-tab ng-if="mdColorHex" label="Hex" ng-disabled="mdColorAlphaChannel && color.getAlpha() !== 1" md-ink-ripple="#ffffff"></md-tab>
 					<md-tab ng-if="mdColorRgb" label="RGB"></md-tab>
 					<md-tab ng-if="mdColorHsl" label="HSL"></md-tab>
 					<!--<md-tab label="HSV"></md-tab>
