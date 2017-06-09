@@ -685,6 +685,9 @@ angular.module('mdColorPicker', [])
 					}
 
 				};
+				$scope.toRgbString = function (color) {
+					return $scope.mdColorAlphaChannel? color.toRgbString() : color.clone().setAlpha(1).toRgbString();
+				};
 				$scope.previewFocus = function() {
 					$scope.inputFocus = true;
 					$timeout( function() {
@@ -713,7 +716,10 @@ angular.module('mdColorPicker', [])
 
 				$scope.setValue = function setValue() {
 					// Set the value if available
-					if ( $scope.color && $scope.color && outputFn[$scope.type] && $scope.color.toRgbString() !== 'rgba(0, 0, 0, 0)' ) {
+					if ( $scope && $scope.color && outputFn[$scope.type] && $scope.color.toRgbString() !== 'rgba(0, 0, 0, 0)' ) {
+						if ($scope.mdColorAlphaChannel === false) {
+							$scope.color.setAlpha(1);
+ 						}
 						$scope.value = $scope.color[outputFn[$scope.type]]();
 					}
 				};
