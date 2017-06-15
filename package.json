@@ -4,16 +4,18 @@
   "description": "Angular-Material inspired color picker.",
   "main": "dist/mdColorPicker.min.js",
   "dependencies": {
-      "tinycolor2": "*"
+    "tinycolor2": "*"
   },
   "devDependencies": {
     "del": "^2.0.1",
+    "es6-promise": "^3.2.1",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^1.7.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-cssnano": "^2.1.0",
     "gulp-debug": "^2.1.0",
+    "gulp-header": "^1.7.1",
     "gulp-inject-reload": "0.0.2",
     "gulp-jsclosure": "0.0.1",
     "gulp-less": "^3.0.3",
@@ -23,7 +25,6 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.4.0",
     "gulp-util": "^3.0.7",
-    "gulp-header": "^1.7.1",
     "merge-stream": "^1.0.0",
     "run-sequence": "^1.1.2",
     "st": "^1.0.0",

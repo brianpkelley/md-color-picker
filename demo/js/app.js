@@ -29,7 +29,7 @@ app.controller('MainCtrl', function($scope) {
 
         alphaChannel: false,
         history: false,
-        defaultTab: 1
+        defaultTab: 1,
     };
     $scope.textConfig.showPreview = true;
 
