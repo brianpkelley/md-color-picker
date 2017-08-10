@@ -1,6 +1,6 @@
 /**
  * md-color-picker - Angular-Material inspired color picker.
- * @version v0.2.6
+ * @version v0.2.7
  * @link https://github.com/brianpkelley/md-color-picker
  * @license MIT
  */
@@ -533,7 +533,7 @@ angular.module('mdColorPicker', [])
 				// The only other ngModel changes
 
 				$scope.clearValue = function clearValue() {
-					$scope.value = '';
+					ngModel.$setViewValue('');
 				};
 				$scope.showColorPicker = function showColorPicker($event) {
 					if ( didJustClose ) {
@@ -888,9 +888,10 @@ angular.module('mdColorPicker', [])
 				options.mdColorRgb = options.mdColorRgb === undefined ? true : options.mdColorRgb;
 				options.mdColorHsl = options.mdColorHsl === undefined ? true : options.mdColorHsl;
 				options.mdColorHex = ((options.mdColorHex === undefined) || (!options.mdColorRgb && !options.mdColorHsl))  ? true : options.mdColorHex;
-				options.mdColorAlphaChannel = (!options.mdColorRgb && !options.mdColorHsl) ? false : options.mdColorAlphaChannel;
+				options.mdColorAlphaChannel = (!options.mdColorRgb && !options.mdColorHsl) ? false : options.mdColorAlphaChannel;				
 
                 dialog = $mdDialog.show({
+                	multiple: true, // An option to allow this dialog to display over one that's currently open.
 					templateUrl: 'mdColorPickerDialog.tpl.html',
 					hasBackdrop: options.hasBackdrop,
 					clickOutsideToClose: options.clickOutsideToClose,

@@ -881,9 +881,10 @@ angular.module('mdColorPicker', [])
 				options.mdColorRgb = options.mdColorRgb === undefined ? true : options.mdColorRgb;
 				options.mdColorHsl = options.mdColorHsl === undefined ? true : options.mdColorHsl;
 				options.mdColorHex = ((options.mdColorHex === undefined) || (!options.mdColorRgb && !options.mdColorHsl))  ? true : options.mdColorHex;
-				options.mdColorAlphaChannel = (!options.mdColorRgb && !options.mdColorHsl) ? false : options.mdColorAlphaChannel;
+				options.mdColorAlphaChannel = (!options.mdColorRgb && !options.mdColorHsl) ? false : options.mdColorAlphaChannel;				
 
                 dialog = $mdDialog.show({
+                	multiple: true, // An option to allow this dialog to display over one that's currently open.
 					templateUrl: 'mdColorPickerDialog.tpl.html',
 					hasBackdrop: options.hasBackdrop,
 					clickOutsideToClose: options.clickOutsideToClose,
