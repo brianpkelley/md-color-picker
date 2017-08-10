@@ -877,6 +877,7 @@ angular.module('mdColorPicker', [])
 				options.focusOnOpen = options.focusOnOpen === undefined ? false : options.focusOnOpen;
 				options.preserveScope = options.preserveScope === undefined ? true : options.preserveScope;
 				options.skipHide = options.skipHide === undefined ? true : options.skipHide;
+				options.multiple = options.multiple === undefined ? true : options.multiple;
 
 				// mdColorPicker Properties
 				options.mdColorAlphaChannel = options.mdColorAlphaChannel === undefined ? false : options.mdColorAlphaChannel;
@@ -888,7 +889,7 @@ angular.module('mdColorPicker', [])
 				options.mdColorRgb = options.mdColorRgb === undefined ? true : options.mdColorRgb;
 				options.mdColorHsl = options.mdColorHsl === undefined ? true : options.mdColorHsl;
 				options.mdColorHex = ((options.mdColorHex === undefined) || (!options.mdColorRgb && !options.mdColorHsl))  ? true : options.mdColorHex;
-				options.mdColorAlphaChannel = (!options.mdColorRgb && !options.mdColorHsl) ? false : options.mdColorAlphaChannel;
+				options.mdColorAlphaChannel = (!options.mdColorRgb && !options.mdColorHsl) ? false : options.mdColorAlphaChannel;				
 
                 dialog = $mdDialog.show({
 					templateUrl: 'mdColorPickerDialog.tpl.html',
