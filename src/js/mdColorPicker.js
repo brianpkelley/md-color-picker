@@ -447,7 +447,6 @@ angular.module('mdColorPicker', [])
 				clickOutsideToClose: '=?',
 				skipHide: '=?',
 				preserveScope: '=?',
-				multiple: '=?',
 
 				// Advanced options
 				mdColorClearButton: '=?',
@@ -507,7 +506,6 @@ angular.module('mdColorPicker', [])
 				$scope.mdColorHex = $scope.mdColorHex === undefined ? true : $scope.mdColorHex;
 				$scope.mdColorRgb = $scope.mdColorRgb === undefined ? true : $scope.mdColorRgb;
 				$scope.mdColorHsl = $scope.mdColorHsl === undefined ? true : $scope.mdColorHsl;
-				$scope.multiple = $scope.multiple === undefined ? true : $scope.multiple;
 				// Set the starting value
 				updateValue();
 
@@ -556,7 +554,6 @@ angular.module('mdColorPicker', [])
 						mdColorRgb: $scope.mdColorRgb,
 						mdColorHsl: $scope.mdColorHsl,
 						mdColorDefaultTab: $scope.mdColorDefaultTab,
-						multiple: $scope.multiple,
 
 						$event: $event,
 
@@ -873,7 +870,6 @@ angular.module('mdColorPicker', [])
 				options.focusOnOpen = options.focusOnOpen === undefined ? false : options.focusOnOpen;
 				options.preserveScope = options.preserveScope === undefined ? true : options.preserveScope;
 				options.skipHide = options.skipHide === undefined ? true : options.skipHide;
-				options.multiple = options.multiple === undefined ? true : options.multiple;
 
 				// mdColorPicker Properties
 				options.mdColorAlphaChannel = options.mdColorAlphaChannel === undefined ? false : options.mdColorAlphaChannel;
@@ -888,6 +884,7 @@ angular.module('mdColorPicker', [])
 				options.mdColorAlphaChannel = (!options.mdColorRgb && !options.mdColorHsl) ? false : options.mdColorAlphaChannel;				
 
                 dialog = $mdDialog.show({
+                	multiple: true, // An option to allow this dialog to display over one that's currently open.
 					templateUrl: 'mdColorPickerDialog.tpl.html',
 					hasBackdrop: options.hasBackdrop,
 					clickOutsideToClose: options.clickOutsideToClose,
@@ -909,7 +906,6 @@ angular.module('mdColorPicker', [])
 							$scope.value = options.value;
 							$scope.default = options.defaultValue;
 							$scope.random = options.random;
-							$scope.multiple = options.multiple;
 
 							$scope.mdColorAlphaChannel = options.mdColorAlphaChannel;
 							$scope.mdColorSpectrum = options.mdColorSpectrum;
