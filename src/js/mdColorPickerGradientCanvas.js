@@ -167,7 +167,7 @@
 		var pageX = te && te.clientX || e.clientX;
 		var pageY = te && te.clientY || e.clientY;
 
-		console.log( e, pageX, this.offset.x );
+		// console.log( e, pageX, this.offset.x );
 		var x = Math.round( pageX - this.offset.x );
 		var y = Math.round( pageY - this.offset.y );
 
@@ -209,7 +209,7 @@
 			this.$scope.data.color = tinycolor( color );
 			this.$scope.data.color.setAlpha( color.a );
 			this.$scope.data.hsva = color;
-			console.log( this.$scope.data.hsva.h );
+			// console.log( this.$scope.data.hsva.h );
 		}));
 
 		this.setMarkerCenter( coords.x, coords.y );
@@ -380,7 +380,7 @@
 
 		},
 		draw: function() {
-			console.log("DRAWING SPECTRUM!");
+			// console.log("DRAWING SPECTRUM!");
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 
@@ -399,7 +399,7 @@
 			blackGrd.addColorStop(0.99, 'rgba(0, 0, 0, 1.000)');
 
 			// Fill with solid
-			console.log( "DRAW HUE", this.$scope.data );
+			// console.log( "DRAW HUE", this.$scope.data );
 			this.context.fillStyle = 'hsl( ' + this.$scope.data.hsva.h + ', 100%, 50%)';
 			this.context.fillRect( 0, 0, this.canvas.width, this.canvas.height );
 
@@ -427,7 +427,7 @@
 			};
 		},
 		onColorSet: function( e, args ) {
-			console.log( 'SET SPECTRUM COLOR', this.$scope.data );
+			// console.log( 'SET SPECTRUM COLOR', this.$scope.data );
 			var hsv = this.$scope.data.color.toHsv();
 			this.currentHue = this.$scope.data.hsva.h || hsv.h;
 			this.draw();
@@ -474,7 +474,7 @@
 				.addColorStop(1    , [255, 0, 0])		// Red
 				.fill( this.context, r, r, r, ( PI / 180 ), ( PI / 180 ), false);
 
-			console.log( "DRAW WHEEL", this.$scope.data );
+			// console.log( "DRAW WHEEL", this.$scope.data );
 			var grayValueString = '255,255,255'; //'' + grayValue + ',' + grayValue + ',' + grayValue;
 			var centerGradient = this.context.createRadialGradient( r, r, r, r, r, 0 );
 			centerGradient.addColorStop( 0, 'rgba( 255,255,255, 0 )' );
@@ -581,7 +581,7 @@
 		//	this.$scope.$emit('mdColorPicker:wheelChange', { color: this.color });
 		},
 		setColor: function( color ) {
-			console.log( 'wheel', color );
+			// console.log( 'wheel', color );
 
 			//this.$scope.$broadcast('mdColorPicker:colorChange', { color: color });
 		}
@@ -630,7 +630,7 @@
 			};
 		},
 		onColorSet: function( e, args ) {
-			console.log( "DATA.COLOR CHANGE... setting", this.$scope.data.color.toHsv(), this.$element, e, args, arguments);
+			// console.log( "DATA.COLOR CHANGE... setting", this.$scope.data.color.toHsv(), this.$element, e, args, arguments);
 			this.draw();
 
 			var hsv = this.$scope.data.color.toHsv();
@@ -655,7 +655,6 @@
 				link: function( $scope, $element, $attrs ) {
 					// Create new instance of the gradient so the same gradient canvases can be used on separate tabs.
 					var gCanvas = new canvasConstructor( $element, $scope );
-					console.log( $scope );
 				}
 			};
 		};

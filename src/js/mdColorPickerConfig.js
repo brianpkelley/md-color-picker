@@ -14,10 +14,7 @@
  			 *
  			 */
  			this.notations = {
- 				notations_: {
-
-
- 				},
+ 				notations_: {},
 
  				/**
  				 * Rertieve a notation Object.
@@ -56,11 +53,11 @@
  				 * @return {String}     String indentifier of the current notation.
  				 */
  				select: function( color ) {
- 					console.log("SELECT", color);
+ 					// console.log("SELECT", color);
  					var notation = this.get(this.order[0]);
  					var this_ = this;
  					angular.forEach( this.notations_, function( item, i ) {
- 						console.log( item );
+ 						// console.log( item );
  						if ( item.test( color ) ) {
  							notation = item;
  						}
@@ -86,8 +83,8 @@
  				},
 
  				/**
- 				 * Holds the order of the notaions to be displayed under the preview.
-				 * @member $mdColorPickerConfig#notations#order
+ 				 * Holds the order of the notations to be displayed under the preview.
+				 * @member {string} $mdColorPickerConfig#notations#order
 				 *
  				 * @default [ 'hex', 'rgb', 'hsl' ]
  				 */
@@ -96,17 +93,16 @@
 
  			};
 
-
-
  			// Default HEX notation object.
  			this.notations.add({
  				name: 'hex',
  				toString: function( color ) {
- 					return color.toHexString();
+ 					// console.log("TO STRING", color );
+ 					return color && color.toHexString && color.toHexString();
  				},
  				testExp: /#[a-fA-F0-9]{3,6}/,
  				disabled: function( color ) {
- 					return color.toRgb().a !== 1;
+ 					return color && color.toRgb().a !== 1;
  				}
  			});
 
@@ -114,10 +110,10 @@
  			this.notations.add({
  				name: 'rgb',
  				toString: function( color ) {
- 					return color.toRgbString();
+ 					return color && color.toRgbString && color.toRgbString();
  				},
  				test: function( color ) {
- 					return color.toLowerCase().search( 'rgb' ) > -1;
+ 					return color && color.toLowerCase().search( 'rgb' ) > -1;
  				}
  			});
 
@@ -125,10 +121,10 @@
  			this.notations.add({
  				name: 'hsl',
  				toString: function( color ) {
- 					return color.toHslString();
+ 					return color && color.toHslString && color.toHslString();
  				},
  				test: function( color ) {
- 					return color.toLowerCase().search('hsl') > -1;
+ 					return color && color.toLowerCase().search('hsl') > -1;
  				}
  			});
 
@@ -180,7 +176,7 @@
 				 * $mdColorPickerConfig.tabs.add( spectrumTab );
  				 */
  				add: function( tab, addToOrder ) {
-					console.log( "ADD TAB", tab );
+					// console.log( "ADD TAB", tab );
 					this.tabs_[ tab.name ] = tab;
 
 					addToOrder = addToOrder === undefined ? true : addToOrder;
@@ -203,15 +199,19 @@
  				 * @return {Tab}     The tab object requested.
  				 */
  				get: function( tab, config ) {
-					console.log('GET TAB', this);
+					// console.log('GET TAB', this);
  					if ( tab ) {
 						if ( config === true ) {
 							return this.tabs_[tab];
 						} else {
-							var newTab = new Tab( this.tabs_[ tab ] );
-							this.cache_[ tab ] = this.cache_[ tab ] || [];
-							this.cache_[ tab ].push( newTab );
-	 						return newTab;
+							if ( this.cache_[tab] && this.cache_[tab].length ) {
+								return this.cache_[tab][0];
+							} else {
+								var newTab = new Tab( this.tabs_[ tab ] );
+								// this.cache_[ tab ] = this.cache_[ tab ] || [];
+								// this.cache_[ tab ].push( newTab );
+								return newTab;
+							}
 						}
  					} else {
  						var returnObj = {};
@@ -251,9 +251,15 @@
  				icon: 'tune.svg',
  				templateUrl: 'tabs/colorSliders.tpl.html',
  				link: function( $scope, $element ) {
- 					$scope.$watch( 'data.color._a', function( newVal ) {
- 						$scope.data.color.setAlpha( newVal );
- 					});
+ 					// $scope.alphaValue = $scope.data.color.getAlhpa();
+ 					
+ 					// this.watches.push( $scope.$watch( 'alphaValue', function( newVal ) {
+ 					// 	console.log( "alphaValue")
+ 					// 	$scope.data.color._a = newVal;
+ 					// }));
+ 					// this.watches.push( $scope.$watch( 'data.color.getAlpha()', function( newVal ) {
+ 					// 	$scope.alphaValue = newVal;
+					// }))
  				}
  			});
 
@@ -266,9 +272,10 @@
 							'<div md-color-picker-alpha class="md-color-picker-checkered-bg" ng-if="true || mdColorAlphaChannel"></div>'
 						].join('\n')
 			}, 'push');
-
+	
 
 			this.defaults = {
+				containerType: 'panel',
 				history: {
 					useLocalStorage: false,
 					useCookies: true,
@@ -279,7 +286,7 @@
 					escapeToClose: true,
 					focusOnOpen: false,
 					preserveScope: false,
-					skipHide: true,
+					multiple: true,
 					targetEvent: undefined
 
 				},
@@ -289,14 +296,18 @@
 					trapFocus: false,
 					clickOutsideToClose: true,
 					focusOnOpen: true,
-					fullscree: false
+					fullscreen: false
 
 				},
 				mdColorPicker: {
 					default: '#FFFFFF',
-					tab: 'spectrum',
+					defaultTab: 'wheel',
 					alphaChannel: true,
-					random: false
+					random: false,
+					openOnInputClick: true,
+					openOnPreviewClick: true,
+					selectLabel: 'Select',
+					cancelLabel: 'Cancel'
 				}
 			};
 
@@ -370,7 +381,7 @@
 
 		};
 
-		 /**
+		/**
  		 * Converts tinycolor.js Object to the notations object equivalent.
  		 * @memberof Notation
  		 *
@@ -385,6 +396,22 @@
  		Notation.prototype.toObject = function( color ) {
 
  		};
+
+		/**
+		* Converts tinycolor.js Object to the notations object equivalent.
+		* @memberof Notation
+		*
+		* @param  {tinycolor} color Tinycolor.js color Object.
+		* @return {Object}       Object notation of the color.
+		*
+		* @example
+		* var rgbObject = $mdColorPickerConfig.notations.get('rgb').toObject();
+		*
+		* // rbgObject == { r: 200, g: 255, b: 0, a: 1 }
+		*/
+		Notation.prototype.toTinyColorObject = function( color ) {
+		   return new TinyColor( color );
+	   };
 
 		/**
 		 * Check if a color string is in the notations format.
@@ -478,7 +505,8 @@
 			} else {
 				linkFn = angular.noop;
 			}
-
+			
+			this.watches = [];
 
 
 			this.link = function ( $scope, $element) {
@@ -494,7 +522,7 @@
 			/** @member {$element} $mdColorPickerConfig#Tab#$elemnt The angular.element wrapped element of the tab once rendered. */
 
 			angular.merge( this, options );
-			console.log( "ADDING ", this.name, "TO CACHE", mdColorPickerConfigRef );
+			// console.log( "ADDING ", this.name, "TO CACHE", mdColorPickerConfigRef );
 			// Add this tab to the tabs.cache_ objet;
 			mdColorPickerConfigRef.tabs.cache_[ options.name ] = mdColorPickerConfigRef.tabs.cache_[ options.name ] || [];
 			// keep track of index for removal later
@@ -506,14 +534,18 @@
  		 * @memberof Tab
  		 */
 		Tab.prototype.$destroy = function( ) {
-			console.log( "DESTRYOING", this );
+			// console.log( "DESTRYOING", this );
 			if ( this.$element ) {
 				this.$element.remove();
 				this.$element = undefined;
 			}
+			
+			angular.forEach( this.watches, function( watch ) {
+				watch();
+			} );
+			
 			mdColorPickerConfigRef.tabs.cache_[this.name].splice(this.cacheIndex, 1);
 		};
-
 
 		/**
 		 * Tab.link - Link function called after the tab is created and added to the md-tabs element.

@@ -9,7 +9,7 @@
 				icon: 'view_module.svg',
 				template: '<div layout="column" layout-align="space-between start center" flex class="md-color-picker-palette"></div>',//'tabs/colorSliders.tpl.html',
 				link: function( $scope, $element ) {
-					console.log( "LINK GENERICA PALETTE", this  );
+					// console.log( "LINK GENERICA PALETTE", this  );
 					var paletteContainer = angular.element( $element[0].querySelector('.md-color-picker-palette') );
 					var paletteRow = angular.element('<div class="flex-15 layout-row layout-align-space-between" layout-align="space-between" layout="row" style="width: 100%;"></div>');
 					var paletteCell = angular.element('<div class="flex-10"></div>');
@@ -22,7 +22,7 @@
 
 
 					$scope.$watch( angular.bind( vm, function() { return vm.palette; }), angular.bind( vm, function( newVal, oldVal ) {
-						console.log( "NEW GENERIC PALETTE", newVal );
+						// console.log( "NEW GENERIC PALETTE", newVal );
 						if ( newVal && ( !oldVal || !angular.equals( newVal, oldVal ) )  ) {
 							// Debounce the value so we don't do thise 100 times a second.
 							clearTimeout( drawTimeout );
@@ -56,7 +56,7 @@
 
 					this.drawPalette = function() {
 						this.removePalette();
-						console.log( "GENERICA PALETTE DRAW", paletteContainer );
+						// console.log( "GENERICA PALETTE DRAW", paletteContainer );
 
 						// Add new rows and bind cells
 						angular.forEach(this.palette, function( value, key ) {
@@ -78,11 +78,11 @@
 							paletteContainer.append( row );
 						}, this);
 					};
-					console.log( "GENERICA PALETTE INIT");
+					// console.log( "GENERICA PALETTE INIT");
 					this.drawPalette();
 
 					$scope.$on('$destroy', angular.bind( this, function() {
-						console.log("Removing Palette on destroy");
+						// console.log("Removing Palette on destroy");
 						this.removePalette();
 					}));
 				},

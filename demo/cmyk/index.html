@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CMYK Notation - mdColorPicker</title>
+
+		<!-- Angular Material CSS now available via Google CDN; 1.1.1 -->
+		<link rel="stylesheet" href="../lib/angular-material/angular-material.css">
+
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+		<link rel="stylesheet" href="../css/style.css" />
+		<link rel="stylesheet" href="../../dist/mdColorPicker.min.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	</head>
+	<body  ng-app="plunker" ng-controller="MainCtrl" layout="row" ng-style="{ backgroundColor: data.background }">
+
+
+		<div style="width: 700px; padding: 100px;">
+			<md-card>
+				<md-card-title layout="column">
+					<h4> Color Display Value:</h4>
+					<p>{{ data.color }}</p>
+				</md-card-title>
+				<md-card-content>
+					<md-color-picker ng-model="data.color"></md-color-picker>
+				</md-card-content>
+			</md-card>
+		</div>
+
+		<script src="../lib/tinycolor/dist/tinycolor-min.js"></script>
+
+		<!-- Angular Material Dependencies -->
+		<script src="../lib/angular/angular.min.js"></script>
+		<script src="../lib/angular-animate/angular-animate.min.js"></script>
+		<script src="../lib/angular-aria/angular-aria.min.js"></script>
+		<script src="../lib/angular-cookies/angular-cookies.min.js"></script>
+
+		<script src="../../dist/mdColorPicker.min.js"></script>
+
+		<!-- version 1.1.1 used here -->
+		<script src="../lib/angular-material/angular-material.min.js"></script>
+
+		<script>
+		(function(window, angular, undefined ) {
+			angular.module('plunker', ['ngMaterial', 'ngCookies', 'mdColorPicker','mdColorPickerConfig'])
+			.config(['$mdColorPickerConfigProvider', function($mdColorPickerConfig){
+
+				function toCmyk( color, normalized) {
+					var rgb = color.toRgb();
+					console.log( "GET CMYK", color, rgb );
+				    var c = 1 - (rgb.r / 255);
+				    var m = 1 - (rgb.g / 255);
+				    var y = 1 - (rgb.b / 255);
+				    var k = Math.min(c, Math.min(m, y));
+
+				    c = (c - k) / (1 - k);
+				    m = (m - k) / (1 - k);
+				    y = (y - k) / (1 - k);
+
+				    if (!normalized) {
+				        c = Math.round(c * 10000) / 100;
+				        m = Math.round(m * 10000) / 100;
+				        y = Math.round(y * 10000) / 100;
+				        k = Math.round(k * 10000) / 100;
+				    }
+
+				    c = isNaN(c) ? 0 : c;
+				    m = isNaN(m) ? 0 : m;
+				    y = isNaN(y) ? 0 : y;
+				    k = isNaN(k) ? 0 : k;
+
+				    return {
+				        c: c,
+				        m: m,
+				        y: y,
+				        k: k
+				    };
+				}
+				function toRgb( cmyk, normalized) {
+				    var c = (cmyk.c / 100);
+				    var m = (cmyk.m / 100);
+				    var y = (cmyk.y / 100);
+				    var k = (cmyk.k / 100);
+
+				    c = c * (1 - k) + k;
+				    m = m * (1 - k) + k;
+				    y = y * (1 - k) + k;
+
+				    var r = 1 - c;
+				    var g = 1 - m;
+				    var b = 1 - y;
+
+				    if (!normalized) {
+				        r = Math.round(255 * r);
+				        g = Math.round(255 * g);
+				        b = Math.round(255 * b);
+				    }
+
+				    return {
+				        r: r,
+				        g: g,
+				        b: b
+				    };
+				}
+
+				$mdColorPickerConfig.notations.add( {
+					name: 'cmyk',
+					test: function( color ) { return !color || color.toLowerCase().search( 'cmyk' ) > -1; },
+					toString: function( color ) {
+						var cmyk = toCmyk( color );
+						return 'cmyk( ' + cmyk.c + ', ' + cmyk.m + ', ' + cmyk.y + ', ' + cmyk.k + ' )';
+					},
+					toObject: function( color ) {
+						return toCmyk( color );
+					},
+					toTinyColorObject: function( color ) {
+						colorResult = /cmyk\(\s?([\d\.]+),\s?([\d\.]+),\s?([\d\.]+),\s?([\d\.]+)\s?\)/i.exec(color);
+						console.log( color, colorResult );
+						//var cmyk = this.toObject( colorResult );
+						var cmyk
+						if ( colorResult ) {
+							cmyk = {
+								c: colorResult[1],
+								m: colorResult[2],
+								y: colorResult[3],
+								k: colorResult[4],
+							};
+						} else {
+							cmyk = {
+								c: 0,
+								m: 0,
+								y: 0,
+								k: 0,
+							};
+						}
+						var rgb = toRgb( cmyk );
+						return new tinycolor ( rgb );
+					},
+					disabled: function( color ) {
+	 					return color.toRgb().a !== 1;
+	 				}
+				});
+				$mdColorPickerConfig.notations.order = ['rgb', 'hsl', 'cmyk', 'hex'];
+
+
+
+
+
+			}])
+			.controller('MainCtrl', ['$rootScope', '$scope', '$mdColorPickerConfig', '$timeout', function($rootScope, $scope, $mdColorPickerConfig, $timeout ) {
+
+				$scope.data = {
+					color: '#ccc'
+				};
+				$scope.data.background = $scope.data.color;
+
+				$scope.$watch( 'data.color', function( newVal ) {
+					var cmykNotation = $mdColorPickerConfig.notations.get( 'cmyk' );
+					if ( cmykNotation.test( newVal ) ) {
+						$scope.data.background = cmykNotation.toTinyColorObject( newVal ).toRgbString();
+					} else {
+						$scope.data.background = newVal;
+					}
+				});
+
+			}]);
+		})( window, window.angular );
+		</script>
+	</body>
+</html>

@@ -1,44 +1,144 @@
+'use strict';
+
 	var dateClick;
 
 	function getMergedOptions( options, defaults ) {
-		//var returnOptions = {};
+		//
+		// Using Object.assign overwrites the options and we loose "value" so it no longer updates while setting a color.
+		// console.log( options, defaults );
+		// //var returnOptions = {};
+		// defaults = defaults || {};
+		// options = options || {};
+		// var x;
+		//
+		// for ( x in options ) {
+		// 	if ( options.hasOwnProperty( x ) && options[x] === undefined ) {
+		// 		delete options[x]
+		// 	}
+		// }
+		//
+		// for ( x in defaults ) {
+		// 	if ( defaults.hasOwnProperty( x ) && defaults[x] === undefined ) {
+		// 		delete defaults[x]
+		// 	}
+		// }
+		// return Object.assign( {}, defaults, options );
 
-		angular.forEach( defaults, function( value, key ) {
-			options[key] = options[key] === undefined ? value : options[key];
-		});
-		console.log( "MERGED OPTIONS", options );
-		return options
+		for ( var key in defaults ) {
+			if ( defaults.hasOwnProperty( key ) ) {
+				// console.log( key, ':', value, ' - ', options[key] );
+				options[ key ] = options[ key ] === undefined ? defaults[ key ] : options[ key ];
+			}
+		}
+		// console.log( "MERGED OPTIONS", options );
+		return options;
 	}
 
-	var coreLinkFn = function( scope, element, attrs, controllers, transclude ) {
-		var $ngModel = controllers[0];
-		var mdColorPicker = controllers[1];
-
-		mdColorPicker.setNgModelController( $ngModel );
+	function checkTranscludes ( scope, element, transclude ) {
 
 		scope.transcluded_content = {};
-		var transclusion_checks = ['placeholder','main', 'mdIcon'];
+		var transclusion_checks = ['main', 'mdIcon'];
 		angular.forEach( transclusion_checks, function( val ) {
-			// console.log("FOR ", val, transclude && transclude.isSlotFilled( val ) );
 			if ( transclude && transclude.isSlotFilled( val ) ) {
 				transclude(scope, function(clone) {
-					// console.log( 'IN TRANSCLUDE', clone );
 					if ( clone.length ) {
 						scope.transcluded_content[val] = clone[0];
 					}
-
 					if ( val === 'main' ) {
-						element.empty().append( angular.element( clone ) )
+						element.empty().append( angular.element( clone ) );
 					}
 				}, undefined, val );
 			} else {
-				scope.transcluded_content[val] = false;
+				scope.transcluded_content[val] = undefined;
 			}
 		});
 
-		element.on('click', mdColorPicker.showColorPicker );
 
-	};
+	}
+
+
+
+
+	function mdColorPickerLinkFn( scope, element, attrs, controllers, transclude ) {
+		var $ngModelController = controllers[0];
+		var vm = controllers[1];
+
+		// element.on('click', vm.showColorPicker );
+
+
+		var viewFormatter;
+		var viewParser;
+
+		checkTranscludes( scope, element, transclude );
+
+		// Set up $ngModelController functions
+		//////////////////////////////////////////////////////
+
+		// $ngModelController = $ngModelController;
+		$ngModelController.$options = $ngModelController.$options || {};
+		$ngModelController.$options.updateOn = 'blur';
+		// console.log( 'INITIAL $ngModelController.$modelValue', $ngModelController, $scope.value );
+		scope.data.color = $ngModelController.$modelValue && new TinyColor( $ngModelController.$modelValue );
+
+		/**
+		 * Originally used $ngModel.parsers and $ngModel.formatters to handle this, but they apply
+		 * to the ngModel entirely and we need it for only select element types.
+		 */
+
+
+
+		vm.updateValue = function updateValue( value, oldValue ) {
+			// console.warn( "UPDATE VALUE!!!!!", value, oldValue );
+			// console.trace();
+			// If value doesn't have a value BUT oldValue does, continue on changing the value. aka, reset to undefined (clear)
+			if ( !value && oldValue ) { // jshint ignore:line
+				scope.data.color = undefined;
+				element[0].value = '';
+
+				return;
+			} else {
+				scope.data.color = value;
+				if ( vm.isColorInput ) {
+					element[0].value = vm.viewParser( $ngModelController.$viewValue );
+				}
+			}
+		};
+
+		vm.updateColor = function updateColor ( value, oldValue ) {
+			if ( !value && !value === !oldValue ) {
+				return;
+			}
+
+			// Update Inputs
+			if ( vm.isInputElement && !vm.isColorInput ) {
+				element.val( vm.viewFormatter ? vm.viewFormatter( value ) : value );
+				// scope.value = vm.viewFormatter ? vm.viewFormatter( value ) : value;
+			}
+
+
+			$ngModelController.$setViewValue( value );
+			//$ngModelController.$commitViewValue();
+
+
+		};
+		// console.log( element, element.attr('md-color-picker'), element[0].tagName )
+		if ( element.attr('md-color-picker') !== undefined || element[0].tagName === 'md-color-picker-preview' ) {
+			// Set up opening events and prevent the default color picker.
+			element.on('click', function( event ) {
+				event.preventDefault();
+				vm.showColorPicker( event );
+			});
+		}
+
+
+		// Watch for our changes
+		scope.$watch( 'data.color', vm.updateColor );
+		// Watch for their changes
+		scope.$watch( function() { return $ngModelController.$modelValue; }, vm.updateValue );
+
+
+	}
+
 
 
 
@@ -72,8 +172,8 @@
 	.config( ['$mdColorPickerConfigProvider', function( $mdColorPickerConfigProvider ) {
 
 	}])
-	.controller( 'mdColorPickerController', [ '$scope', '$element', '$attrs', '$mdColorPickerConfig', '$mdColorPickerHistory', '$mdColorPicker', function( $scope, $element, $attrs, $mdColorPickerConfig, $mdColorPickerHistory, $mdColorPicker ) {
-
+	.controller( 'mdColorPickerController', [ '$scope', '$element', '$attrs', '$timeout', '$mdColorPickerConfig', '$mdColorPickerHistory', '$mdColorPicker', function( $scope, $element, $attrs, $timeout, $mdColorPickerConfig, $mdColorPickerHistory, $mdColorPicker ) {
+		// console.log( "MD COLOR PICKER OPTIONS", $scope.options );
 		$scope.data = {
 			color: undefined
 		};
@@ -81,142 +181,134 @@
 		var vm = this;
 		var INITIAL_VALUE;
 
+		vm.showColorPicker = showColorPicker;
+		vm.config = $mdColorPickerConfig;
+		vm.options = angular.extend( {}, vm.config.defaults.mdColorPicker, vm.options || {} );
+		vm.placeholder = vm.placeholder != '' ? vm.placeholder : undefined;
+
+		// console.log ("OPTIONS", $scope, this );
+		$scope.$watch('$ctrl.options', function( newValue, oldValue ) {
+			if ( newValue ) {
+				vm.options = angular.extend( {}, vm.config.defaults.mdColorPicker, newValue );
+			}
+		}, true);
+
 		/**
 		* With <input type="color"> we can only support HEX notations
 		*/
-		var isInputElement = $element.prop('tagName') === 'INPUT';
-		var isColorInput = isInputElement && $element.prop('type').toUpperCase() === 'COLOR';
 
-		var viewParser;
-		var viewFormatter;
-		var $ngModelController;
 
-		this.setNgModelController = function( $ngModel ) {
-			$ngModelController = $ngModel;
-			$ngModelController.$options = $ngModelController.$options || {};
-			$ngModelController.$options.updateOn = 'blur';
-			console.log( 'INITIAL $ngModelController.$modelValue', $ngModelController, $scope.value );
-			$scope.data.color = $ngModelController.$modelValue;
+		vm.viewParser = undefined;
+		vm.viewFormatter = undefined;
 
-			/**
-			* Originally used $ngModel.parsers and $ngModel.formatters to handle this, but they apply
-			* to the ngModel entirely and we need it for only select element types.
-			*/
-			if ( isInputElement && isColorInput ) {
-				// Coming from the DOM
-				viewParser = function( value ) {
-					console.log( value );
-					if ( !value ) {
-						value = $scope.default || $mdColorPickerConfig.defaults.mdColorPicker.default;
-					}
-					console.log( value );
-					var formatted = new TinyColor( value ).toHexString();
-					console.log( value );
-					return formatted;
-				};
+		vm.isInputElement = $element.prop('tagName').toUpperCase() === 'INPUT';
+		// vm.isMdColorPickerElement = $element.prop
+		vm.isColorInput = vm.isInputElement && $element.prop('type').toUpperCase() === 'COLOR';
 
-				// Going to the DOM
-				viewFormatter = function( value ) {
-					if ( !value ) {
-						value = $scope.default || $mdColorPickerConfig.defaults.mdColorPicker.default
-					}
-					var formatted = new TinyColor( value ).toHexString();
-					return formatted;
-				};
+		if ( vm.isColorInput ) {
+			// Going to the DOM
+			vm.viewFormatter = function ( value ) {
+				if ( !value ) {
+					value = $scope.default || vm.config.defaults.mdColorPicker.default;
+				}
+				var formatted = new TinyColor( value ).toHexString();
+				return formatted;
+			};
 
-				$scope.$watch( function() { return $ngModelController.$viewValue; }, function( value ) {
-					console.log( 'watch value', value );
-					$element[0].value = viewParser( $ngModelController.$viewValue );
-				});
-
+			// Coming from the DOM
+			vm.viewParser = function( value ) {
+				if ( !value ) {
+					value = $scope.default || vm.config.defaults.mdColorPicker.default;
+				}
+				var formatted = new TinyColor( value ).toHexString();
+				return formatted;
+			};
+		}
+		if ( !vm.isInputElement ) {
+			if ( $element[0].tagName !== 'MD-COLOR-PICKER' ) {
+				$element.on( 'click', vm.showColorPicker );
 			}
 
-		};
-
-		this.updateValue = function( value ) {
-			if ( value )  {
-				$scope.data.color = value;
-			} else {
-				$scope.data.color = undefined;
+			if ( $element.attr( 'required' ) ) {
+				vm.isRequired = true; //$element.find('input').attr( 'required', true );
 			}
-		};
+		}
 
-		// Watch for our changes
-		$scope.$watch( 'data.color', function( value ) {
-			console.log( 'watch data.color', value)
-			if ( isInputElement ) {
-				$element.val( viewFormatter ? viewFormatter( value ) : value );
-				$scope.value = viewFormatter ? viewFormatter( value ) : value;
-			}
+		console.log( $element[0].tagName, $element.attr( 'required' ) );
 
-			$ngModelController.$setViewValue( value );
-			$ngModelController.$commitViewValue();
-
-		});
-
-		// Watch for their changes
-		$scope.$watch( function() { return $ngModelController.$modelValue; }, this.updateValue );
-
-
-
-		this.showColorPicker = function showColorPicker($event) {
+		function showColorPicker($event) {
+			console.time('1. Open Color Picker');
+			console.time('TOTAL TIME TO OPEN: ');
 			$event.stopImmediatePropagation();
 			$event.preventDefault();
-			INITIAL_VALUE = $ngModelController.$modelValue;
+			// console.log("EVENT!", $event);
+			INITIAL_VALUE = $scope.data.color; //$ngModelController.$modelValue;
+
 
 			var dialogOptions = {
 				clickOutsideToClose: $scope.clickOutsideToClose,
-				hasBackdrop: $scope.hasBackdrop,
-				skipHide: $scope.skipHide,
+				hasBackdrop: vm.options.hasBackdrop,
+				multiple: $scope.multiple,
 				preserveScope: $scope.preserveScope,
 				$event: $event,
 				targetEvent: $event,
-				type: 'panel'
+				type: vm.options.type || 'panel'
 			};
 
 			var mdColorPickerOptions = {
 				value: INITIAL_VALUE,
 				defaultValue: $scope.default,
-				random: $scope.random,
-				mdColorAlphaChannel: $scope.mdColorAlphaChannel,
-				mdColorDefaultTab: $scope.mdColorDefaultTab,
+				random: vm.options.random,
+				// openOnInputFocus: options.openOnInputFocus,
+				// mdColorAlphaChannel: $scope.mdColorAlphaChannel,
+				// mdColorDefaultTab: $scope.mdColorDefaultTab,
 			};
 
+
+
+
+			var removeWatch = $scope.$watch( function() { return mdColorPickerOptions.value; }, function( newVal, oldVal ) {
+				// console.warn( "VALUE CHANGE", newVal, oldVal );
+				// console.trace();
+				if ( newVal !== oldVal ) {
+					vm.updateValue( newVal );
+				}
+			});
 
 			var colorPicker = $mdColorPicker.show( mdColorPickerOptions, dialogOptions );
 
 
-			var removeWatch = $scope.$watch( function() { return mdColorPickerOptions.value; }, function( newVal ) {
-				vm.updateValue( newVal );
-			});
-
-			colorPicker.then(function( color ) {
+			colorPicker.then( function ( color ) {
 				removeWatch();
 				vm.updateValue( color );
 				$mdColorPickerHistory.add( color );
 
-			}, function() {
+			}, function () {
 				removeWatch();
 				vm.updateValue( INITIAL_VALUE );
-			});
+			} );
 
+			// For some reason, the $watch doesn't pick up the default/random color change, even when put in a timeout.
+			// So we just manually call it here... pretty hacky I know.
+			vm.updateValue( mdColorPickerOptions.value );
 
-		};
-
-
-
-
+		}
 	}])
 	.directive('mdColorPickerPreview', [ function() {
 		return {
-			template: '<div class="md-color-picker-preview md-color-picker-checkered-bg"><div class="md-color-picker-result"></div></div>',
+			template: '<div class="md-color-picker-preview md-color-picker-checkered-bg md-whiteframe-5dp"><div class="md-color-picker-result" ng-style="{backgroundColor: value}"></div></div>',
 			require: ['^ngModel'],
-			restrict: 'AE',
-			//	scope: {},
-			link: function( $scope, $element, $attrs, controllers ) {
-				var $ngModel = controllers[0];
-				$scope.$watch( function() { return $ngModel.$modelValue; }, function( newVal ) {
-					$element[0].querySelector('.md-color-picker-result').style.backgroundColor = newVal || null;
+			restrict: 'E',
+			link: function( scope, element, attrs, controllers ) {
+
+				// attrs.$observe('ngModel', function(value) {
+				// 	console.log("NG MODEL CHANGE", value );
+				// 	scope.value = value;
+				// });
+
+				scope.$watch(attrs.ngModel, function(value) {
+					// console.log("NG MODEL CHANGE", value, attrs.ngModel, scope[attrs.ngModel] );
+					scope.value = value;
 				});
 			}
 		};
@@ -224,23 +316,17 @@
 
 	.directive('mdColorPickerClear', [ function() {
 		return {
-			template: '<md-button class="md-icon-button md-color-picker-clear" aria-label="Clear Color"><md-icon md-svg-icon="clear.svg"></md-icon></md-button>',
+			template: '<md-button class="md-icon-button md-color-picker-clear" aria-label="Clear Color" ng-click="onClick($event)"><md-icon md-svg-icon="clear.svg"></md-icon></md-button>',
 			require: ['^mdColorPicker', '^ngModel'],
-			scope: {},
+			// scope: {},
+			restrict: 'E',
 			link: function( scope, element, attrs, controllers ) {
 				var mdColorPicker = controllers[0];
-				var ngModelController = controllers[1];
 
-				element.on( 'click', function( e ) {
-					e.preventDefault();
-					e.stopImmediatePropagation();
-
-					// ngModelController.$modelValue = undefined;
-					scope.$apply( angular.bind( mdColorPicker, function() {
-						mdColorPicker.updateValue();
-					}));
-
-				});
+				scope.onClick = function( $event ) {
+					// console.log("CLICK!!!!!!!");
+					mdColorPicker.updateValue();
+				};
 			}
 		};
 	}])
@@ -248,19 +334,22 @@
 		return {
 			require: ['^ngModel', 'mdColorPicker'],
 			restrict: 'E',
-			scope: {
-				options: '=?mdColorPicker',
-				value: '=ngModel',
-			},
 			transclude: {
 				'main': '?mdColorPickerContent',
 				'mdIcon': '?mdIcon',
 				'label': '?mdColorPickerLabel',
-				'placeholder': '?mdColorPickerPlaceholder'
+				// 'placeholder': '?mdColorPickerPlaceholder'
 			},
 			templateUrl: 'mdColorPicker.tpl.html',
+			scope: {
+				options: '=?mdColorPickerOptions',
+				value: '=ngModel',
+				placeholder: '@?'
+			},
+			bindToController: true,
+			controllerAs: '$ctrl',
 			controller: 'mdColorPickerController',
-			link: coreLinkFn
+			link: mdColorPickerLinkFn
 		};
 	}])
 	.directive( 'mdColorPicker', ['$mdColorPickerConfig', '$mdColorPickerHistory', '$mdColorPicker', function( $mdColorPickerConfig, $mdColorPickerHistory, $mdColorPicker ) {
@@ -269,32 +358,33 @@
 			restrict: 'A',
 			scope: {
 				options: '=?mdColorPicker',
-				value: '=ngModel',
-				// // Input options
-				// notation: '@?',
-				// random: '@?',
-				// default: '@?',
-				//
-				// // Dialog Options
-				// openOnInput: '=?',
-				// hasBackdrop: '=?',
-				// clickOutsideToClose: '=?',
-				// skipHide: '=?',
-				// preserveScope: '=?',
-				//
-				// // Advanced options
-				// mdColorClearButton: '=?',
-				// mdColorPreview: '=?',
-				//
-				// mdColorAlphaChannel: '=?',
-				// mdColorDefaultTab: '=?'
+				value: '=ngModel'
 			},
+			bindToController: true,
+			controllerAs: '$ctrl',
 			controller: 'mdColorPickerController',
-			link: coreLinkFn
+			link: mdColorPickerLinkFn
 
 		};
 	}])
-
+	// // Input options
+	// notation: '@?',
+	// random: '@?',
+	// default: '@?',
+	//
+	// // Dialog Options
+	// openOnInput: '=?',
+	// hasBackdrop: '=?',
+	// clickOutsideToClose: '=?',
+	// skipHide: '=?',
+	// preserveScope: '=?',
+	//
+	// // Advanced options
+	// mdColorClearButton: '=?',
+	// mdColorPreview: '=?',
+	//
+	// mdColorAlphaChannel: '=?',
+	// mdColorDefaultTab: '=?'
 
 
 
@@ -312,7 +402,7 @@
 			this.toString = function() {
 				return '[' + this.type + '] ' + ( this.type ? this.type + ' - ' : '' ) + this.message;
 			};
-		};
+		}
 
 		$mdColorPickerException.prototype = new Error();
 		$mdColorPickerException.prototype.constructor = $mdColorPickerException;
@@ -325,22 +415,54 @@
 
 
 			var service = {
-				show: function( mdColorPickerOptions, containerOptions ) {
+				show: function( colorPickerOpts, containerOpts ) {
 
-					var containerType  = ( containerOptions && containerOptions.type ) || $mdColorPickerConfig.defaults.containerType;
-					containerOptions = containerOptions || $mdColorPickerConfig.defaults[ containerType ];
+
+
+					// console.log( "OPENING 1", colorPickerOpts.value );
+					var containerType  = ( containerOpts && containerOpts.type ) || $mdColorPickerConfig.defaults.containerType;
+					var containerOptions = getMergedOptions( containerOpts, $mdColorPickerConfig.defaults[ containerType ] );
 
 					// mdColorPicker Properties
-					mdColorPickerOptions = getMergedOptions( mdColorPickerOptions, $mdColorPickerConfig.defaults.mdColorPicker );
+					var mdColorPickerOptions = getMergedOptions( colorPickerOpts, $mdColorPickerConfig.defaults.mdColorPicker );
+					// console.log( "THE OPTS", colorPickerOpts, mdColorPickerOptions );
 
 					// Set up overrides for colors
 					mdColorPickerOptions.mdColorHex = ((mdColorPickerOptions.mdColorHex === undefined) || (!mdColorPickerOptions.mdColorRgb && !mdColorPickerOptions.mdColorHsl))  ? true : mdColorPickerOptions.mdColorHex;
 					mdColorPickerOptions.mdColorAlphaChannel = true; (!mdColorPickerOptions.mdColorRgb && !mdColorPickerOptions.mdColorHsl) ? true : mdColorPickerOptions.mdColorAlphaChannel;
 
+					// console.log( "OPENING 2", mdColorPickerOptions.value );
+					// Starting Color
+					var value;
+					var defaultValue;
+					if ( !colorPickerOpts.value ) {
+						// Set up the opening color
+						// console.log( "ASSIGNING OPENING COLOR ", scope, scope.value,  scope.random, $mdColorPickerConfig.defaults.mdColorPicker.default, $mdColorPickerConfig.defaults.mdColorPicker.random,  scope.random || ( !$mdColorPickerConfig.defaults.mdColorPicker.default && $mdColorPickerConfig.defaults.mdColorPicker.random ));
+						// if ( !scope.default ) {
+							if ( mdColorPickerOptions.random ) {
+								// console.log( "RANDOM COLOR");
+								defaultValue = TinyColor.random().toHexString();
+							} else if ( mdColorPickerOptions.default ) {
+								// console.log( "CONFIG DEFAULT COLOR");
+								defaultValue = mdColorPickerOptions.default;
+							} else {
+								// console.log( "WHITE");
+								defaultValue = '#ffffff';
+							}
+						// }
+						// console.log( "SETTING OPENING COLOR", mdColorPickerOptions.value, defaultValue );
+						mdColorPickerOptions.value = defaultValue;
+					}
+
+					// console.log( "OPENING 3", mdColorPickerOptions.value );
+
+
+
 					if ( containerType === 'panel' ) {
 						// Get options
 						containerOptions = getMergedOptions( containerOptions, $mdColorPickerConfig.defaults.panel );
 						// Launch the panel
+						// console.log( "OPENING 4", mdColorPickerOptions.value );
 						return service.showPanel( mdColorPickerOptions, containerOptions );
 					} else {
 						// Get options
@@ -386,7 +508,7 @@
 							opts: options,
 						},
 						preserveScope: dialogOptions.preserveScope,
-						skipHide: dialogOptions.skipHide,
+						multiple: dialogOptions.multiple,
 						targetEvent: dialogOptions.$event,
 						focusOnOpen: dialogOptions.focusOnOpen,
 						autoWrap: false,
@@ -397,19 +519,19 @@
 					});
 
 					dialog.then(function (value) {
-						console.log( "Dialog Close", $mdColorPickerHistory );
+						// console.log( "Dialog Close", $mdColorPickerHistory );
 						$mdColorPickerHistory.add(new TinyColor(value));
 					}, function () { });
 
 					return dialog;
 				},
 				showPanel: function( options, panelOptions ) {
+
 					/**
 					 * KNOWN ISSUE:
 					 * There is an issue with $mdPanel.disableParentScroll not being enforced in versions <= 1.1.1.
 					 * This has been fixed in Angular Material - Master at this time (1/17/2017), but hasn't been applied to any releases.
 					 **/
-
 					var defer = $q.defer();
 
 					var position = $mdPanel.newPanelPosition()
@@ -439,7 +561,11 @@
 							panelClass: 'md-color-picker-panel md-whiteframe-10dp',
 							groupName: 'mdColorPickerPanel',
 							controller: ['mdPanelRef','$scope', 'opts', function( mdPanelRef, $scope, opts ) {
-								//console.log( "DIALOG CONTROLLER OPEN", Date.now() - dateClick );
+
+								// console.log( "DIALOG CONTROLLER OPEN", Date.now() - dateClick, Object.assign( {}, opts ) );
+
+								// console.log( "OPENING 6", opts.value );
+
 								$scope.close = function close() {
 									mdPanelRef.close();
 									// $scope.$destroy();
@@ -453,18 +579,18 @@
 								mdPanelRef_ = mdPanelRef;
 								panelScope_ = $scope;
 
+								$scope.opts = opts;
+
 								$scope.value = opts.value;
-								$scope.default = opts.defaultValue;
-								$scope.random = opts.random;
 
 								$scope.mdColorAlphaChannel = opts.mdColorAlphaChannel;
 								$scope.mdColorDefaultTab = opts.mdColorDefaultTab;
 
+								// console.log( "OPENING 7", $scope.value );
+
 								$scope.$watch( 'value', function( newVal ) {
 									options.value = newVal;
 								});
-
-								$scope.$watch('')
 
 							}],
 
@@ -475,10 +601,17 @@
 							clickOutsideToClose: panelOptions.clickOutsideToClose,
 							escapeToClose: panelOptions.escapeToClose,
 							targetEvent: panelOptions.$event,
-							focusOnOpen: panelOptions.focusOnOpen,
+							focusOnOpen: false,//panelOptions.focusOnOpen,
 							disableParentScroll: false,
 							origin: panelOptions.$event.target,
 							onDomAdded: function() {
+								console.timeEnd('2. Add Color Picker');
+								console.time('3. Show Color Picker');
+
+							},
+							onOpenComplete: function() {
+								console.timeEnd('3. Show Color Picker');
+								console.timeEnd('TOTAL TIME TO OPEN: ');
 							},
 							onRemoving: function() {
 							},
@@ -499,7 +632,7 @@
 
 					return defer.promise;
 				}
-			}
+			};
 
 
 			return service;

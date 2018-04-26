@@ -3,10 +3,10 @@
 
 	<div class="md-color-picker-preview md-color-picker-checkered-bg" ng-class="{'dark': !data.color.isDark() || data.color.getAlpha() < .45}" flex="1" layout="column">
 
-		<div class="md-color-picker-result" ng-style="{'background': data.color.toRgbString()}" flex="100" layout="column" layout-fill layout-align="center center" ng-click="focusPreviewInput( $event )">
+		<div class="md-color-picker-result" ng-style="{'background': value}" flex="100" layout="column" layout-fill layout-align="center center" ng-click="focusPreviewInput( $event )">
 			<!--<span flex  layout="column" layout-align="center center">{{value}}</span>-->
 			<div flex  layout="row" layout-align="center center">
-				<input class="md-color-picker-preview-input" type="text" ng-model="value" ng-model-options="{updateOn: 'blur'}"  />
+				<input class="md-color-picker-preview-input" type="text" ng-model="value" ng-model-options="{updateOn: 'blur'}" ng-blur="previewBlur()"  />
 			</div>
 			<div class="md-color-picker-tabs" style="width: 100%">
 				<md-tabs md-selected="config.selectedNotation" md-stretch-tabs="always" md-no-bar md-no-ink md-no-pagination="true" >

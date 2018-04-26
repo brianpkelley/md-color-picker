@@ -1,0 +1,39 @@
+
+
+<div flex layout="column">
+	<h2 class="md-headline">As an Element</h2>
+	<md-divider></md-divider>
+
+	<h4 class="md-title"><code>&lt;md-color-picker&gt;</code> Element with children</h4>
+	<p class="md-body-1">The color picker now offers transcluded elements more inline with angluar material.  </p>
+	<pre class="prettyprint lang-html"><code>{{ $ctrl.examples.transcludeMdColorPickerElement }}</code></pre>
+	<div class="example-container">
+		<!-- Example="transclude-md-color-picker-element" -->
+		<md-color-picker ng-model="$root.textConfig.header">
+			<md-color-picker-label>
+				<md-icon>format_size</md-icon>
+				<span>Header Foreground</span>
+			</md-color-picker-label>
+		</md-color-picker>
+		<!-- /Example -->
+	</div>
+	<md-divider></md-divider>
+
+	<h4 class="md-title"><code>&lt;md-color-picker&gt;</code> Element without children</h4>
+	<p class="md-body-1">This method is the most similar to previous iterations.  A single element with options passed in through attributes.</p>
+	<pre class="prettyprint lang-html"><code>{{ $ctrl.examples.emptyMdColorPickerElement }}</code></pre>
+
+	<div class="example-container">
+		<!-- Example="empty-md-color-picker-element" -->
+		<md-color-picker
+			ng-model="$root.textConfig.header"
+			md-color-picker-options="{ random: true, openOnInputClick: false }"
+			placeholder="Test"
+			required
+		></md-color-picker>
+		<!-- /Example -->
+	</div>
+
+
+
+</div>

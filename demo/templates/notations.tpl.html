@@ -1,0 +1,48 @@
+<h4 class="md-title">MD Input container with Icon and <code>input type="text"</code></h4>
+
+<div flex layout="column">
+	<!-- Example --><md-input-container>
+	<md-icon>font_download</md-icon>
+	<label>Text Background</label>
+	<input type="text" md-color-picker="{ random: true }" ng-model="$root.textConfig.background"/>
+</md-input-container>
+
+<md-input-container>
+	<md-icon>color_lens</md-icon>
+	<label>Text Foreground</label>
+	<input type="text" md-color-picker="$root.textConfig.backgroundOptions" ng-model="$root.textConfig.foreground"/>
+</md-input-container><!-- /Example -->
+
+
+
+	<pre class="prettyprint lang-js"><code>$mdColorPickerConfig.notations.add( {
+	name: 'text',
+	test: function() { return false; },
+	toString: function( color ) {
+		// An over simplified example on how to add a custom notation.
+		var hue = color.toHsv().h;
+		if ( hue >= 340 || hue < 15 ) {
+			return "Red";
+		} else if ( hue >= 15 && hue < 45 ) {
+			return "Orange";
+		} else if ( hue >= 45 && hue < 70 ) {
+			return "Yellow";
+		} else if ( hue >= 70 && hue < 115 ) {
+			return "Lime";
+		} else if ( hue >= 115 && hue < 150 ) {
+			return "Green";
+		} else if ( hue >= 150 && hue < 200 ) {
+			return "Cyan";
+		} else if ( hue >= 200 && hue < 255 ) {
+			return "Blue";
+		} else if ( hue >= 255 && hue < 300 ) {
+			return "DarkViolet";
+		} else if ( hue >= 300 && hue < 340 ) {
+			return "Fuchsia";
+		}
+	}
+});
+
+// Add the new notation to the order.
+$mdColorPickerConfig.notations.order = ['rgb', 'hsl', 'text', 'hex'];</code></pre>
+</div>

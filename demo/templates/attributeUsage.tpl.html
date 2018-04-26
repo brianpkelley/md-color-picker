@@ -1,0 +1,103 @@
+<div flex layout="column">
+	<md-toolbar class="md-hue-3">
+		<h2 class="md-toolbar-tools">As an Attribute on an <code> input </code> Element.</h2>
+	</md-toolbar>
+	<md-card>
+		<md-card-header>
+			<md-card-header-text>
+				<h4 class="md-title">MD Input container with Icon and <code>input type="color"</code></h4>
+			</md-card-header-text>
+		</md-card-header>
+		<pre class="prettyprint lang-html"><code>{{ $ctrl.examples.mdInputContainerColor }}</code></pre>
+		<md-card-content layout="row">
+			<!-- Example="md-input-container-color" -->
+			<md-input-container ng-class="{'md-input-has-value':true}" flex>
+				<md-icon>code</md-icon>
+				<label>Code Foreground</label>
+				<input
+					type="color"
+					md-color-picker
+					ng-model="$root.textConfig.code"
+				/>
+			</md-input-container>
+			<!-- /Example -->
+		</md-card-content>
+	</md-card>
+
+	<md-card>
+		<md-card-header>
+			<md-card-header-text>
+				<h3 class="md-title">MD Input container with Icon and <code>input type="text"</code></h3>
+			</md-card-header-text>
+		</md-card-header>
+		<pre class="prettyprint lang-html"><code>{{ $ctrl.examples.mdInputContainerText }}</code></pre>
+		<md-card-content layout="row">
+			<!-- Example="md-input-container-text" -->
+			<md-input-container flex>
+				<md-icon>font_download</md-icon>
+				<label>Text Background</label>
+				<input
+					type="text"
+					md-color-picker="{ random: true,  }"
+					ng-model="$root.textConfig.background"
+					required
+				/>
+			</md-input-container>
+			<!-- /Example -->
+		</md-card-content>
+	</md-card>
+	<md-toolbar class="md-accent">
+		<h2 class="md-toolbar-tools">As an Attribute on Any Element.</h2>
+	</md-toolbar>
+	<md-card>
+		<md-card-header>
+			<md-card-header-text>
+				<h3 class="md-title"><code>md-color-picker</code> Attribute on an <code>md-color-picker-preview</code>.</h3>
+				<h5 class="md-subhead">This will open the color picker when the preview circle is clicked.</h5>
+			</md-card-header-text>
+		</md-card-header>
+		<pre class="prettyprint lang-html"><code>{{ $ctrl.examples.attributeOnElement }}</code></pre>
+		<md-card-content layout="row">
+			<!-- Example="attribute-on-element" -->
+			<div layout="row" layout-align="start center" flex>
+				<span flex>Text Foreground</span>
+				<md-color-picker-preview
+					md-color-picker
+					ng-model="$root.textConfig.foreground"
+				></md-color-picker-preview>
+			</div>
+			<!-- /Example -->
+		</md-card-content>
+	</md-card>
+
+	<md-card>
+		<md-card-header>
+			<md-card-header-text>
+				<h3 class="md-title"><code>md-color-picker</code> Attribute on an <code>md-button</code>.</h3>
+				<h5 class="md-subhead">This will open the color picker when the button is clicked.</h5>
+			</md-card-header-text>
+		</md-card-header>
+		<pre class="prettyprint lang-html" flex><code>{{ $ctrl.examples.attributeOnElement2 }}</code></pre>
+		<md-card-content layout="row" layout-align="start center">
+			<!-- Example="attribute-on-element-2" -->
+			<div layout="row" layout-align="start center" flex>
+				<span flex>Text Foreground</span>
+				<md-button
+					class="md-raised"
+					ng-style="{'background-color': $root.textConfig.foreground}"
+					md-color-picker="{random: true}"
+					ng-model="$root.textConfig.foreground"
+				>
+					<md-icon>brush</md-icon>
+					<span>Select Color</span>
+				</md-button>
+			</div>
+			<!-- /Example -->
+		</md-card-content>
+	</md-card>
+
+
+		</div>
+
+	</div>
+</div>

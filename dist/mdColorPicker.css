@@ -51,7 +51,6 @@
 }
 .md-color-picker-container .md-color-picker-preview {
   -webkit-box-flex: 1;
-  -webkit-flex: 1;
       -ms-flex: 1;
           flex: 1;
   font-weight: bold;
@@ -316,31 +315,26 @@
 .md-color-picker-checkered-bg {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJ0lEQVQYV2M8c+bMfwYkYGxsjMxlYKSDgv///6O44ezZs6huoL0CAHomKYWYrWVpAAAAAElFTkSuQmCC) repeat center center;
 }
-md-color-picker-preview,
-[md-color-picker-preview] {
+md-color-picker-preview {
   display: inline-block;
 }
-[layout="row"] > md-color-picker-preview,
-[layout="row"] > [md-color-picker-preview] {
+[layout="row"] > md-color-picker-preview {
   box-sizing: border-box;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-align-content: center;
-      -ms-flex-line-pack: center;
-          align-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
 }
-md-color-picker-preview .md-color-picker-preview,
-[md-color-picker-preview] .md-color-picker-preview {
+md-color-picker-preview .md-color-picker-preview {
   box-sizing: border-box;
   border: 2px solid #fff;
   display: inline-block;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+  /* .md-whiteframe-3dp; */
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.12);
   overflow: hidden;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJ0lEQVQYV2M8c+bMfwYkYGxsjMxlYKSDgv///6O44ezZs6huoL0CAHomKYWYrWVpAAAAAElFTkSuQmCC) repeat center center;
   margin: 0px 0px;
@@ -352,17 +346,23 @@ md-color-picker-preview .md-color-picker-preview,
   border-radius: 50%;
   vertical-align: middle;
 }
-md-color-picker-preview .md-color-picker-preview .md-color-picker-result,
-[md-color-picker-preview] .md-color-picker-preview .md-color-picker-result {
+md-color-picker-preview .md-color-picker-preview .md-color-picker-result {
   width: 100%;
   height: 100%;
 }
-.md-color-picker-input-container > md-color-picker-preview,
-.md-color-picker-input-container > [md-color-picker-preview] {
+.md-color-picker-input-container > md-color-picker-preview {
   position: absolute;
   top: 23px;
   left: 2px;
   right: auto;
+  z-index: 1000;
+}
+md-color-picker-preview .md-color-picker-result {
+  border-radius: 50%;
+  box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.2), inset 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+}
+md-input-container > md-color-picker-preview {
+  vertical-align: top;
 }
 md-color-picker .md-color-picker-input-container {
   position: relative;

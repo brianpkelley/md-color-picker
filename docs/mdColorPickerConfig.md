@@ -19,7 +19,7 @@ $mdColorPickerConfig Provider
         * [.templateUrl](#$mdColorPickerConfig+Tab+templateUrl) : <code>String</code>
         * [.$elemnt](#$mdColorPickerConfig+Tab+$elemnt) : <code>$element</code>
     * [.notations](#$mdColorPickerConfig+notations) : <code>Object</code>
-        * [.order](#$mdColorPickerConfig+notations+order)
+        * [.order](#$mdColorPickerConfig+notations+order) : <code>string</code>
         * [.get(notation)](#$mdColorPickerConfig+notations+get) ⇒ <code>Object</code>
         * [.select(color)](#$mdColorPickerConfig+notations+select) ⇒ <code>String</code>
         * [.add(name, notation)](#$mdColorPickerConfig+notations+add)
@@ -141,18 +141,18 @@ Holds the available color notations methods.
 **Kind**: instance property of <code>[$mdColorPickerConfig](#$mdColorPickerConfig)</code>  
 
 * [.notations](#$mdColorPickerConfig+notations) : <code>Object</code>
-    * [.order](#$mdColorPickerConfig+notations+order)
+    * [.order](#$mdColorPickerConfig+notations+order) : <code>string</code>
     * [.get(notation)](#$mdColorPickerConfig+notations+get) ⇒ <code>Object</code>
     * [.select(color)](#$mdColorPickerConfig+notations+select) ⇒ <code>String</code>
     * [.add(name, notation)](#$mdColorPickerConfig+notations+add)
 
 <a name="$mdColorPickerConfig+notations+order"></a>
 
-#### notations.order
-Holds the order of the notaions to be displayed under the preview.
+#### notations.order : <code>string</code>
+Holds the order of the notations to be displayed under the preview.
 
 **Kind**: instance property of <code>[notations](#$mdColorPickerConfig+notations)</code>  
-**Default**: <code>[ &#x27;hex&#x27;, &#x27;rgb&#x27;, &#x27;hsl&#x27; ]</code>  
+**Default**: <code>&quot;[ &#x27;hex&#x27;, &#x27;rgb&#x27;, &#x27;hsl&#x27; ]&quot;</code>  
 <a name="$mdColorPickerConfig+notations+get"></a>
 
 #### notations.get(notation) ⇒ <code>Object</code>

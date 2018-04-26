@@ -5,187 +5,226 @@
 <head>
 	<meta charset="utf-8" />
 	<title>AngularJS Plunker</title>
+	<base href="//mdcolorpicker.test/demo/" />
 
-
-
-
-	<!-- Angular Material CSS now available via Google CDN; 1.0.9 -->
-	<link rel="stylesheet" href="lib/angular-material/angular-material.css">
+	<!-- Material CSS -->
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.css">
 
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
-	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="./css/style.css" />
 	<link rel="stylesheet" href="../dist/mdColorPicker.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
 </head>
 
-<body  ng-app="plunker" ng-controller="MainCtrl" layout="row">
-	<md-content layout-padding layout="row">
-		<div flex>
-			<h3>Angular md-color-picker</h3>
-			<h5>*** BETA ***</h5>
-			<p style="margin-bottom: 5px;">A pop up color chooser featuring:</p>
-			<ul>
-				<li>HSL Specturm</li>
-				<li>RGBA Sliders</li>
-				<li>Palette Selection</li>
-				<li>$cookie based history</li>
-				<li>Multiple output formats</li>
-			</ul>
-			<h5>Spectrum Selector</h5>
-			<p>Canvas based spectrum selection tool, no images or tricky css.</p>
-			<h5>RGBA Sliders</h5>
-			<p>Angular Material sliders and manual input.</p>
+<body  ng-app="plunker" ng-controller="MainCtrl" ng-cloak>
+	<md-content layout="row" layout-fill flex>
+		<md-sidenav
+			class="md-sidenav-left"
+			md-is-locked-open="$mdMedia('gt-md')"
+			md-whiteframe="4"
+		>
+			<md-toolbar class="">
+				<h1 class="md-toolbar-tools">Examples</h1>
+			</md-toolbar>
+			<md-list>
+				<md-list-item ui-sref="elementUsage" ui-sref-active="ui-sref-active">
+					<span>As an Element</span>
+				</md-list-item>
+				<md-list-item ui-sref="attributeUsage" ui-sref-active="ui-sref-active">
+					<span>As an Attribute</span>
+				</md-list-item>
+				<md-list-item ui-sref="notations" ui-sref-active="ui-sref-active">
+					<span>Custom Notation</span>
+				</md-list-item>
+				<md-list-item ng-href="#" ui-sref-active="ui-sref-active">
+					<span>Custom Tab</span>
+				</md-list-item>
+				<md-list-item ng-href="#" ui-sref-active="ui-sref-active">
+					<span>Modifying a Tab</span>
+				</md-list-item>
+				<md-list-item ng-href="#" ui-sref-active="ui-sref-active">
+					<span>Custom Input Template</span>
+				</md-list-item>
+				<!--<md-list-item ng-href="#">-->
+					<!--<span>Modifying a Tab</span>-->
+				<!--</md-list-item>-->
+				<!--<md-list-item ng-href="#">-->
+					<!--<span>Modifying a Tab</span>-->
+				<!--</md-list-item>-->
+				<!--<md-list-item ng-href="#">-->
+					<!--<span>Modifying a Tab</span>-->
+				<!--</md-list-item>-->
 
-			<h5>$cookie Based History</h5>
-			<p>If <code>$cookies</code> is not included in your app, the history function will fall back to an array based history that is reset on each reload.</p>
+			</md-list>
+		</md-sidenav>
+		<div layout="column" flex="60" flex-gt-md="40" md-whiteframe="10" style="z-index:5;">
 
-			<h5>Multiple Output Formats</h5>
-			<p>Using <a href="https://github.com/bgrins/TinyColor">tinycolor.js</a> we can output hexadecimal, rgb(a), or hsl(a) formats.</p>
-
-			<h5>Misc.</h5>
-			<ul>
-				<li>Random Color on open (optional)</li>
-				<li>Input focus opens color chooser (optional)</li>
-				<li>Default color on open (optional)</li>
-				<li>Specify output type</li>
-				<li>Accepts label and icon for use in the generated <code>md-input-container</code></li>
-			</ul>
-
-			<!-- <md-color-picker-container ng-model="textConfig.textBackground"></md-color-picker-container> -->
-		</div>
-		<md-content layout="column" layout-margin flex="40">
-
-			<h2>Demo</h2>
-
-			<h4>*** Text Color ***</h4>
-			<p>The text color field is not using the <code>openOnInput</code> attribute and you must click on the preview circle to open the color chooser.  This allows you to manually type a color value without opening the color chooser.</p>
-			<p>This field has a label and icon specified.</p>
-			<h4>*** Text Background ***</h4>
-			<p>The text background field is using the <code>openOnInput</code> and the <code>random</code> attributes.  This will maket he field open to a random color if one is not already selected when the input field receives focus.</p>
-			<p>This field only has the label specified.</p>
-			<h4>Text Style</h4>
-			<md-input-container>
-				<md-icon>text_fields</md-icon>
-				<label>Font</label>
-				<md-select ng-model="textConfig.font" aria-label="Font Family">
-					<md-option ng-repeat="font in textConfig.fonts" ng-style="{'font-family':font}">{{font}}</md-option>
-				</md-select>
-			</md-input-container>
-
-
-			<h5>MD Input container with Icon and <code>input type="color"</code></h5>
-			<md-input-container>
-				<md-icon>font_download</md-icon>
-				<label>
-					Text Background
-				</label>
-				<input type="color" md-color-picker ng-model="textConfig.textBackground"/>
-				<!-- <md-color-picker-preview ng-model="textConfig.textBackground"></md-color-picker-preview> -->
-			</md-input-container>
-
-
-			<h5>MD Input container with Icon and <code>input type="text"</code></h5>
-			<md-input-container>
-				<md-icon>font_download</md-icon>
-				<label>
-					Text Background
-				</label>
-				<input type="text" md-color-picker ng-model="textConfig.textBackground"/>
-				<!-- <md-color-picker-preview ng-model="textConfig.textBackground"></md-color-picker-preview> -->
-			</md-input-container>
-
-
-			<h5><code>md-color-picker</code> element with default template</h5>
-			<md-color-picker ng-model="textConfig.textBackground">
-				<md-icon>font_download</md-icon>
-				<md-color-picker-label>Text Background Color</md-color-picker-label>
-			</md-color-picker>
-
-
-			<h5><code>md-color-picker</code> element with custom template</h5>
-			<md-color-picker ng-model="textConfig.textBackground">
-				<md-color-picker-content>
-					<md-color-picker-preview></md-color-picker-preview>
-					<!-- <md-color-picker-preview></md-color-picker-preview> -->
-					<md-color-picker-clear></md-color-picker-clear>
-				</md-color-picker-content>
-			</md-color-picker>
-
-
-			<h5><code>md-color-picker-preview</code> element</h5>
-			<md-color-picker-preview ng-model="textConfig.textBackground"></md-color-picker-preview>
-
-
-			<h5><code>md-color-picker-preview</code> element with <code>md-color-picker</code> attribute </h5>
-			<md-color-picker-preview md-color-picker ng-model="textConfig.textBackground"></md-color-picker-preview>
-
-
-			<h5><code>md-button</code> element with <code>md-color-picker</code> attribute </h5>
-			<br />
-			<div layout="row" layout-align="center center">
-				<md-button class="md-raised md-primary" md-color-picker ng-model="textConfig.textBackground" flex="75">
-					<md-icon>brush</md-icon> Text Background color
-				</md-button>
-			</div>
-
-			<br /><br /><br /><br /><br /><br /><br />
-			<div layout="row">
-				<!-- <div md-color-picker-preview ng-model="textConfig.textColor" flex></div> -->
-
-			</div>
-			<div layout="row">
-				<div flex
-				md-color-picker="textConfig.backgroundOptions"
-				ng-model="textConfig.textBackground"
-				md-color-history="true"
-				md-color-alpha-channel="true"
-				></div>
-			</div>
-
-			<!-- <input type="color" ng-model="textConfig.textBackground" /> -->
-			<input type="color" id="testColor" />
-		<div>
-			<h5>Text Preview</h5>
-			<div class="md-color-picker-checkered-bg" layout="row" layout-align="center center">
-				<div class="text-preview" ng-style="{'background-color': textConfig.textBackground, 'color': textConfig.textColor, 'font-family': textConfig.font}" style="width: 100%; height: 100%;"  layout="row" layout-align="center center" layout-padding>
-					The five boxing wizards jump quickly.
+			<md-toolbar >
+				<div class="md-toolbar-tools">
+					<h1 flex>Code</h1>
+					<span>
+						Total Watchers: {{ $root.$$watchersCount }}
+					</span>
 				</div>
-			</div>
+			</md-toolbar>
+			<md-content layout="column">
+				<ui-view></ui-view>
 
-			<br /><br />
-			<p><strong>$rootScope Watchers:<strong> {{rootScope.$$watchersCount}}</p>
+	<!--
+				<h4>*** Text Color ***</h4>
+				<p>The text color field is not using the <code>openOnInput</code> attribute and you must click on the preview circle to open the color chooser.  This allows you to manually type a color value without opening the color chooser.</p>
+				<p>This field has a label and icon specified.</p>
+				<h4>*** Text Background ***</h4>
+				<p>The text background field is using the <code>openOnInput</code> and the <code>random</code> attributes.  This will maket he field open to a random color if one is not already selected when the input field receives focus.</p>
+				<p>This field only has the label specified.</p> -->
 
-				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
-			</div>
-		</md-content>
-		<span flex="10"></span>
+
+
+
+				<!--<h5>MD Input container with Icon and <code>input type="color"</code></h5>-->
+				<!--<strong>***** ONLY SUPPORTS 6 DIGIT HEX *****</strong>-->
+				<!--<md-input-container>-->
+					<!--<md-icon>font_download</md-icon>-->
+					<!--<label>-->
+						<!--Text Background-->
+					<!--</label>-->
+					<!--<input type="color" md-color-picker ng-model="$root.textConfig.background"/>-->
+					<!--&lt;!&ndash; <md-color-picker-preview ng-model="$root.textConfig.background"></md-color-picker-preview> &ndash;&gt;-->
+				<!--</md-input-container>-->
+
+
+
+				<!--<h5><code>md-color-picker</code> element with default template</h5>-->
+				<!--<md-color-picker ng-model="$root.textConfig.background">-->
+					<!--<md-icon>font_download</md-icon>-->
+					<!--<md-color-picker-label>Text Background Color</md-color-picker-label>-->
+				<!--</md-color-picker>-->
+
+
+				<!--<h5><code>md-color-picker</code> element with custom template</h5>-->
+				<!--<md-color-picker ng-model="$root.textConfig.background">-->
+					<!--<md-color-picker-content>-->
+						<!--<md-color-picker-preview></md-color-picker-preview>-->
+						<!--<md-color-picker-clear></md-color-picker-clear>-->
+					<!--</md-color-picker-content>-->
+				<!--</md-color-picker>-->
+
+
+				<!--<h5><code>md-color-picker-preview</code> element</h5>-->
+				<!--<md-color-picker-preview ng-model="$root.textConfig.background"></md-color-picker-preview>-->
+
+
+				<!--<h5><code>md-color-picker-preview</code> element with <code>md-color-picker</code> attribute </h5>-->
+				<!--<md-color-picker-preview md-color-picker ng-model="$root.textConfig.background"></md-color-picker-preview>-->
+
+
+				<!--<h5><code>md-button</code> element with <code>md-color-picker</code> attribute </h5>-->
+				<!--<br />-->
+				<!--<div layout="row" layout-align="center center">-->
+					<!--<md-button class="md-raised md-primary" md-color-picker ng-model="$root.textConfig.background" flex="75">-->
+						<!--<md-icon>brush</md-icon> Text Background color-->
+					<!--</md-button>-->
+				<!--</div>-->
+
+				<!--<br /><br /><br /><br /><br /><br /><br />-->
+				<!--<div layout="row">-->
+					<!--&lt;!&ndash; <div md-color-picker-preview ng-model="$root.textConfig.textColor" flex></div> &ndash;&gt;-->
+
+				<!--</div>-->
+				<!--<div layout="row">-->
+					<!--<div flex-->
+					<!--md-color-picker="$root.textConfig.backgroundOptions"-->
+					<!--ng-model="$root.textConfig.background"-->
+					<!--md-color-history="true"-->
+					<!--md-color-alpha-channel="true"-->
+					<!--&gt;Random Div</div>-->
+				<!--</div>-->
+
+				<!-- <input type="color" ng-model="$root.textConfig.background" /> -->
+				<!-- <input type="color" id="testColor" /> -->
+			</md-content>
+		</div>
+		<div flex layout="column">
+			<md-toolbar class="" layout="row">
+				<h1 class="md-toolbar-tools" flex>Result</h1>
+				<md-input-container flex="40" >
+					<md-icon>text_fields</md-icon>
+					<label>Font Family</label>
+					<md-select ng-model="$root.textConfig.font" aria-label="Font Family">
+						<md-option ng-repeat="font in $root.textConfig.fonts" ng-style="{'font-family':font}" ng-value="font">{{font}}</md-option>
+					</md-select>
+				</md-input-container>
+			</md-toolbar>
+			<md-content class="md-color-picker-checkered-bg" flex>
+				<div class="text-preview" ng-style="{'background-color': $root.textConfig.background, 'color': $root.textConfig.foreground, 'font-family': $root.textConfig.font}" style="width: 100%; height: 100%;"  layout="column" layout-align="start start" layout-padding layout-wrap>
+					<h1 ng-style="{'color': $root.textConfig.header}">HTML Ipsum Presents</h1>
+
+					<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code ng-style="{color: $root.textConfig.code }">commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+
+					<h2 ng-style="{'color': $root.textConfig.header}">Header Level 2</h2>
+
+					<ol>
+						<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+						<li>Aliquam tincidunt mauris eu risus.</li>
+					</ol>
+
+					<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
+
+					<h3 ng-style="{'color': $root.textConfig.header}">Header Level 3</h3>
+
+					<ul>
+						<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+						<li>Aliquam tincidunt mauris eu risus.</li>
+					</ul>
+
+					<pre><code ng-style="{color: $root.textConfig.code }">
+#header h1 a {
+  display: block;
+  width: 300px;
+  height: 80px;
+}
+</code></pre>
+				</div>
+				<pre class=""><code>{{ $root.textConfig | json }}</code></pre>
+
+			</md-content>
+
+		</div>
 	</md-content>
 
 
+
+	<script src="https://cdn.rawgit.com/google/code-prettify/master/src/prettify.js"></script>
 	<script src="lib/tinycolor/dist/tinycolor-min.js"></script>
 
-	<!-- Angular Material Dependencies -->
-	<script src="lib/angular/angular.min.js"></script>
-	<script src="lib/angular-animate/angular-animate.min.js"></script>
-	<script src="lib/angular-aria/angular-aria.min.js"></script>
-	<script src="lib/angular-cookies/angular-cookies.min.js"></script>
+	<!-- Angular Material requires Angular.js Libraries -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-animate.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-aria.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-messages.min.js"></script>
+
+	<!-- Angular Material Library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.js"></script>
+
+	<!-- App Dependencies -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-cookies.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-route.min.js"></script>
+	<script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
 
 	<script src="../dist/mdColorPicker.min.js"></script>
 
-	<!-- version 1.1.1 used here -->
-	<script src="lib/angular-material/angular-material.min.js"></script>
-
 	<!-- Custom Scripts -->
-
 	<script src="js/app.js"></script>
 
 	<script>
-	//document.write('<script src="//'  + 'localhost:3333' + '/demo/js/livereload.js?host=localhost"></'+ 'script>'); // jshint ignore:line
-	document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':3334/livereload.js?snipver=1"></' + 'script>') // jshint ignore:line
+		//document.write('<script src="//'  + 'localhost:3333' + '/demo/js/livereload.js?host=localhost"></'+ 'script>'); // jshint ignore:line
+		// document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':3334/livereload.js?snipver=1"></' + 'script>') // jshint ignore:line
+		//PR.prettyPrint();
 	</script>
+
 </body>
 
 </html>

@@ -8,13 +8,13 @@
 				icon: 'view_headline.svg',
 				template: '<div layout="column" layout-fill flex class="md-color-picker-material-palette"></div>',
 				link: function( $scope, $element ) {
-					console.log("Draw material Palette", this.palette );
+					// console.log("Draw material Palette", this.palette );
 					var materialContainer = angular.element( $element[0].querySelector('.md-color-picker-material-palette') );
 					var materialTitle = angular.element('<div class="md-color-picker-material-title"></div>');
 					var materialRow = angular.element('<div class="md-color-picker-with-label"></div>');
 
 					this.drawPalette = function() {
-						console.log('Draw Material Palette', this, this.palette );
+						// console.log('Draw Material Palette', this, this.palette );
 						angular.forEach(this.palette, function( value, key ) {
 
 							var title = materialTitle.clone();

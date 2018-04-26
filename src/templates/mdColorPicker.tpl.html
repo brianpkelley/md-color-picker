@@ -1,18 +1,9 @@
-<div>
-	<div class="md-color-picker-input-container" layout="row" >
-		<div md-color-picker-preview></div>
-		<md-input-container class="md-icon-left md-icon-right" flex>
-			<label><md-icon ng-if="transcluded_content['mdIcon']">{{ transcluded_content['mdIcon'].innerHTML }}</md-icon><span ng-transclude="label"></span></label>
-			<input type="input" ng-model="data.color" class='md-color-picker-input'  ng-mousedown="(openOnInput || !mdColorPreview) && showColorPicker($event)" /><!-- placeholder="{{ transcluded_content['placeholder']}}" -->
-		</md-input-container>
-		<div md-color-picker-clear></div>
-	</div>
+<div class="md-color-picker-input-container" layout="row">
+	<md-color-picker-preview ng-click="$ctrl.options.openOnPreviewClick && $ctrl.showColorPicker($event)" ng-model="data.color"></md-color-picker-preview>
+	<md-input-container class="md-icon-left md-icon-right" flex >
+		<label><md-icon ng-if="transcluded_content['mdIcon']">{{ transcluded_content['mdIcon'].innerHTML }}</md-icon><span ng-transclude="label">{{ $ctrl.placeholder }}</span></label>
+		<input type="text" ng-model="data.color" class='md-color-picker-input' ng-required="$ctrl.isRequired" ng-mousedown="$ctrl.options.openOnInputClick && $ctrl.showColorPicker($event)"/>
+	</md-input-container>
+	<md-color-picker-clear></md-color-picker-clear>
 </div>
-
-<!-- <div ng-if="transcluded_content.main"> -->
-	<!-- <div ng-transclude="main"></div> -->
-<!-- </div> -->
-<!-- <input type="text" ng-model="data.value" ng-mousedown="(openOnInput || !mdColorPreview) && showColorPicker($event)"> -->
-<!-- <md-input-container>
-
-<div md-color-picker-preview></div> -->
+<pre>{{ $ctrl.options | json }}</pre>

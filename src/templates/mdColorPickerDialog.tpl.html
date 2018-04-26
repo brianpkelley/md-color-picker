@@ -2,7 +2,7 @@
 	<div md-color-picker-container
 		ng-model="value"
 		default="{{defaultValue}}"
-		random="{{random}}"
+		random="::random"
 		ok="ok"
 		md-color-alpha-channel="mdColorAlphaChannel"
 		md-color-spectrum="mdColorSpectrum"
@@ -16,7 +16,7 @@
 		md-color-default-tab="mdColorDefaultTab"
 	></div>
 	<md-actions layout="row">
-		<md-button class="md-mini" ng-click="close()" style="width: 50%;">Cancel</md-button>
-		<md-button class="md-mini" ng-click="ok()" style="width: 50%;">Select</md-button>
+		<div style="width: 50%; text-align: center;"><md-button class="md-mini" ng-click="close()" flex>Cancel</md-button></div>
+		<div style="width: 50%; text-align: center;"><md-button class="md-mini" ng-click="ok()" flex>Select</md-button></div>
 	</md-actions>
 </md-dialog>

@@ -1,5 +1,4 @@
-md-color-picker-preview,
-[md-color-picker-preview] {
+md-color-picker-preview {
 	display: inline-block;
 
 	[layout="row"] > & {
@@ -14,7 +13,9 @@ md-color-picker-preview,
 		border: 2px solid #fff;
 		display: inline-block;
 
-		box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+		//box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+		/* .md-whiteframe-3dp; */
+		box-shadow: 0 1px 8px 0 rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.12);
 
 		overflow: hidden;
 
@@ -43,10 +44,16 @@ md-color-picker-preview,
 		top: 23px;
 		left: 2px;
 		right: auto;
+		z-index: 1000;
+	}
+
+	.md-color-picker-result {
+		border-radius: 50%;
+		box-shadow: inset 0px 2px 3px 0px rgba(0,0,0,0.2),inset 0px 1px 2px 0px rgba(0,0,0,0.1);
 	}
 
 	md-input-container > & {
-
+		vertical-align: top;
 	}
 
 }

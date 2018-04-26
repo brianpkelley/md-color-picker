@@ -7,7 +7,7 @@
 				icon: 'history.svg',
 				templateUrl: 'tabs/historyPalette.tpl.html',
 				link: function( $scope, $element ) {
-					console.log( 'HISTORY PALETTE: ', this.palette );
+					// console.log( 'HISTORY PALETTE: ', this.palette );
 					var historyContainer = angular.element( $element[0].querySelector('.md-color-picker-history') );
 					var paletteRow = angular.element('<div class="flex-15 layout-row" style="width: 100%;"></div>');
 					var paletteCell = angular.element('<div class=""><div></div></div>');
@@ -16,7 +16,7 @@
 					this.palette = $mdColorPickerHistory.get();
 
 					$scope.$watch( angular.bind( this, function() { return $mdColorPickerHistory.get() } ), angular.bind( this, function( newVal, oldVal ) {
-						console.log( 'NEW HISTORY', newVal );
+						// console.log( 'NEW HISTORY', newVal );
 						if ( newVal && ( !oldVal == [] || !angular.equals( newVal, oldVal ) )  ) {
 
 							// Debounce the value so we don't do thise 100 times a second.
@@ -32,7 +32,7 @@
 
 					this.drawn = [];
 					this.drawPalette = function() {
-						console.log( "DRAWING HISTORY");
+						// console.log( "DRAWING HISTORY");
 						var row;
 						// Remove all rows and unbind cells
 						if ( this.drawn.length ) {
@@ -40,7 +40,7 @@
 
 							while( row = this.drawn.pop() ) { // jshint ignore:line
 								cells = row.children();
-								console.log( "REMOVING" );
+								// console.log( "REMOVING" );
 								for( var y = 0; y < cells.length; y ++ ) {
 									var cell = angular.element( cells[y] );
 									cell.off( 'click' );
