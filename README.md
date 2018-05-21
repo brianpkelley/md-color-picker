@@ -108,7 +108,7 @@ $scope.scopeVariable.options = {
 | rgb             	| md-color-rgb          	| Boolean     	| true               	| Show the RGB values tab.                                                                                                                                                                                                                                	|
 | hsl             	| md-color-hsl          	| Boolean     	| true               	| Show the HSL values tab.                                                                                                                                                                                                                                	|
 | defaultTab          	| md-color-default-tab      	| String, Int 	| "spectrum"         	| Which tab should be selected when opening.  Can either be a string or index.  If the value is an index, do not count hidden/disabled tabs. <ul><li>spectrum</li><li>sliders</li><li>genericPalette</li><li>materialPalette</li><li>history</li></ul> 	|
-
+| onSelect          	| md-color-on-select      	| Function 	| function() {}         	| Callback which is called when color is selected. Please note: it works only via attribute now 	|
 
 ## Disclaimer
 This is still in a very early beta, and is rapidly changing (3 versions before initial commit).  I am open to any and all help anyone is willing to put in.  Will update as we go.

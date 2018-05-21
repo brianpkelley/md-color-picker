@@ -549,6 +549,7 @@
       $scope.mdColorHex = $scope.mdColorHex === undefined ? true : $scope.mdColorHex;
       $scope.mdColorRgb = $scope.mdColorRgb === undefined ? true : $scope.mdColorRgb;
       $scope.mdColorHsl = $scope.mdColorHsl === undefined ? true : $scope.mdColorHsl;
+      $scope.mdColorOnSelect = $scope.mdColorOnSelect === undefined ? function() {} : $scope.mdColorOnSelect;
       // Set the starting value
       updateValue();
 
@@ -605,6 +606,7 @@
           mdColorRgb: $scope.mdColorRgb,
           mdColorHsl: $scope.mdColorHsl,
           mdColorDefaultTab: $scope.mdColorDefaultTab,
+          mdColorOnSelect: $scope.mdColorOnSelect,
 
           $event: $event
         }).then(function (color)
@@ -656,7 +658,8 @@
           mdColorRgb: '=?',
           mdColorHsl: '=?',
           mdColorOutputType: '=?',
-          mdColorDefaultTab: '=?'
+          mdColorDefaultTab: '=?',
+          mdColorOnSelect: '&?'
         },
         compile: function (element, attrs)
         {
@@ -1092,6 +1095,7 @@
           dialog.then(function (value)
           {
             colorHistory.add(new tinycolor(value));
+            options.mdColorOnSelect({color: value});
           }, function () {});
 
           return dialog;
