@@ -130,7 +130,7 @@ gulp.task('dist-resources', function () {
 gulp.task('demo', ['demo-resources'], function () {
 	gulp.src('demo/index.html')
 		.pipe(injectReload({port: ports.livereload}))
-	//	.pipe(gulp.dest('dist/demo'))
+		.pipe(gulp.dest('dist/demo'))
 		.pipe(livereload());
 
 

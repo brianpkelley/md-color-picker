@@ -1,0 +1,36 @@
+{
+	"env": {
+		"browser": true,
+		"es6": false
+	},
+	"globals": {
+		"angular": true,
+		"module": true,
+		"confirm": true,
+		"alert": true,
+		"toast": true,
+		"prompt": true,
+		"jsPanel": true,
+		"_": true,
+		"tinycolor": true
+	},
+	"extends": "eslint:recommended",
+	"parserOptions": {
+		"sourceType": "module"
+	},
+	"rules": {
+		"indent": "off",
+		"linebreak-style": [
+			"error",
+			"unix"
+		],
+		"quotes": [
+			"error",
+			"single"
+		],
+		"semi": [
+			"error",
+			"always"
+		]
+	}
+}
