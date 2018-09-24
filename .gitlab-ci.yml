@@ -1,0 +1,44 @@
+image: node:latest
+
+cache:
+  paths:
+  - node_modules
+
+build-project:
+  image: node:8
+  coverage: /Lines\s*:\s*(\d+\.\d+)%/
+  script:
+    # TODO: maso, 2018: install opera, firefox
+    - apt-get update
+    - apt-get -yq install chromium
+    - apt-get -yq install git
+    - npm install -g bower grunt-cli
+    - npm install
+    - bower install --allow-root
+    - grunt test
+    - find . -name lcov.info | xargs -d '\n' cat | node_modules/.bin/codacy-coverage -t $CODACY_PROJECT_TOKEN
+    - grunt release
+
+  artifacts:
+    paths:
+      - coverage/
+      - doc/
+      - dist/
+    expire_in: 1 days
+
+pages:
+  stage: deploy
+  dependencies:
+    - build-project
+  script:
+    - ls -l
+    - mkdir .public
+    - mv coverage/ .public/coverage/
+    - mv doc/ .public/doc/
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+    expire_in: 90 days
+  only:
+    - master

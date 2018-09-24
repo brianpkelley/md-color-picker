@@ -1,0 +1,21 @@
+{
+  "bitwise": true,
+  "browser": true,
+  "curly": true,
+  "eqeqeq": true,
+  "esnext": false,
+  "latedef": true,
+  "noarg": true,
+  "node": true,
+  "strict": true,
+  "undef": true,
+  "unused": true,
+  "-W100": true,
+  "esversion": 6,
+  "globals": {
+    "angular": false,
+    "jsPanel": false,
+    "_": false,
+    "tinycolor": false
+  }
+}
