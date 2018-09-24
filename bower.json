@@ -1,5 +1,6 @@
 {
 	"name": "md-color-picker",
+  	"moduleName": "mdColorPicker",
 	"version": "0.2.6",
 	"authors": [
 		"Brian Kelley <kelley.brianp@gmail.com>",

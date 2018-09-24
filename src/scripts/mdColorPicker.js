@@ -427,7 +427,7 @@ angular.module('mdColorPicker', [])
 	.directive('mdColorPicker', [ '$timeout', 'mdColorPickerHistory', function( $timeout, colorHistory ) {
 
 		return {
-			templateUrl: "mdColorPicker.tpl.html",
+			templateUrl: "views/mdColorPicker.tpl.html",
 
 			// Added required controller ngModel
 			require: '^ngModel',
@@ -572,7 +572,7 @@ angular.module('mdColorPicker', [])
 	}])
 	.directive( 'mdColorPickerContainer', ['$compile','$timeout','$mdColorPalette','mdColorPickerHistory', function( $compile, $timeout, $mdColorPalette, colorHistory ) {
 		return {
-			templateUrl: 'mdColorPickerContainer.tpl.html',
+			templateUrl: 'views/mdColorPickerContainer.tpl.html',
 			scope: {
 				value: '=?',
 				default: '@',
@@ -884,7 +884,7 @@ angular.module('mdColorPicker', [])
 				options.mdColorAlphaChannel = (!options.mdColorRgb && !options.mdColorHsl) ? false : options.mdColorAlphaChannel;
 
                 dialog = $mdDialog.show({
-					templateUrl: 'mdColorPickerDialog.tpl.html',
+					templateUrl: 'views/mdColorPickerDialog.tpl.html',
 					hasBackdrop: options.hasBackdrop,
 					clickOutsideToClose: options.clickOutsideToClose,
 
