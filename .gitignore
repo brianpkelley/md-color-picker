@@ -20,3 +20,5 @@ demo/lib
 npm-debug.log
 
 /bower_components/
+/package-lock.json
+/.settings/

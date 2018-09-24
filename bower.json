@@ -2,7 +2,8 @@
     "name": "md-color-picker",
     "version": "0.2.6",
     "authors": [
-        "Brian Kelley <kelley.brianp@gmail.com>"
+        "Brian Kelley <kelley.brianp@gmail.com>",
+        "Mostafa Barmshory <mostafa.barmshroy@gmail.com>"
     ],
     "description": "Angular-Material inspired color picker.",
     "main": [
