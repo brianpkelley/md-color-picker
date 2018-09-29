@@ -39,8 +39,16 @@ md-color-picker .md-color-picker-input-container .md-color-picker-clear,
   position: absolute;
   bottom: 42px;
   right: -16px;
-  color: rgba(0, 0, 0, 0.26);
+  left: auto;
 }
+
+[dir=rtl] md-color-picker .md-color-picker-input-container .md-color-picker-clear,
+[dir=rtl] [md-color-picker] .md-color-picker-input-container .md-color-picker-clear {
+  right: auto;
+  left: -16px
+}
+
+
 .md-color-picker-container {
   padding: 8px;
   background: #fff;
