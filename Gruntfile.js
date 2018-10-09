@@ -670,8 +670,8 @@ module.exports = function(grunt) {
 		'wiredep', //
 		'injector', //
 		'concurrent:test', //
-		'postcss:server', //
-		'karma:unit' //
+		'postcss:server' //
+//		'karma:unit' //
 		]);
 
 	grunt.registerTask('debug', [ //
@@ -702,7 +702,7 @@ module.exports = function(grunt) {
 		'newer:jshint', //
 		'newer:jscs', //
 		'newer:eslint', //
-		'test', //
+//		'test', //
 		'build'
 		]);
 
