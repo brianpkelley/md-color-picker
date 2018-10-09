@@ -343,7 +343,7 @@
 
 
 
-	angular.module('mdColorPicker', [])
+	angular.module('mdColorPicker', ['ngMaterial', 'ngMessages'])
 	.run(['$templateCache', function ($templateCache) {
 		//icon resource should not be dependent
 		//credit to materialdesignicons.com
