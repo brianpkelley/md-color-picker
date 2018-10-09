@@ -1,12 +1,71 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
-	<meta http-equiv="PRAGMA" content="NO-CACHE">
-	<meta http-equiv="REFRESH" content="0;URL=../index.html">
-	<title>Loading...
-	</title>
-</head>
-<body>
-</body>
+<!doctype html>
+<html
+    ng-app="mdColorPickerDemo"
+    ng-controller="MyTestCtrl as ctrl">
+    <head>
+        <meta charset="utf-8">
+        <meta content='IE=edge' http-equiv='X-UA-Compatible'>
+        <meta property="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!--  injector:base -->
+        <base href="/" >
+        <!--  endinjector  -->
+
+        <!-- To add action to icons -->
+        <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.3.2/svg-morpheus.js"></script>  -->
+
+        <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="lib/angular-material/angular-material.css" />
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:css({.tmp/serve,src}) styles/app.css -->
+        <!-- injector:css -->
+        <link rel="stylesheet" href="styles/mdColorPicker.css">
+        <!-- endinjector -->
+        <!-- endbuild -->
+    </head>
+    <body>
+
+        <div
+            layout="row"
+            layout-fill
+            layout-margin
+            layout-padding>
+            <div flex>
+                <md-content>
+                    <md-button
+                    	ng-click="ctrl.selectColor($event)">
+                    	Select a color
+                   	</md-button>
+                   	<div 
+                   		md-color-picker 
+                   		ng-model="valueObj"
+                   		layout-margin></div>
+                </md-content>
+            </div>
+        </div>
+
+        <!-- build:js(src) scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="lib/tinycolor/tinycolor.js"></script>
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular-animate/angular-animate.js"></script>
+        <script src="lib/angular-aria/angular-aria.js"></script>
+        <script src="lib/angular-messages/angular-messages.js"></script>
+        <script src="lib/angular-material/angular-material.js"></script>
+        <script src="lib/angular-cookies/angular-cookies.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <!-- injector:js -->
+        <script src="scripts/mdColorPicker.js"></script>
+        <script src="scripts/demo-app.js"></script>
+        <!-- endinjector -->
+        <!-- endbuild -->
+    </body>
 </html>

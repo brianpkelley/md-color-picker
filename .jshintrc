@@ -11,7 +11,6 @@
   "undef": true,
   "unused": true,
   "-W100": true,
-  "esversion": 6,
   "globals": {
     "angular": false,
     "jsPanel": false,

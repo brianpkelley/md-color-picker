@@ -3,6 +3,7 @@
 	'use strict';
 
 //	var dateClick;
+	var TinyColor = tinycolor;
 
 
 	var canvasTypes = {
@@ -10,8 +11,8 @@
 				getColorByPoint: function( x, y ) {
 					var imageData = this.getImageData( x, y );
 					this.setMarkerCenter( y );
-
-					var hsl = new tinycolor( {r: imageData[0], g: imageData[1], b: imageData[2] } );
+					
+					var hsl = new TinyColor( {r: imageData[0], g: imageData[1], b: imageData[2] } );
 					return hsl.toHsl().h;
 				},
 				draw: function()  {
@@ -343,7 +344,7 @@
 
 
 
-	angular.module('mdColorPicker', [])
+	angular.module('mdColorPicker', ['ngMaterial', 'ngMessages'])
 	.run(['$templateCache', function ($templateCache) {
 		//icon resource should not be dependent
 		//credit to materialdesignicons.com
@@ -646,7 +647,7 @@
 				} else if ( $scope.value.search('hsl') >= 0 ) {
 					$scope.type = 2;
 				}
-				$scope.color = new tinycolor($scope.value || $scope.default); // Set initial color
+				$scope.color = new TinyColor($scope.value || $scope.default); // Set initial color
 				$scope.alpha = $scope.color.getAlpha();
 				$scope.history =  colorHistory;
 				$scope.materialFamily = [];
@@ -856,9 +857,9 @@
 		};
 	}])
 
-	.directive( 'mdColorPickerHue', ['mdColorGradientCanvas', function( mdColorGradientCanvas ) { return new mdColorGradientCanvas('hue'); }])
-	.directive( 'mdColorPickerAlpha', ['mdColorGradientCanvas', function( mdColorGradientCanvas ) { return new mdColorGradientCanvas('alpha'); }])
-	.directive( 'mdColorPickerSpectrum', ['mdColorGradientCanvas', function( mdColorGradientCanvas ) { return new mdColorGradientCanvas('spectrum'); }])
+	.directive( 'mdColorPickerHue', ['mdColorGradientCanvas', function( MdColorGradientCanvas ) { return new MdColorGradientCanvas('hue'); }])
+	.directive( 'mdColorPickerAlpha', ['mdColorGradientCanvas', function( MdColorGradientCanvas ) { return new MdColorGradientCanvas('alpha'); }])
+	.directive( 'mdColorPickerSpectrum', ['mdColorGradientCanvas', function( MdColorGradientCanvas ) { return new MdColorGradientCanvas('spectrum'); }])
 
 	.factory('$mdColorPicker', ['$q', '$mdDialog', 'mdColorPickerHistory', function ($q, $mdDialog, colorHistory) {
 		var dialog;
@@ -945,7 +946,7 @@
 				});
 
 				dialog.then(function (value) {
-					colorHistory.add(new tinycolor(value));
+					colorHistory.add(new TinyColor(value));
 				}, function () { });
 
 				return dialog;
