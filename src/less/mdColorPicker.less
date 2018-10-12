@@ -8,6 +8,8 @@
 	background-position:0 0, 4px 4px;
 }
 
+
+
 md-color-picker .md-color-picker-input-container,
 [md-color-picker] .md-color-picker-input-container {
 	position: relative;
@@ -18,8 +20,9 @@ md-color-picker .md-color-picker-input-container,
 	&.md-input-focused label:not(.md-no-float), &.md-input-has-value label:not(.md-no-float) {
 		//padding-left: 2px;
 	}
-	input {
-	//	margin-left: 30px;
+	//remove clear X button from IE input fields
+	.md-color-picker-input::-ms-clear {
+	    display: none;
 	}
 	.md-color-picker-preview {
 	//	position: absolute;
@@ -85,7 +88,10 @@ md-color-picker .md-color-picker-input-container,
 		transition: border-bottom-width @cubic-trans, top @cubic-trans;
 	}
 
-
+	& canvas {
+		width: 100%;
+		height: 100%;
+	}
 
 
 
@@ -250,8 +256,8 @@ md-color-picker .md-color-picker-input-container,
 			width: 255px;
 
 			.md-color-picker-marker {
-				width: 11px;
-				height: 11px;
+				width: 12px;
+				height: 12px;
 
 				border-radius: 50%;
 

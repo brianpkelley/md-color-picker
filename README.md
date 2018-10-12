@@ -3,6 +3,7 @@ Angular-Material based color picker with no jQuery or other DOM/utility library 
 
 [![NPM version](https://badge-me.herokuapp.com/api/npm/md-color-picker.png)](http://badges.enytc.com/for/npm/md-color-picker)
 [![BOWER version](https://badge-me.herokuapp.com/api/bower/brianpkelley/md-color-picker.png)](http://badges.enytc.com/for/bower/brianpkelley/md-color-picker)
+[![Build Status](https://travis-ci.org/brianpkelley/md-color-picker.svg?branch=develop)](https://travis-ci.org/brianpkelley/md-color-picker)
 
 ![preview](https://raw.githubusercontent.com/brianpkelley/md-color-picker/master/md-color-picker-2.png)
 
@@ -102,6 +103,9 @@ $scope.scopeVariable.options = {
 | genericPalette      	| md-color-generic-palette  	| Boolean     	| true               	| Show the generic palette tab.                                                                                                                                                                                                                        	|
 | materialPalette     	| md-color-material-palette 	| Boolean     	| true               	| Show the material colors palette tab.                                                                                                                                                                                                                	|
 | history             	| md-color-history          	| Boolean     	| true               	| Show the history tab.                                                                                                                                                                                                                                	|
+| hex             	| md-color-hex          	| Boolean     	| true               	| Show the HEX values tab.                                                                                                                                                                                                                                	|
+| rgb             	| md-color-rgb          	| Boolean     	| true               	| Show the RGB values tab.                                                                                                                                                                                                                                	|
+| hsl             	| md-color-hsl          	| Boolean     	| true               	| Show the HSL values tab.                                                                                                                                                                                                                                	|
 | defaultTab          	| md-color-default-tab      	| String, Int 	| "spectrum"         	| Which tab should be selected when opening.  Can either be a string or index.  If the value is an index, do not count hidden/disabled tabs. <ul><li>spectrum</li><li>sliders</li><li>genericPalette</li><li>materialPalette</li><li>history</li></ul> 	|
 
 
@@ -110,9 +114,10 @@ This is still in a very early beta, and is rapidly changing (3 versions before i
 
 
 ## Known issues / TODO
-- [ ] Prevent focus from opening color picker on window/tab activation.
-- [ ] Focus on preview input when user starts typing.
-- [ ] Clean up code.
-  - [ ] Javascript
-  - [ ] CSS / LESS
-  - [X] Build script cleaned up and static server integrated for development
+[ ] Break apart md-color-picker into other directives, md-color-picker-preview , input, etc.
+[ ] Add i18n support.
+[ ] Refactor LESS
+[ ] Add optional SASS file
+[ ] IE 11 Issues
+[ ] Inline dropdown mode
+[ ] Validation
