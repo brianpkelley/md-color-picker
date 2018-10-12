@@ -1,7 +1,7 @@
 {
 	"name": "md-color-picker",
   	"moduleName": "mdColorPicker",
-	"version": "0.2.9",
+	"version": "0.2.10",
 	"authors": [
 		"Brian Kelley <kelley.brianp@gmail.com>",
 		"Mostafa Barmshory <mostafa.barmshroy@gmail.com>"
