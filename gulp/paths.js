@@ -4,9 +4,9 @@ module.exports = {
 
 	src: {
 
-		demo: [
-			'demo/**/*.*'
-		],
+		demoGlob: 'demo/**/*.*',
+		demoIndex: 'demo/index.html',
+		demoRedirect: 'demo/redirect.html',
 
 		js: [
 			// Module
@@ -23,12 +23,9 @@ module.exports = {
 			'src/js/tabs/historyPalette.js'
 		],
 
-		less: [
-			'src/less/mdColorPicker.less'
-		],
+		lessEntry: 'src/less/mdColorPicker.less',
+		lessGlob: 'src/less/*.less',
 
-		templates: [
-			'src/templates/**/*.tpl.html'
-		],
+		templates: 'src/templates/**/*.tpl.html',
 	}
 };

@@ -5,20 +5,16 @@ const livereload = require('gulp-livereload');
 const ports = require('../ports');
 
 /**
- * Build the demo and demo resources                     =
+ * Build assets for the demo
  */
 module.exports = function demoTask() {
 
-	gulp
+	return gulp
 		.src('demo/index.html')
 		.pipe(
 			injectReload({port: ports.livereload})
 		)
-		// .pipe(
-		// 	gulp.dest('dist/demo')
-		// )
 		.pipe(
 			livereload()
-		)
-	;
+		);
 };

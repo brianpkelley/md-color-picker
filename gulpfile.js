@@ -1,34 +1,35 @@
 'use strict';
 const gulp = require('gulp');
+const runSequence = require('run-sequence');
 
-const debug = require('./gulp/debug');
+const env = require('./gulp/env');
 
-const cleanTask = require('./gulp/tasks/clean');
-const demoTask = require('./gulp/tasks/demo');
-const demoResourcesTask = require('./gulp/tasks/demo-resources');
-const distResourcesTask = require('./gulp/tasks/dist-resources');
-const docsTask = require('./gulp/tasks/docs');
-const scriptsTask = require('./gulp/tasks/scripts');
-const serverTask = require('./gulp/tasks/server');
-const stylesTask = require('./gulp/tasks/styles');
-const watchTask = require('./gulp/tasks/watch');
+const taskClean = require('./gulp/tasks/clean');
+const taskDemoLivereload = require('./gulp/tasks/demo-livereload');
+const taskDocs = require('./gulp/tasks/docs');
+const taskScripts = require('./gulp/tasks/scripts');
+const taskServer = require('./gulp/tasks/server');
+const taskStyles = require('./gulp/tasks/styles');
+const taskWatch = require('./gulp/tasks/watch');
 
-gulp.task('build-watch-serve', ['server', 'watch']);
-gulp.task('watch', ['clean'], watchTask);
-gulp.task('server', ['build', 'demo', 'dist-resources'], serverTask);
-gulp.task('build', ['clean', 'scripts', 'styles', 'demo', 'dist-resources', 'docs']);
-
-gulp.task('styles', stylesTask);
-gulp.task('scripts', scriptsTask);
-
-gulp.task('demo', demoTask);
-gulp.task('demo-resources', demoResourcesTask);
-gulp.task('dist-resources', distResourcesTask);
-
-gulp.task('clean', cleanTask);
-gulp.task('docs', docsTask);
-
-gulp.task('default', function() {
-	debug.enabled = true;
-	gulp.start('watch');
+gulp.task('default', ['env:debug', 'watch-server']);
+gulp.task('watch-server', () => {
+	runSequence(['build', 'demo-livereload'], 'watch', 'server');
 });
+gulp.task('build', (cb) => {
+	runSequence('clean', ['scripts', 'styles'], cb);
+});
+gulp.task('build:production', ['env:prod', 'build', 'docs']);
+
+gulp.task('clean', taskClean);
+gulp.task('demo-livereload', taskDemoLivereload);
+gulp.task('watch', taskWatch);
+gulp.task('server', taskServer);
+
+gulp.task('scripts', taskScripts);
+gulp.task('styles', taskStyles);
+
+gulp.task('docs', taskDocs);
+
+gulp.task('env:debug', () => env.debug = true);
+gulp.task('env:prod', () => env.prod = true);

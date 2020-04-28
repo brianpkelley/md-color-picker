@@ -3,6 +3,7 @@ const streamqueue = require('streamqueue');
 // Gulp plugins
 const concat = require('gulp-concat');
 const gulp = require('gulp');
+const gulpif = require('gulp-if');
 const gdebug = require('gulp-debug');
 const header = require('gulp-header');
 const iife = require('gulp-iife');
@@ -18,20 +19,17 @@ const templateCache = require('gulp-angular-templatecache');
 // Data
 const packageJson = require('../../package.json');
 const banner = require('../banner');
-const debug = require('../debug');
+const env = require('../env');
 const moduleName = require('../module-name');
 const paths = require('../paths');
 
 /**
- * Compile and minify js generating source maps
- *
- * - Orders ng deps automatically
- * - Depends on templates task
+ * Compile, minify, generate source maps
  */
 module.exports = function scriptsTask() {
 
-	streamqueue(
-		{objectMode: true},
+	// queue for sources that have their own piped plugins
+	let stream = streamqueue({objectMode: true},
 
 		gulp.src(paths.src.js),
 
@@ -39,19 +37,21 @@ module.exports = function scriptsTask() {
 			.pipe(
 				templateCache({module: moduleName})
 			)
-	)
+	);
+
+	stream = stream
 		.pipe(
-			gdebug({title: 'JS: '})
+			gdebug({title: '[scripts]'})
 		)
-		// .pipe(
+		// .pipe(gulpif(env.prod,
 		// 	sourcemaps.init()
-		// )
-		// .pipe(
+		// ))
+		// .pipe(gulpif(env.prod,
 		// 	sourcemaps.write('.')
-		// )
-		// .pipe(
-		// 	ngAnnotate()
-		// )
+		// ))
+		.pipe(gulpif(env.prod,
+			ngAnnotate()
+		))
 		.pipe(
 			iife({
 				useStrict: true,
@@ -79,23 +79,36 @@ module.exports = function scriptsTask() {
 		.pipe(
 			gulp.dest(paths.dist)
 		)
+	;
+
+	// Minified build
+	stream = stream
+		// the duplicate minified file in dev env is still required
+		// because it is referenced in the demo index file
 		.pipe(
 			rename({suffix: '.min'})
 		)
-		// .pipe(uglify({
-		// 	compress: {
-		// 		drop_console: debug.disabled,
-		// 		drop_debugger: debug.disabled,
-		// 	}
-		// }))
-		.pipe(
+		.pipe(gulpif(env.prod,
+			uglify({
+				compress: {
+					drop_console: !env.debug,
+					drop_debugger: !env.debug,
+				}
+			})
+		))
+		.pipe(gulpif(env.prod,
 			header(banner, {pkg: packageJson})
-		)
+		))
 		.pipe(
 			gulp.dest(paths.dist)
 		)
+	;
+
+	stream = stream
 		.pipe(
 			livereload()
 		)
 	;
+
+	return stream;
 };

@@ -1,8 +1,9 @@
 const http = require('http');
 const gutil = require('gulp-util');
 const livereload = require('gulp-livereload');
-const st = require('st');
+const serveStatic = require('st');
 
+const paths = require('../paths');
 const ports = require('../ports');
 
 /**
@@ -14,25 +15,19 @@ module.exports = function serverTask() {
 		console.log(err);
 		try {
 			livereload.kill();
-		} catch (e) {}
-		// process.kill();
-	});
-
-	livereload.listen({
-		port: ports.livereload,
-		basePath: '.',
+		} catch (err) {}
 	});
 
 	http
 		.createServer(
-			st({
+			serveStatic({
 				path: `${__dirname}/../..`,
-				index: 'demo/redirect.html',
+				index: paths.src.demoRedirect,
 				cache: false
 			})
 		)
 		.listen(ports.web)
 	;
 
-	gutil.log(`Started dev server @ http://localhost:${ports.web}/demo/index.html`);
+	gutil.log(`Started dev server @ http://localhost:${ports.web}/${paths.src.demoIndex}`);
 };

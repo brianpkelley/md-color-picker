@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const livereload = require('gulp-livereload');
 
 const paths = require('../paths');
 const ports = require('../ports');
@@ -10,13 +11,17 @@ const ports = require('../ports');
  */
 module.exports = function watchTask() {
 
-	const pathsLess = ['src/less/*.less'];
-	const pathsJs = paths.src.js;
-	const pathsHtml = paths.src.templates;
+	const pathsForBuild = [].concat(
+		paths.src.lessGlob,
+		paths.src.js,
+		paths.src.templates
+	);
 
-	const pathsToWatch = pathsLess.concat(pathsJs, pathsHtml);
+	livereload.listen({
+		port: ports.livereload,
+		basePath: '.',
+	});
 
-	// gulp.watch(paths.src.html, ['html']);
-	gulp.watch(pathsToWatch, ['build']);
-	gulp.watch(paths.src.demo, ['demo']);
+	gulp.watch(pathsForBuild, ['build']);
+	gulp.watch(paths.src.demoGlob, ['demo']);
 };

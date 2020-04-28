@@ -1,5 +1,6 @@
 // Gulp plugins
 const gulp = require('gulp');
+const gulpif = require('gulp-if');
 const concat = require('gulp-concat');
 const header = require('gulp-header');
 const livereload = require('gulp-livereload');
@@ -18,13 +19,16 @@ const banner = require('../banner');
 const moduleName = require('../module-name');
 const paths = require('../paths');
 
+const env = require('../env');
+
 /**
  * Compile and minify less and css
  */
 module.exports = function stylesTask() {
 
-	return gulp
-		.src(paths.src.less)
+	let stream = gulp.src(paths.src.lessEntry);
+
+	stream = stream
 		.pipe(
 			less({
 				strictMath: true,
@@ -33,34 +37,45 @@ module.exports = function stylesTask() {
 		.pipe(
 			concat(moduleName + '.css')
 		)
-		.pipe(
+		.pipe(gulpif(env.prod,
 			autoprefix({
 				browsers: [
 					'last 2 versions',
 					'last 4 Android versions',
 				],
 			})
-		)
+		))
 		.pipe(
 			header(banner, {pkg: packageJson})
 		)
 		.pipe(
 			gulp.dest(paths.dist)
 		)
+	;
+
+	// Minified build
+	stream = stream
+		// the duplicate minified file in dev env is still required
+		// because it is referenced in the demo index file
 		.pipe(
 			rename({extname: '.min.css'})
 		)
-		.pipe(
+		.pipe(gulpif(env.prod,
 			cssnano({safe: true})
-		)
-		.pipe(
+		))
+		.pipe(gulpif(env.prod,
 			header(banner, {pkg: packageJson})
-		)
+		))
 		.pipe(
 			gulp.dest(paths.dist)
 		)
+	;
+
+	stream = stream
 		.pipe(
 			livereload()
 		)
-		;
+	;
+
+	return stream;
 };

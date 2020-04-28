@@ -1,6 +1,6 @@
 {
   "name": "md-color-picker",
-  "version": "0.2.6",
+  "version": "1.0.0-alpha.4",
   "description": "Angular-Material inspired color picker.",
   "main": "dist/mdColorPicker.min.js",
   "dependencies": {
@@ -8,7 +8,6 @@
   },
   "devDependencies": {
     "del": "^2.2.2",
-    "es6-promise": "^4.0.5",
     "gulp": "^3.9.1",
     "gulp-angular-templatecache": "^2.0.0",
     "gulp-autoprefixer": "^3.1.1",
@@ -16,6 +15,7 @@
     "gulp-cssnano": "^2.1.2",
     "gulp-debug": "^3.1.0",
     "gulp-header": "^1.8.8",
+    "gulp-if": "^2.0.2",
     "gulp-iife": "^0.3.0",
     "gulp-inject-reload": "0.0.2",
     "gulp-jsdoc-to-markdown": "^1.2.2",
@@ -26,6 +26,7 @@
     "gulp-sourcemaps": "^2.4.1",
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.8",
+    "run-sequence": "^1.2.2",
     "st": "^1.2.0",
     "streamqueue": "^1.1.1"
   },
